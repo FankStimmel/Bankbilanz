@@ -13,6 +13,7 @@
 
 
 #include "fmylabel.h"
+#include "fmyclearingwidget.h"
 #include "Viewport/fviewport.h"
 
 #include "Bilanzen/fallebilanzen.h"
@@ -41,6 +42,8 @@
 #include "Operatoren/faktionstaatverkauftstaatsanleihen.h"
 #include "Operatoren/faktionstaatkauftstaatsanleihen.h"
 #include "Operatoren/faktionstaatueberweistgiralgeldan.h"
+
+#include "Operatoren/faktionclearingverfahrenausfuehren.h"
 
 
 typedef QVector <FFinanzTransaktion*> TypAllFinanzTransaktionen;
@@ -71,6 +74,7 @@ public:
     QGraphicsScene *scene;
     FViewport *Viewport;
     FMyLabel *LabelObjektanzeige;
+    FMyClearingWidget * ClearingWidget;
     QTimer *Tausend_Milli_Sekunden_Timer;
 
     // Daten für Aktuelle Werte in der GUI
@@ -81,7 +85,7 @@ public:
     int AktScreenShotNr;
     QString LastOp;
 
-    QLabel *m_warningLabel;
+
 
 
 private:
@@ -132,6 +136,8 @@ public slots:
     void Slot_Up();
     void Slot_Down();
 
+    void Slot_Tagesabschluss_Clearingverfahrens_Daten_anzeigen();
+    void Slot_Clearingverfahren_durchfuehren();
 
 
 };

@@ -65,10 +65,6 @@ QPen FEinstellungen::Pen_Dicker_SchwarzerStift(){
 
 
 // Pfade
-QString FEinstellungen::Pfad_zu_den_Icons(){
-    return(QDir::homePath() + "/MeineQtProgramme/BankBilanz/Source/Bilder/");
-    }
-
 QString FEinstellungen::Pfad_zu_Screenshots(){
     return(QDir::homePath() + "/Bilder/");
     }

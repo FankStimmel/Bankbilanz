@@ -29,7 +29,7 @@ QString FPerson::Checken_ob_Bilanz_valide_ist_sonst_Fehlermeldung(){
 
     if(Bargeld < 0 ){
         return("In der Bilanz der " + PersonenName + ": \n\n"
-               "Das Bargeld von " + PersonenName + " darf nicht negativ sein.");
+               + PersonenName + " hat nicht genug Bargeld.");
         }
 
     if(Schulden < 0 ){

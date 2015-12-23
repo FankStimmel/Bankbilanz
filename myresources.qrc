@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Bilder/Bank.png</file>
+        <file>Bilder/Person.png</file>
+        <file>Bilder/Staat.png</file>
+        <file>Bilder/ZBank.png</file>
+        <file>Bilder/Up.png</file>
+        <file>Bilder/Down.png</file>
+    </qresource>
+</RCC>

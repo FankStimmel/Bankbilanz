@@ -7,10 +7,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
 
     // Bilder auf Buttons setzen.
-    FEinstellungen Einstellungen;
-    QString PfadZuDenIcons = Einstellungen.Pfad_zu_den_Icons();
-    ui->pushButtonMaxHistoryGrenzeUp->setIcon(QIcon(PfadZuDenIcons   + "Up.png"));
-    ui->pushButtonMaxHistoryGrenzeDown->setIcon(QIcon(PfadZuDenIcons + "Down.png"));
+    ui->pushButtonMaxHistoryGrenzeUp->setIcon(QIcon(":/Bilder/Up.png"));
+    ui->pushButtonMaxHistoryGrenzeDown->setIcon(QIcon(":/Bilder/Down.png"));
     ui->pushButtonMaxHistoryGrenzeUp->setIconSize(QSize(21,21));
     ui->pushButtonMaxHistoryGrenzeDown->setIconSize(QSize(21,21));
 
@@ -42,9 +40,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     Viewport->setGeometry(10,50,980,780);
 
 
-    // Label für die Objektanzeige
+    // Label für die Objektanzeige erstellen
     LabelObjektanzeige = new FMyLabel(PERSON_A, ui->stackedWidget);
     LabelObjektanzeige->setGeometry(10,10,312,35);
+
+
+
+    // Widget für das Clearingverfahren erstellen
+    ClearingWidget = new FMyClearingWidget(ui->frameClearingVerfahren);
 
 
     Slot_Initialisiere_alle_Bilanzen();
@@ -191,6 +194,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             SIGNAL(clicked(bool)),
             this,
             SLOT(Slot_Ein_Jahr_ist_vorbei()));
+
+    connect(ui->pushButtonTagesabschluss,
+            SIGNAL(clicked(bool)),
+            this,
+            SLOT(Slot_Tagesabschluss_Clearingverfahrens_Daten_anzeigen()));
+
+    connect(ui->pushButtonClearingVerfahrenAusfuehren,
+           SIGNAL(clicked(bool)),
+           this,
+           SLOT(Slot_Clearingverfahren_durchfuehren()));
 
     }
 
@@ -990,6 +1003,51 @@ void MainWindow::Slot_Ein_Jahr_ist_vorbei(){
 
 
 //###################################################################################################################################
+
+
+void MainWindow::Slot_Clearingverfahren_durchfuehren(){
+    // Kopie der Bilanz erstellen.
+    FAlleDaten AlleDatenCopie;
+    AlleDatenCopie = AlleDaten;
+
+
+    // Auf der Kopie überprüfen, ob die Operation zu einem Fehler führt.
+    FAktionClearingVerfahrenAusfuehren *op = new FAktionClearingVerfahrenAusfuehren(ClearingWidget->AToC, ClearingWidget->AToD,
+                                                                                    ClearingWidget->BToC, ClearingWidget->BToD,
+                                                                                    ClearingWidget->CToA, ClearingWidget->CToB,
+                                                                                    ClearingWidget->DToA, ClearingWidget->DToB);
+    op->Execute_on(&AlleDatenCopie);
+
+    if( op->Fehlerbeschreibung != "" ){
+        QMessageBox msgBox;
+        msgBox.critical(0, "Durchführung des Clearingverfahrens ist nicht möglich.", op->Fehlerbeschreibung );
+        ui->statusBar->showMessage("Fehler: Clearingverfahren wurde nicht durchgeführt.");
+        return;
+        }
+
+
+    // Operation ausführen.
+    op->Execute_on(&AlleDaten);
+    StackOfOperations << op;
+    AktOpGrenze = StackOfOperations.size();
+
+
+
+    // Gui
+    Refresch_Gui_und_eventuell_Screenshot_erstellen(op->BeschreibungDerOperation);
+    }
+
+
+//###################################################################################################################################
+
+
+void MainWindow::Slot_Tagesabschluss_Clearingverfahrens_Daten_anzeigen(){
+    ClearingWidget->Ueberweisungsbetraege_eintragen(AlleDaten);
+    ui->stackedWidget->setCurrentIndex(5);
+    }
+
+
+//###################################################################################################################################
 //#
 //###################################################################################################################################
 
@@ -998,39 +1056,45 @@ void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angekli
     FEinstellungen Einstellungen;
 
     // GUI verändern
-    if(angeklicktesObjekt == PERSON_A){
+    switch(angeklicktesObjekt){
+
+    case PERSON_A:
         AktBankNummer       = 0;
         AktBankKundenNummer = 0;
         AktPersonenNr       = 0;
         LabelObjektanzeige->setDaten(PERSON_A);
         ui->stackedWidget->setCurrentIndex(0);
-        }
+        break;
 
-    if(angeklicktesObjekt == PERSON_B){
+
+    case PERSON_B:
         AktBankNummer       = 0;
         AktBankKundenNummer = 1;
         AktPersonenNr       = 1;
         LabelObjektanzeige->setDaten(PERSON_B);
         ui->stackedWidget->setCurrentIndex(0);
-        }
+        break;
 
-    if(angeklicktesObjekt == PERSON_C){
+
+    case PERSON_C:
         AktBankNummer       = 1;
         AktBankKundenNummer = 0;
         AktPersonenNr       = 2;
         LabelObjektanzeige->setDaten(PERSON_C);
         ui->stackedWidget->setCurrentIndex(0);
-        }
+        break;
 
-    if(angeklicktesObjekt == PERSON_D){
+
+    case PERSON_D:
         AktBankNummer       = 1;
         AktBankKundenNummer = 1;
         AktPersonenNr       = 3;
         LabelObjektanzeige->setDaten(PERSON_D);
         ui->stackedWidget->setCurrentIndex(0);
-        }
+        break;
 
-    if(angeklicktesObjekt == BANK_A){
+
+    case BANK_A:
         AktBankNummer = 0;
         LabelObjektanzeige->setDaten(BANK_A);
         if(LinksKlick == true)  ui->stackedWidget->setCurrentIndex(1);
@@ -1039,19 +1103,19 @@ void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angekli
         // Gui
         ui->labelGeschaeftsbankBilanzsumme->setText(AlleDaten.Banken[0].Get_Bilanzsumme_as_String());
         ui->labelEigenkapitalquoteGeschaeftsbank->setText(AlleDaten.Banken[0].Get_EigenKapitalQuote_as_String());
-        ui->labelSparkontoZinsen->setText(QString::number(Einstellungen.SparkontoZinsen()));
-        ui->labelGirokontoZinsen->setText(QString::number(Einstellungen.GirokontoZinsen()));
-        ui->labelKreditZinsen->setText(QString::number(Einstellungen.KreditZinsen()));
+        ui->labelSparkontoZinsen->setText(QString::number(100.0*Einstellungen.SparkontoZinsen()) + " %");
+        ui->labelGirokontoZinsen->setText(QString::number(100.0*Einstellungen.GirokontoZinsen()) + " %");
+        ui->labelKreditZinsen->setText(QString::number(100.0*Einstellungen.KreditZinsen()) + " %");
         ui->labelEigenkapitalrendite->setText(AlleDaten.Get_Eigenkapitalrendite_Bank(0));
-
 
         // Combobox einstellen
         ui->comboBoxWertpapiereVon->clear();
         ui->comboBoxWertpapiereVon->addItem("A");
         ui->comboBoxWertpapiereVon->addItem("B");
-        }
+        break;
 
-    if(angeklicktesObjekt == BANK_B){
+
+    case BANK_B:
         AktBankNummer = 1;
         LabelObjektanzeige->setDaten(BANK_B);
         if(LinksKlick == true)  ui->stackedWidget->setCurrentIndex(1);
@@ -1060,26 +1124,33 @@ void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angekli
         // Gui
         ui->labelGeschaeftsbankBilanzsumme->setText(AlleDaten.Banken[1].Get_Bilanzsumme_as_String());
         ui->labelEigenkapitalquoteGeschaeftsbank->setText(AlleDaten.Banken[1].Get_EigenKapitalQuote_as_String());
-        ui->labelSparkontoZinsen->setText(QString::number(Einstellungen.SparkontoZinsen()));
-        ui->labelGirokontoZinsen->setText(QString::number(Einstellungen.GirokontoZinsen()));
-        ui->labelKreditZinsen->setText(QString::number(Einstellungen.KreditZinsen()));
+        ui->labelSparkontoZinsen->setText(QString::number(100.0*Einstellungen.SparkontoZinsen()) + " %");
+        ui->labelGirokontoZinsen->setText(QString::number(100.0*Einstellungen.GirokontoZinsen()) + " %");
+        ui->labelKreditZinsen->setText(QString::number(100.0*Einstellungen.KreditZinsen()) + " %");
         ui->labelEigenkapitalrendite->setText(AlleDaten.Get_Eigenkapitalrendite_Bank(1));
 
         // Combobox einstellen
         ui->comboBoxWertpapiereVon->clear();
         ui->comboBoxWertpapiereVon->addItem("C");
         ui->comboBoxWertpapiereVon->addItem("D");
-        }
+        break;
 
-    if(angeklicktesObjekt == ZENTRALBANK){
+
+    case ZENTRALBANK:
         LabelObjektanzeige->setDaten(ZENTRALBANK);
         ui->stackedWidget->setCurrentIndex(2);
-        }
+        break;
 
-    if(angeklicktesObjekt == DER_STAAT){
+
+    case DER_STAAT:
         LabelObjektanzeige->setDaten(DER_STAAT);
         ui->stackedWidget->setCurrentIndex(3);
-        }
+        break;
+
+
+    default:
+        qDebug() << "Fehler bei der Auswahl";
+    }
 
     Eventuell_ScreenShot_erstellen();
     }
@@ -1280,6 +1351,7 @@ void MainWindow::Eventuell_ScreenShot_erstellen(){
  *  2) Staat verkauft Staatsanleihen an die Bank. Bank verkauft diese an die Zentralbank. Wie wird nun verzinst?
  *  3) Wie wird die Eigenkapitalquote, Mindestreservequote berechnet?
  *  4) Darf jede Bank Staatsanleihen aufnehmen?
+ *  5) Wie funktioniert die Bankgründung?
  *
  */
 

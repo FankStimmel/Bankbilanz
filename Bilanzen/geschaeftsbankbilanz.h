@@ -15,7 +15,7 @@ public:
 
     // Konstruktor
     FGeschaeftsbankBilanz();
-    FGeschaeftsbankBilanz(QString NAME);
+    FGeschaeftsbankBilanz(QString BUCHSTABE);
 
 
     // Getter

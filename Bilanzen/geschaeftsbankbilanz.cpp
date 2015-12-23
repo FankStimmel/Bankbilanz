@@ -22,17 +22,17 @@ FGeschaeftsbankBilanz::FGeschaeftsbankBilanz(){
     // Passiva
     VerbindGegenZentralbank = 0;
     SparbuchKonten << 0 << 0;
-    GiroKonten << 0 << 0;
+    GiroKonten     << 0 << 0;
     StaatsGiroKonto = 0;
-    Eigenkapital = 0;
+    Eigenkapital    = 0;
     }
 
 
-FGeschaeftsbankBilanz::FGeschaeftsbankBilanz(QString NAME){
+FGeschaeftsbankBilanz::FGeschaeftsbankBilanz(QString BUCHSTABE){
 
     // allgemeine Daten
-    NameDerBank   = "Bank " + NAME;
-    BankBuchstabe = NAME;
+    NameDerBank   = "Bank " + BUCHSTABE;
+    BankBuchstabe = BUCHSTABE;
 
 
     // Aktiva
@@ -45,9 +45,9 @@ FGeschaeftsbankBilanz::FGeschaeftsbankBilanz(QString NAME){
     // Passiva
     VerbindGegenZentralbank = 0;
     SparbuchKonten << 0 << 0;
-    GiroKonten << 0 << 0;
+    GiroKonten     << 0 << 0;
     StaatsGiroKonto = 0;
-    Eigenkapital = 0;
+    Eigenkapital    = 0;
     }
 
 
@@ -95,22 +95,22 @@ QString FGeschaeftsbankBilanz::Checken_ob_Bilanz_valide_ist_sonst_Fehlermeldung(
 
     if(Hypotheken[0] < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
-               "Die Kredite von Kunde 0 bei der " + NameDerBank + " dürfen nicht kleiner Null sein.");
+               "Der Kunde 0 hat bei der " + NameDerBank + " nicht so viele Kredite.");
         }
 
     if(Hypotheken[1] < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
-               "Die Kredite von Kunde 1 bei der " + NameDerBank + " dürfen nicht kleiner Null sein.");
+               "Der Kunde 1 hat bei der " + NameDerBank + " nicht so viele Kredite.");
         }
 
     if(Staatsanleihen < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
-               "Die Anzahl der Staatsanleihen, die die " + NameDerBank + " besitzt, darf nicht kleiner Null sein.");
+               "Die " + NameDerBank + " hat nicht so viele Staatsanleihen.");
         }
 
     if(Wertpapiere < 0){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
-               "Die Anzahl der Wertpapiere, die die " + NameDerBank + " besitzt, darf nicht kleiner Null sein.");
+               "Die " + NameDerBank + " hat nicht so viele Wertpapiere.");
         }
 
 
@@ -132,17 +132,17 @@ QString FGeschaeftsbankBilanz::Checken_ob_Bilanz_valide_ist_sonst_Fehlermeldung(
 
     if(GiroKonten[0] < 0){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
-               "Der Kunde 0 hat nicht genug Giralgeld.");
+               "Der Kunde 0 hat nicht genug Geld auf dem Girokonto.");
         }
 
     if(GiroKonten[1] < 0){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
-               "Der Kunde 1 hat nicht genug Giralgeld.");
+               "Der Kunde 1 hat nicht genug Geld auf dem Girokonto.");
         }
 
     if(StaatsGiroKonto < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
-               "Das GiroKonto des Staates bei der " + NameDerBank + " darf nicht kleiner Null sein.");
+               "Der Staat hat nicht genug Geld auf dem Girokonto.");
         }
 
     if(Eigenkapital < 0 ){
@@ -154,8 +154,8 @@ QString FGeschaeftsbankBilanz::Checken_ob_Bilanz_valide_ist_sonst_Fehlermeldung(
     // Eigenkapitalquote checken
     if(Get_EigenKapitalQuote() < 0.08){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
-               "Die " + NameDerBank + " hat nicht genug Eigenkapital, um weitere Aktiva anzukaufen. "
-               "Basel 2 verlangt mindestens  8 %.");
+               "Die " + NameDerBank + " hat nicht genug Eigenkapital, um weitere Aktiva anzukaufen.\n"
+               "Basel II verlangt mindestens  8 %.");
         }
 
 
@@ -175,7 +175,7 @@ QString FGeschaeftsbankBilanz::Get_EigenKapitalQuote_as_String(){
     if( Hypotheken[0] == 0  &&  Hypotheken[1] == 0 &&  Staatsanleihen == 0 && Wertpapiere == 0 ){
         return("unendlich");
         }
-    double Quote = 100.00 * Eigenkapital / (Hypotheken[0] + Hypotheken[1] + Staatsanleihen + Wertpapiere );
+    double Quote = 100.0 * Eigenkapital / (Hypotheken[0] + Hypotheken[1] + Staatsanleihen + Wertpapiere );
     return(QString::number(Quote,'f',2) + " %");
     }
 

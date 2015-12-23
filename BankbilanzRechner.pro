@@ -48,7 +48,9 @@ SOURCES += main.cpp\
         Operatoren/faktionstaatueberweistgiralgeldan.cpp \
         fmylabel.cpp \
         Operatoren/faktionkundezahltsparbuchgeldein.cpp \
-        Operatoren/faktionkundehebtsparbuchgeldab.cpp
+        Operatoren/faktionkundehebtsparbuchgeldab.cpp \
+    fmyclearingwidget.cpp \
+    Operatoren/faktionclearingverfahrenausfuehren.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -85,7 +87,13 @@ HEADERS  += mainwindow.h \
         Operatoren/faktionstaatueberweistgiralgeldan.h \
         fmylabel.h \
         Operatoren/faktionkundezahltsparbuchgeldein.h \
-        Operatoren/faktionkundehebtsparbuchgeldab.h
+        Operatoren/faktionkundehebtsparbuchgeldab.h \
+    fmyclearingwidget.h \
+    Operatoren/faktionclearingverfahrenausfuehren.h
 
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    fmyclearingwidget.ui
+
+RESOURCES += \
+    myresources.qrc

@@ -20,11 +20,11 @@
       <x>1020</x>
       <y>10</y>
       <width>331</width>
-      <height>631</height>
+      <height>601</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QFrame" name="frame">
@@ -418,7 +418,7 @@
         <x>10</x>
         <y>60</y>
         <width>311</width>
-        <height>501</height>
+        <height>531</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -761,6 +761,24 @@
         <string>Z-Bankgeld</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="pushButtonTagesabschluss">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>480</y>
+         <width>281</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Clearing Verfahren</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="page_4">
@@ -966,7 +984,7 @@
         <rect>
          <x>10</x>
          <y>230</y>
-         <width>221</width>
+         <width>211</width>
          <height>31</height>
         </rect>
        </property>
@@ -982,9 +1000,9 @@
       <widget class="QComboBox" name="comboBoxStaatUeberweistGiralgeldAn">
        <property name="geometry">
         <rect>
-         <x>240</x>
+         <x>230</x>
          <y>230</y>
-         <width>41</width>
+         <width>51</width>
          <height>31</height>
         </rect>
        </property>
@@ -1316,12 +1334,48 @@
       </widget>
      </widget>
     </widget>
+    <widget class="QWidget" name="page_6">
+     <widget class="QFrame" name="frameClearingVerfahren">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>301</width>
+        <height>491</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="pushButtonClearingVerfahrenAusfuehren">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>450</y>
+         <width>271</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Clearing Verfahren ausführen</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
    </widget>
    <widget class="QFrame" name="frame_4">
     <property name="geometry">
      <rect>
       <x>1030</x>
-      <y>650</y>
+      <y>630</y>
       <width>311</width>
       <height>141</height>
      </rect>

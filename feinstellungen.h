@@ -41,7 +41,6 @@ public:
     QPen Pen_Dicker_SchwarzerStift();
 
     // Pfade
-    QString Pfad_zu_den_Icons();
     QString Pfad_zu_Screenshots();
 
     // Zinsen
