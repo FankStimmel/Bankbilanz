@@ -17,8 +17,8 @@ FAktionKundeZahltKreditZurueck::FAktionKundeZahltKreditZurueck(float BETRAG, int
 void FAktionKundeZahltKreditZurueck::Execute_on(FAlleDaten *AlleDaten){
 
     // Operation bei der Geschäftsbank ausführen.
-    AlleDaten->Banken[BankNr].GiroKonten[BankKundenNr] -= Betrag;
-    AlleDaten->Banken[BankNr].Hypotheken[BankKundenNr] -= Betrag;
+    AlleDaten->Banken[BankNr].GiroKonten[BankKundenNr]       -= Betrag;
+    AlleDaten->Banken[BankNr].KrediteVonKunden[BankKundenNr] -= Betrag;
 
     // Operation bei dem Kunden ausführen.
     int PersonenNummer = 2*BankNr + BankKundenNr;

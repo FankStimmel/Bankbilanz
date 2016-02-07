@@ -13,7 +13,7 @@ FAktionBankTauschtZentralbankgeldInBargeld::FAktionBankTauschtZentralbankgeldInB
 
 void FAktionBankTauschtZentralbankgeldInBargeld::Execute_on(FAlleDaten *AlleDaten){
 
-    // // Operation auf Z-Banken ausführen.
+    // Operation auf Z-Banken ausführen.
     AlleDaten->Zentralbank.ZGeldGuthabenVonBanken[BankNr] -= Betrag;
     AlleDaten->Zentralbank.Bargeldumlauf                  += Betrag;
 

@@ -19,6 +19,7 @@ public:
                                        double DTOA, double DTOB);
 
     void Execute_on(FAlleDaten *AlleDaten);
+    void Set_Dicke_Rahmen(FAlleDaten *AlleDaten, bool wert);
 
 
 

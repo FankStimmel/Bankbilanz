@@ -32,11 +32,12 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
     void Set_Object_visual_marked(bool wert);
     void Neu_zeichnen(FAlleDaten AlleDATEN);
+    void Set_Staat_hat_Konto_to(bool wert);
     QString Runden(double Wert);
 
+    // Setter
+    void Set_BankNr_To(int Nr);
 
-    // allgemeine Daten
-    int BankNummer;
 
 
 
@@ -47,14 +48,25 @@ private:
     QPen AktuellerStiftFuerDenRand;
     QColor AktuelleObjectFarbe;
     FAlleDaten AlleDaten;
+    bool StaatHatKonto;
+    int BankNr;
+    int AndereBankNr;
+
 
     // Methoden
-    void Zeichne_Kasten_in_der_Bilanz(QPainter* p,
-                                      float xKasten, float yKasten,
-                                      float xText,
-                                      QString Text,
-                                      double Zahlenwert,
-                                      QColor Farbe);
+    void Zeichne_Kasten(QPainter* p,
+                        float x, float y,
+                        double Zahlenwert,
+                        QColor Farbe,
+                        bool fetterRahmen);
+
+    void Zeichne_Beschriftung_mit_Kasten(QPainter* p,
+                                         int x, int y,
+                                         double Zahlenwert,
+                                         QColor Farbe,
+                                         bool fetterRahmen,
+                                         double xText, double yText,
+                                         QString Text);
 
 
 

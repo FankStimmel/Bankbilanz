@@ -57,10 +57,36 @@ void FAktionClearingVerfahrenAusfuehren::Execute_on(FAlleDaten *AlleDaten){
     AlleDaten->Banken[0].GiroKonten[1] += DToB;
     AlleDaten->Banken[1].GiroKonten[1] -= DToB;
 
-    // Differenzzahlung Zentralbankgeld
-    double Delta = (CToA + CToB + DToA + DToB) - (AToC + AToD + BToC + BToD);
-    AlleDaten->Banken[0].ZentralbankGeldguthaben += Delta;
-    AlleDaten->Banken[1].ZentralbankGeldguthaben -= Delta;
+    // Differenzzahlung
+    double Delta = (AToC + AToD + BToC + BToD) - (CToA + CToB + DToA + DToB);
+
+
+    // Wenn mehr von BankA nach Bank B überwiesen wird
+    if(Delta > 0){
+        AlleDaten->Banken[1].KreditBeiAndererBank   += fabs(Delta);
+        AlleDaten->Banken[0].VerbindGegenAndereBank += fabs(Delta);
+        }
+
+    // Wenn mehr von BankB nach Bank A überwiesen wird
+    if(Delta < 0){
+        AlleDaten->Banken[0].KreditBeiAndererBank   += fabs(Delta);
+        AlleDaten->Banken[1].VerbindGegenAndereBank += fabs(Delta);
+        }
+
+
+    // Eventuell in der Bankbilanz VerbindlichkeitGegenAndereBank gegen KreditBeiAndererBank kürzen.
+    for(int i=0; i<2; i++){
+
+        double Kre = AlleDaten->Banken[i].KreditBeiAndererBank;
+        double Ver = AlleDaten->Banken[i].VerbindGegenAndereBank;
+
+        // Minimum rauskürzen
+        double Minimum = std::min(Kre,Ver);
+        if(Minimum > 0){
+            AlleDaten->Banken[i].KreditBeiAndererBank   -= Minimum;
+            AlleDaten->Banken[i].VerbindGegenAndereBank -= Minimum;
+            }
+        }
 
 
     // Fehlermeldungen
@@ -70,3 +96,22 @@ void FAktionClearingVerfahrenAusfuehren::Execute_on(FAlleDaten *AlleDaten){
     // Beschreibung der Operation
     BeschreibungDerOperation =   ") Das Clearingverfahren wurde durchgeführt.";
     }
+
+
+//#######################################################################################################################
+
+
+void FAktionClearingVerfahrenAusfuehren::Set_Dicke_Rahmen(FAlleDaten *AlleDaten, bool wert){
+    for(int BankNr=0; BankNr<2; BankNr++){
+        AlleDaten->Banken[BankNr].DickerRahmenVerbindGegenAndereBank = wert;
+        AlleDaten->Banken[BankNr].DickerRahmenKreditBeiAndererBank   = wert;
+        for(int KundenNr=0; KundenNr<2; KundenNr++){
+            AlleDaten->Banken[BankNr].DickerRahmenGiroKonten[KundenNr] = wert;
+            }
+        }
+    }
+
+
+
+
+

@@ -22,6 +22,9 @@ public:
     // Methoden
     QString Checken_ob_alle_Bilanzen_valide_sind_sonst_Fehlermeldung();
     void Reset_alle_Daten_to_Null();
+    void Reset_alle_Rahmenstaerke_auf_duenn();
+    void Initialisiere_alle_Bilanzen();
+    void Set_alle_Daten_to_Preset_ABCD_haben_Kredite_aufgenommen();
     QString Get_Eigenkapitalrendite_Bank(int i);
 
 

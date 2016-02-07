@@ -36,9 +36,12 @@ QColor FEinstellungen::Hellgrau_Color(){
 
 
 QColor FEinstellungen::SehrHellgrau_Color(){
-    return(QColor(230,230,230));
+    return(QColor(220,220,220));
     }
 
+QColor FEinstellungen::SehrSehrHellgrau_Color(){
+    return(QColor(230,230,230));
+    }
 
 
 // Schriftarten
@@ -60,7 +63,7 @@ QPen FEinstellungen::Pen_SchwarzerStift(){
 
 
 QPen FEinstellungen::Pen_Dicker_SchwarzerStift(){
-    return(QPen(Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    return(QPen(Qt::black, 4, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     }
 
 

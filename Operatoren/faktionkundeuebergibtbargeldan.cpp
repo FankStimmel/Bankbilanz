@@ -31,3 +31,7 @@ void FAktionKundeUebergibtBargeldAn::Execute_on(FAlleDaten *AlleDaten){
     // Beschreibung
     BeschreibungDerOperation = ") Bargeld wurde übergeben.";
     }
+
+
+
+

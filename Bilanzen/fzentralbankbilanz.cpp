@@ -13,6 +13,17 @@ FZentralbankBilanz::FZentralbankBilanz(){
     ZGeldGuthabenVonBanken << 0 << 0 << 0;
     Bargeldumlauf          = 0;
     Eigenkapital           = 0;
+
+    // Rahmenstärke Aktivseite
+    DickerRahmenForderungAnBanken << false << false << false;
+    DickerRahmenStaatsanleihen    << false << false;
+
+    // Rahmenstärke Passiv
+    DickerRahmenZGeldGuthabenVonBanken << false << false << false;
+    DickerRahmenBargeldumlauf          = false;
+    DickerRahmenEigenkapital           = false;
+
+
     }
 
 

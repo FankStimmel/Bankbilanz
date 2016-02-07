@@ -11,7 +11,6 @@ FViewport::FViewport(QWidget *parent):QGraphicsView(parent){
     //scene->setSceneRect(400, 0, 100, height());
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
-
     // Alle Personen erzeugen und initialisieren.
     AllePersonen.append(new FGrapicsObjectPerson(0));
     AllePersonen.append(new FGrapicsObjectPerson(1));
@@ -22,7 +21,7 @@ FViewport::FViewport(QWidget *parent):QGraphicsView(parent){
 
     // Alle Personen positionieren und in die Scene einfügen.
     for(int i=0; i<4;i++){
-        AllePersonen[i]->setPos(i*173, 270);
+        AllePersonen[i]->setPos(i*173, 280);
         scene->addItem(AllePersonen[i]);
         connect(AllePersonen[i],
                 SIGNAL(IdNummer_von_Person_wurde_gesendet(BILANZOBJEKTE, bool)),
@@ -35,7 +34,7 @@ FViewport::FViewport(QWidget *parent):QGraphicsView(parent){
     // Staat erzeugen und initialisieren, positionieren und in die Scene einfügen.
     Staat = new FGraphicsObjectStaat;
     Staat->IdNummer = 7;
-    Staat->setPos(4*173, 270);
+    Staat->setPos(4*173, 280);
     scene->addItem(Staat);
     connect(Staat,
             SIGNAL(IdNummer_vom_Staat_wurde_gesendet(BILANZOBJEKTE, bool)),
@@ -45,15 +44,19 @@ FViewport::FViewport(QWidget *parent):QGraphicsView(parent){
 
 
     // Banken erzeugen und initialisieren
-    FGraphicsObjectGeschaeftsBankbilanz *GeschaeftsbankbilanzA = new FGraphicsObjectGeschaeftsBankbilanz;
-    FGraphicsObjectGeschaeftsBankbilanz *GeschaeftsbankbilanzB = new FGraphicsObjectGeschaeftsBankbilanz;
-    GeschaeftsbankbilanzA->BankNummer = 0;
-    GeschaeftsbankbilanzB->BankNummer = 1;
+    FGraphicsObjectGeschaeftsBankbilanz *GeschaeftsbankbilanzA;
+    FGraphicsObjectGeschaeftsBankbilanz *GeschaeftsbankbilanzB;
+    GeschaeftsbankbilanzA = new FGraphicsObjectGeschaeftsBankbilanz;
+    GeschaeftsbankbilanzB = new FGraphicsObjectGeschaeftsBankbilanz;
+    GeschaeftsbankbilanzA->Set_BankNr_To(0);
+    GeschaeftsbankbilanzB->Set_BankNr_To(1);
+    GeschaeftsbankbilanzA->Set_Staat_hat_Konto_to(true);
+    GeschaeftsbankbilanzB->Set_Staat_hat_Konto_to(false);
     AlleBanken << GeschaeftsbankbilanzA << GeschaeftsbankbilanzB;
 
     // Alle Bankbilanzen positionieren und in die Scene einfügen.
     for(int i=0; i<2; i++){
-        AlleBanken[i]->setPos(i*450, -30);
+        AlleBanken[i]->setPos(i*450, -105);
         scene->addItem(AlleBanken[i]);
         connect(AlleBanken[i],
                 SIGNAL(IdNummer_von_Geschaeftsbank_wurde_gesendet(BILANZOBJEKTE, bool)),
@@ -66,7 +69,7 @@ FViewport::FViewport(QWidget *parent):QGraphicsView(parent){
     // Zentralbank erzeugen und initialisieren, positionieren und in die Scene einfügen.
     Zentralbankbilanz = new FGraphicsObjectZentralBankBilanz;
     Zentralbankbilanz->IdNummer = 6;
-    Zentralbankbilanz->setPos(130,-310);
+    Zentralbankbilanz->setPos(105,-340);
     scene->addItem(Zentralbankbilanz);
     connect(Zentralbankbilanz,
             SIGNAL(IdNummer_von_Zentralbank_wurde_gesendet(BILANZOBJEKTE, bool)),
@@ -90,7 +93,6 @@ void FViewport::Alles_neu_zeichnen(FAlleDaten AlleDATEN){
 
     Zentralbankbilanz->Neu_zeichnen(AlleDaten);
 
-
     AlleBanken[0]->Neu_zeichnen(AlleDaten);
     AlleBanken[1]->Neu_zeichnen(AlleDaten);
 
@@ -110,13 +112,13 @@ void FViewport::Set_Zentralbankbilanz_sichtbar(bool sichtbar){
 
     // unsichtbar
     if( !sichtbar ){
-        for(int i=0; i<2; i++)  AlleBanken[i]->setPos(i*450, -50);
+        for(int i=0; i<2; i++)  AlleBanken[i]->setPos(i*450, -120);
         Zentralbankbilanz->setVisible(false);
         }
 
     // Sichtbar
     if( sichtbar ){
-        for(int i=0; i<2; i++)  AlleBanken[i]->setPos(i*450, -15);
+        for(int i=0; i<2; i++)  AlleBanken[i]->setPos(i*450, -75);
         Zentralbankbilanz->setVisible(true);
         }
     }
@@ -143,8 +145,8 @@ void FViewport::Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE BilanzObjekt,
     if(BilanzObjekt == PERSON_B)    AllePersonen[1]->Set_Object_visual_marked(true);
     if(BilanzObjekt == PERSON_C)    AllePersonen[2]->Set_Object_visual_marked(true);
     if(BilanzObjekt == PERSON_D)    AllePersonen[3]->Set_Object_visual_marked(true);
-    if(BilanzObjekt == BANK_A)      AlleBanken[0]->Set_Object_visual_marked(true);
-    if(BilanzObjekt == BANK_B)      AlleBanken[1]->Set_Object_visual_marked(true);
+    if(BilanzObjekt == BANK_X)      AlleBanken[0]->Set_Object_visual_marked(true);
+    if(BilanzObjekt == BANK_Y)      AlleBanken[1]->Set_Object_visual_marked(true);
     if(BilanzObjekt == ZENTRALBANK) Zentralbankbilanz->Set_Object_visual_marked(true);
     if(BilanzObjekt == DER_STAAT)   Staat->Set_Object_visual_marked(true);
 

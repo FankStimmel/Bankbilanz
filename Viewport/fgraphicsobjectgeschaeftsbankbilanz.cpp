@@ -7,8 +7,7 @@ FGraphicsObjectGeschaeftsBankbilanz::FGraphicsObjectGeschaeftsBankbilanz(QGraphi
     FEinstellungen Einstel;
     AktuellerStiftFuerDenRand = Einstel.Pen_SchwarzerStift();
     AktuelleObjectFarbe       = Einstel.Object_Color();
-
-
+    StaatHatKonto             = true;
     }
 
 
@@ -17,9 +16,10 @@ FGraphicsObjectGeschaeftsBankbilanz::FGraphicsObjectGeschaeftsBankbilanz(float B
 
     // allgemeine Daten
     FEinstellungen Einstel;
-    BankNummer                = BANKNR;
+    BankNr                    = BANKNR;
     AktuellerStiftFuerDenRand = Einstel.Pen_SchwarzerStift();
     AktuelleObjectFarbe       = Einstel.Object_Color();
+    StaatHatKonto             = true;
     }
 
 
@@ -27,7 +27,17 @@ FGraphicsObjectGeschaeftsBankbilanz::FGraphicsObjectGeschaeftsBankbilanz(float B
 
 
 QRectF FGraphicsObjectGeschaeftsBankbilanz::boundingRect() const{
-    return QRectF(0, -40, 415, 320);
+    return QRectF(0, 0, 416, 360);
+    }
+
+
+//###################################################################################################################################
+
+
+void FGraphicsObjectGeschaeftsBankbilanz::Set_BankNr_To(int Nr){
+    BankNr = Nr;
+    if(BankNr == 0) AndereBankNr = 1;
+    if(BankNr == 1) AndereBankNr = 0;
     }
 
 
@@ -48,6 +58,13 @@ void FGraphicsObjectGeschaeftsBankbilanz::Neu_zeichnen(FAlleDaten AlleDATEN){
     update();
     }
 
+//########################################################################################################
+
+
+void FGraphicsObjectGeschaeftsBankbilanz::Set_Staat_hat_Konto_to(bool wert){
+    StaatHatKonto = wert;
+    }
+
 
 //###################################################################################################################################
 
@@ -61,140 +78,274 @@ void FGraphicsObjectGeschaeftsBankbilanz::paint(QPainter *painter, const QStyleO
     QColor BargeldColor   = Einstel.Bargeld_Color();
     QColor Hellgrau       = Einstel.Hellgrau_Color();
     QColor SehrHellgrau   = Einstel.SehrHellgrau_Color();
-
+    QColor SehrSehrHellgrau   = Einstel.SehrSehrHellgrau_Color();
 
     // Stifte
-    QPen PenSchwarzerStift       = Einstel.Pen_SchwarzerStift();
+    QPen PenSchwarzerStift = Einstel.Pen_SchwarzerStift();
 
 
     // Schriftarten
     QFont FontKlein = Einstel.Font_Klein();
     QFont FontGross = Einstel.Font_Gross();
 
+    int HalbeWeite = 208;
+    int Hoehe = 360;
+
 
     // Rahmen um die Bilanz zeichnen
-    painter->setPen(AktuellerStiftFuerDenRand);
+    painter->setBrush(SehrSehrHellgrau);
+    painter->drawRect(0, 0, 2*HalbeWeite, Hoehe);
+
+
+    // Hintergundschraffierung
+    double HH = 33;
+    double y0 = 60;
+    double y1 = y0+HH;
+    double y2 = y1+HH;
+    double y3 = y2+HH;
+    double y4 = y3+2*HH;
+    double y5 = y4+2*HH;
+    double y6 = y5+HH;
+    double y7 = y6+HH;
+
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(SehrSehrHellgrau);
+    painter->drawRect(0, y0, 2*HalbeWeite, y1-y0);
     painter->setBrush(SehrHellgrau);
-    painter->drawRect(0, -40, 415, 320);
+    painter->drawRect(0, y1, 2*HalbeWeite, y2-y1);
+    painter->setBrush(SehrSehrHellgrau);
+    painter->drawRect(0, y2, 2*HalbeWeite, y3-y2);
+    painter->setBrush(SehrSehrHellgrau);
+    painter->drawRect(0, y3, 2*HalbeWeite, y4-y3);
+    painter->setBrush(SehrHellgrau);
+    painter->drawRect(0, y4, 2*HalbeWeite, y5-y4);
+    painter->setBrush(SehrSehrHellgrau);
+    painter->drawRect(0, y5, 2*HalbeWeite, y6-y5);
+    painter->setBrush(SehrHellgrau);
+    painter->drawRect(0, y6, 2*HalbeWeite, y7-y6);
+
+    painter->setPen(PenSchwarzerStift);
+    painter->setBrush(SehrHellgrau);
 
 
     // Überschrift zeichnen
-    painter->setPen(AktuellerStiftFuerDenRand);
     painter->setBrush(AktuelleObjectFarbe);
-    painter->drawRect(0, -40, 415, 30);
-    painter->setPen(PenSchwarzerStift);
+    painter->drawRect(0, 0, 2*HalbeWeite, 30);
     painter->setFont(FontGross);
-    painter->drawText(165, -17, AlleDaten.Banken[BankNummer].NameDerBank);
+    painter->drawText(165, 23, AlleDaten.Banken[BankNr].NameDerBank);
 
 
     // Trennlinien
-    painter->drawLine(205,-10,205,280); // Senkrecht
-    painter->drawLine(0,20,415,20);     // Waagerecht
-
+    painter->drawLine(HalbeWeite,   30, HalbeWeite,   Hoehe);     // Senkrecht
+    painter->drawLine(0,            60, 2*HalbeWeite, 60   );     // Waagerecht
+    painter->drawLine(2*HalbeWeite, 30, 2*HalbeWeite, Hoehe);
+    painter->drawLine(0,            30, 0,            Hoehe);
 
 
     // Aktivseite.
     painter->setFont(FontGross);
-    painter->drawText(60, 14, "A k t i v");
+    painter->drawText(60, 54, "A k t i v");
     painter->setFont(FontKlein);
 
 
-    int xKasten1 = 120;
-    int y = 30;
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten1, 1*y+4, 15,
-                                 "Bargeld",        AlleDaten.Banken[BankNummer].BarGeldDerBank,
-                                 BargeldColor);
+    int xKasten1 = 130;
+    painter->drawText(15, y0+4+18, "Bargeld:");
+    Zeichne_Kasten(painter,
+                   xKasten1, y0+4,
+                   AlleDaten.Banken[BankNr].BarGeldDerBank,
+                   BargeldColor,
+                   AlleDaten.Banken[BankNr].DickerRahmenBarGeldDerBank);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten1, 2*y+4, 15,
-                                 "Z-Geld",         AlleDaten.Banken[BankNummer].ZentralbankGeldguthaben,
-                                 BargeldColor);
+    painter->drawText(15, y1+4+18, "Z-Geld:");
+    Zeichne_Kasten(painter,
+                   xKasten1, y1+4,
+                   AlleDaten.Banken[BankNr].ZentralbankGeldguthaben,
+                   BargeldColor,
+                   AlleDaten.Banken[BankNr].DickerRahmenZentralbankGeldguthaben);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten1, 5*y+4, 15,
-                                 "Kredit " + AlleDaten.Kunden[2*BankNummer+0].PersonenBuchstabe,
-                                 AlleDaten.Banken[BankNummer].Hypotheken[0],
-                                 Hellgrau);
+    painter->drawText(15, y2+18,"Kreditforderungen an:" );
 
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten1, 6*y+4, 15,
-                                 "Kredit " + AlleDaten.Kunden[2*BankNummer+1].PersonenBuchstabe,
-                                 AlleDaten.Banken[BankNummer].Hypotheken[1],
-                                 Hellgrau);
+    Zeichne_Beschriftung_mit_Kasten(painter,
+                                    35, y3-2,
+                                    AlleDaten.Banken[BankNr].KreditBeiAndererBank,
+                                    Hellgrau,
+                                    AlleDaten.Banken[BankNr].DickerRahmenKreditBeiAndererBank,
+                                    15,y2+HH-2,
+                                    AlleDaten.Banken[AndereBankNr].BankBuchstabe);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten1, 7*y+4, 15,
-                                 "Staatsanleihen", AlleDaten.Banken[BankNummer].Staatsanleihen,
-                                 Hellgrau);
+    Zeichne_Beschriftung_mit_Kasten(painter,
+                                    35,y3+HH-2,
+                                    AlleDaten.Banken[BankNr].KrediteVonKunden[0],
+                                    Hellgrau,
+                                    AlleDaten.Banken[BankNr].DickerRahmenHypotheken[0],
+                                    15,y3+HH-2,
+                                    AlleDaten.Kunden[2*BankNr+0].PersonenBuchstabe);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten1, 8*y+4, 15,
-                                 "Wertpapiere",    AlleDaten.Banken[BankNummer].Wertpapiere,
-                                 Hellgrau);
+
+    Zeichne_Beschriftung_mit_Kasten(painter,
+                                    130,y3+HH-2,
+                                    AlleDaten.Banken[BankNr].KrediteVonKunden[1],
+                                    Hellgrau,
+                                    AlleDaten.Banken[BankNr].DickerRahmenHypotheken[1],
+                                    110,y3+HH-2,
+                                    AlleDaten.Kunden[2*BankNr+1].PersonenBuchstabe);
+
+
+    if(StaatHatKonto == true){
+        painter->drawText(15, y5+4+18,"Staatsanleihen:");
+        Zeichne_Kasten(painter,
+                       xKasten1, y5+4,
+                       AlleDaten.Banken[BankNr].Staatsanleihen,
+                       Hellgrau,
+                       AlleDaten.Banken[BankNr].DickerRahmenStaatsanleihen);
+        }
+
+    painter->drawText(15, y6+4+18, "Wertpapiere:");
+    Zeichne_Kasten(painter,
+                   xKasten1, y6+4,
+                   AlleDaten.Banken[BankNr].Wertpapiere,
+                   Hellgrau,
+                   AlleDaten.Banken[BankNr].DickerRahmenWertpapiere);
 
 
     // Passivseite.
     painter->setFont(FontGross);
-    painter->drawText(250, 14, "P a s s i v");
+    painter->drawText(250, 54, "P a s s i v");
     painter->setFont(FontKlein);
 
 
-    float xKasten = 325;
+    float xKasten = 330;
     float xText   = 220;
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten, 2*y+4, xText,
-                                 "Z-Bank-Verb", AlleDaten.Banken[BankNummer].VerbindGegenZentralbank,
-                                 Hellgrau);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten, 3*y+4, xText,
-                                 "Sparkonto " + AlleDaten.Kunden[2*BankNummer+0].PersonenBuchstabe,
-                                 AlleDaten.Banken[BankNummer].SparbuchKonten[0],
-                                 GiralgeldColor);
+    painter->drawText(220, y1+4+18, "Z-Bank-Verb:");
+    Zeichne_Kasten(painter,
+                   xKasten, y1+4,
+                   AlleDaten.Banken[BankNr].VerbindGegenZentralbank,
+                   Hellgrau,
+                   AlleDaten.Banken[BankNr].DickerRahmenVerbindGegenZentralbank);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten, 4*y+4, xText,
-                                 "Sparkonto " + AlleDaten.Kunden[2*BankNummer+1].PersonenBuchstabe,
-                                 AlleDaten.Banken[BankNummer].SparbuchKonten[1],
-                                 GiralgeldColor);
+    painter->drawText(xText, y2+18,"Verbindlichkeiten gegen:" );
 
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten, 5*y+4, xText,
-                                 "Giro " + AlleDaten.Kunden[2*BankNummer+0].PersonenBuchstabe,
-                                 AlleDaten.Banken[BankNummer].GiroKonten[0],
-                                 GiralgeldColor);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten, 6*y+4, xText,
-                                 "Giro " + AlleDaten.Kunden[2*BankNummer+1].PersonenBuchstabe,
-                                 AlleDaten.Banken[BankNummer].GiroKonten[1],
-                                 GiralgeldColor);
+    Zeichne_Beschriftung_mit_Kasten(painter,
+                                    240, y3-2,
+                                    AlleDaten.Banken[BankNr].VerbindGegenAndereBank,
+                                    Hellgrau,
+                                    AlleDaten.Banken[BankNr].DickerRahmenVerbindGegenAndereBank,
+                                    220,y3-2,
+                                    AlleDaten.Banken[AndereBankNr].BankBuchstabe);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten, 7*y+4, xText,
-                                 "Staat",  AlleDaten.Banken[BankNummer].StaatsGiroKonto,
-                                 GiralgeldColor);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, xKasten, 8*y+4, xText,
-                                 "Eigenkapital", AlleDaten.Banken[BankNummer].Eigenkapital,
-                                 Hellgrau);
+    Zeichne_Beschriftung_mit_Kasten(painter,
+                                    240,y3+HH-2,
+                                    AlleDaten.Banken[BankNr].GiroKonten[0],
+                                    GiralgeldColor,
+                                    AlleDaten.Banken[BankNr].DickerRahmenGiroKonten[0],
+                                    220,y3+HH-2,
+                                    AlleDaten.Kunden[2*BankNr+0].PersonenBuchstabe);
+
+
+    Zeichne_Beschriftung_mit_Kasten(painter,
+                                    330,y3+HH-2,
+                                    AlleDaten.Banken[BankNr].GiroKonten[1],
+                                    GiralgeldColor,
+                                    AlleDaten.Banken[BankNr].DickerRahmenGiroKonten[1],
+                                    310,y3+HH-2,
+                                    AlleDaten.Kunden[2*BankNr+1].PersonenBuchstabe);
+
+    painter->drawText(xText, y4+18,"Sparkonten:" );
+
+    Zeichne_Beschriftung_mit_Kasten(painter,
+                                    240,y4+HH-2,
+                                    AlleDaten.Banken[BankNr].SparbuchKonten[0],
+                                    GiralgeldColor,
+                                    AlleDaten.Banken[BankNr].DickerRahmenSparbuchKonten[0],
+                                    220,y4+HH-2,
+                                    AlleDaten.Kunden[2*BankNr+0].PersonenBuchstabe);
+
+
+    Zeichne_Beschriftung_mit_Kasten(painter,
+                                    330,y4+HH-2,
+                                    AlleDaten.Banken[BankNr].SparbuchKonten[1],
+                                    GiralgeldColor,
+                                    AlleDaten.Banken[BankNr].DickerRahmenSparbuchKonten[1],
+                                    310,y4+HH-2,
+                                    AlleDaten.Kunden[2*BankNr+1].PersonenBuchstabe);
+
+     if(StaatHatKonto == true){
+        painter->drawText(220, y5+4+18, "Staat:");
+        Zeichne_Kasten(painter,
+                       xKasten, y5+4,
+                       AlleDaten.Banken[BankNr].StaatsGiroKonto,
+                       GiralgeldColor,
+                       AlleDaten.Banken[BankNr].DickerRahmenStaatsGiroKonto);
+        }
+
+    painter->drawText(220, y6+4+18, "Eigenkapital:");
+    Zeichne_Kasten(painter,
+                   xKasten, y6+4,
+                   AlleDaten.Banken[BankNr].Eigenkapital,
+                   Hellgrau,
+                   AlleDaten.Banken[BankNr].DickerRahmenEigenkapital);
     }
 
 
 //####################################################################################################################################
 
 
-void FGraphicsObjectGeschaeftsBankbilanz::Zeichne_Kasten_in_der_Bilanz(QPainter* p,
-                                                                       float xKasten, float yKasten, float xText,
-                                                                       QString Text,
-                                                                       double Zahlenwert,
-                                                                       QColor Farbe){
+void FGraphicsObjectGeschaeftsBankbilanz::Zeichne_Kasten(QPainter* p,
+                                                         float x, float y,
+                                                         double Zahlenwert,
+                                                         QColor Farbe,
+                                                         bool fetterRahmen){
+    // Stift
+    FEinstellungen Einstel;
+    if(fetterRahmen) p->setPen(Einstel.Pen_Dicker_SchwarzerStift());
+    else             p->setPen(Einstel.Pen_SchwarzerStift());
 
-    // Beschriftung zeichnen
-    p->drawText(xText, yKasten+18, Text);
+
+    double Epsilon = 0.00001;
 
     // Negative Werte als Warnung mit rot zeichnen.
-    double Epsilon = 0.00001;
     if( Zahlenwert < -Epsilon ){
         p->setBrush(Qt::red);
-        p->drawRect(xKasten,   yKasten, 70, 25);
-        p->drawText(xKasten+5, yKasten+18, Runden(Zahlenwert));
+        p->drawRect(x,   y, 60, 25);
+        p->drawText(x+5, y+18, Runden(Zahlenwert));
         }
 
     // Positive Werte mit der Farbe zeichnen.
-    if( Zahlenwert > Epsilon ){
+    else if( Zahlenwert > Epsilon ){
         p->setBrush(Farbe);
-        p->drawRect(xKasten,   yKasten, 70, 25);
-        p->drawText(xKasten+5, yKasten+18, Runden(Zahlenwert));
+        p->drawRect(x,   y, 60, 25);
+        p->drawText(x+5, y+18, Runden(Zahlenwert));
+        }
+
+    // Werte nahe 0 nur zeichnen, wenn der Rahmen fett ist.
+    else{
+        if(fetterRahmen){
+            p->setBrush(Einstel.Hellgrau_Color());
+            p->drawRect(x,   y, 60, 25);
+            p->drawText(x+5, y+18, "");
+            }
+        }
+
+    }
+
+//####################################################################################################################################
+
+
+void FGraphicsObjectGeschaeftsBankbilanz::Zeichne_Beschriftung_mit_Kasten(QPainter* p,
+                                                                          int x, int y,
+                                                                          double Zahlenwert,
+                                                                          QColor Farbe,
+                                                                          bool fetterRahmen,
+                                                                          double xText, double yText,
+                                                                          QString Text){
+
+    Zeichne_Kasten(p, x, y, Zahlenwert, Farbe, fetterRahmen);
+
+    if(Zahlenwert > 0 || fetterRahmen == true){
+        p->drawText(xText, yText+18, Text);
         }
     }
 
@@ -244,13 +395,13 @@ void FGraphicsObjectGeschaeftsBankbilanz::mousePressEvent(QGraphicsSceneMouseEve
     QGraphicsItem::mouseReleaseEvent(event);
 
     if (event->button() == Qt::LeftButton){
-        if(BankNummer == 0) emit IdNummer_von_Geschaeftsbank_wurde_gesendet(BANK_A, true);
-        if(BankNummer == 1) emit IdNummer_von_Geschaeftsbank_wurde_gesendet(BANK_B, true);
+        if(BankNr == 0) emit IdNummer_von_Geschaeftsbank_wurde_gesendet(BANK_X, true);
+        if(BankNr == 1) emit IdNummer_von_Geschaeftsbank_wurde_gesendet(BANK_Y, true);
         }
 
     else{
-        if(BankNummer == 0) emit IdNummer_von_Geschaeftsbank_wurde_gesendet(BANK_A, false);
-        if(BankNummer == 1) emit IdNummer_von_Geschaeftsbank_wurde_gesendet(BANK_B, false);
+        if(BankNr == 0) emit IdNummer_von_Geschaeftsbank_wurde_gesendet(BANK_X, false);
+        if(BankNr == 1) emit IdNummer_von_Geschaeftsbank_wurde_gesendet(BANK_Y, false);
         }
     }
 

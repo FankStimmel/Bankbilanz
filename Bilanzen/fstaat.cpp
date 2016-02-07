@@ -9,6 +9,8 @@ FStaat::FStaat(){
 FStaat::FStaat(QString NAME){
     Name     = NAME;
     SchuldenAnBanken << 0.0 << 0.0;
+
+    DickerRahmenSchuldenAnBanken = false;
     }
 
 

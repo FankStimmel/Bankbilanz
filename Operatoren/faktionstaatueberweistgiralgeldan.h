@@ -17,6 +17,7 @@ public:
     FAktionStaatUeberweistGiralgeldAn(float BETRAG, int NACHBANKNR, int NACHBANKKUNDENNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
+    void Dicke_Rahmen_zeichnen(FAlleDaten *AlleDaten, bool wert);
 
 
 

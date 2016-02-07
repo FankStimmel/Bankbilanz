@@ -49,11 +49,18 @@ public:
     QColor AktuelleObjectFarbe;
 
     //Methoden
-    void Zeichne_Kasten_in_der_Bilanz(QPainter* p,
-                                      float xKasten, float yKasten, float xText,
-                                      QString Text,
-                                      double Zahlenwert,
-                                      QColor Farbe);
+    void Zeichne_Kasten(QPainter* p,
+                        float x, float y,
+                        double Zahlenwert,
+                        QColor Farbe,
+                        bool fetterRahmen);
+
+    void Zeichne_Kasten_mit_Text(QPainter* p,
+                                 float x, float y, float xText,
+                                 QString Text,
+                                 double Zahlenwert,
+                                 QColor Farbe,
+                                 bool fetterRahmen);
 
 
 

@@ -10,6 +10,10 @@ FPerson::FPerson(QString Buchstabe){
     PersonenBuchstabe = Buchstabe;
     Bargeld           = 0.0;
     Schulden          = 0.0;
+
+    // Rahmenstärke Aktivseite
+    DickerRahmenBarGeld  = false;
+    DickerRahmenSchulden = false;
     }
 
 

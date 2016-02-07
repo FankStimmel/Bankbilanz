@@ -25,7 +25,7 @@ void FMyLabel::setDaten(BILANZOBJEKTE BilanzObjekt){
 void FMyLabel::paintEvent ( QPaintEvent * event ) {
     QPainter painter(this);
     FEinstellungen Einstellungen;
-    painter.setPen(Einstellungen.Pen_Dicker_SchwarzerStift());
+    painter.setPen(Einstellungen.Pen_SchwarzerStift());
     painter.setBrush(Einstellungen.ObjectAktiv_Color());
     painter.drawRect(2, 2, 307, 30);
     painter.setFont(Einstellungen.Font_Gross());
@@ -53,16 +53,16 @@ void FMyLabel::paintEvent ( QPaintEvent * event ) {
         painter.drawText(130, 26, "Person D");
         }
 
-    if(MyBilanzObjekt == BANK_A){
+    if(MyBilanzObjekt == BANK_X){
         QPixmap PixUp(":/Bilder/Bank.png");
         painter.drawImage(90,7,PixUp.toImage());
-        painter.drawText(130, 26, "Bank A");
+        painter.drawText(130, 26, "Bank X");
         }
 
-    if(MyBilanzObjekt == BANK_B){
+    if(MyBilanzObjekt == BANK_Y){
         QPixmap PixUp(":/Bilder/Bank.png");
         painter.drawImage(90,7,PixUp.toImage());
-        painter.drawText(130, 26, "Bank B");
+        painter.drawText(130, 26, "Bank Y");
         }
 
     if(MyBilanzObjekt == ZENTRALBANK){
@@ -77,4 +77,5 @@ void FMyLabel::paintEvent ( QPaintEvent * event ) {
         painter.drawText(130, 26, "Staat");
         }
 
+    event->accept();
     }

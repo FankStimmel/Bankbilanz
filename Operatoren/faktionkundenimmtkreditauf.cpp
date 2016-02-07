@@ -15,8 +15,8 @@ FAktionKundeNimmtKreditAuf::FAktionKundeNimmtKreditAuf(float BETRAG, int BANKNR,
 void FAktionKundeNimmtKreditAuf::Execute_on(FAlleDaten *AlleDaten){
 
     // Operation in der Geschäftsbankbilanz ausführen.
-    AlleDaten->Banken[BankNr].GiroKonten[BankKundenNr] += Betrag;
-    AlleDaten->Banken[BankNr].Hypotheken[BankKundenNr] += Betrag;
+    AlleDaten->Banken[BankNr].GiroKonten[BankKundenNr]       += Betrag;
+    AlleDaten->Banken[BankNr].KrediteVonKunden[BankKundenNr] += Betrag;
 
 
     // Operation bei dem Kunden ausführen.

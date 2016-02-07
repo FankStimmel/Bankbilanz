@@ -19,6 +19,8 @@ public:
     QString Name;
     QVector <double> SchuldenAnBanken;
 
+    bool DickerRahmenSchuldenAnBanken;
+
 
     // Methoden
     void Reset_Staatsbilanz_to_Null();

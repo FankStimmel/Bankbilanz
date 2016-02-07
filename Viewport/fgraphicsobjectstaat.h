@@ -48,7 +48,8 @@ private:
                                       float xKasten, float yKasten, float xText,
                                       QString Text,
                                       double Zahlenwert,
-                                      QColor Farbe);
+                                      QColor Farbe,
+                                      bool fetterRahmen);
 
 
 protected:

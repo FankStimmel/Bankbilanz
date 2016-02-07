@@ -19,6 +19,7 @@ public:
                                   int VONBANKKUNDENNR, int NACHBANKKUNDENNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
+    void DickenRahmen_zeichnen(FAlleDaten *AlleDaten, bool wert);
 
 
 

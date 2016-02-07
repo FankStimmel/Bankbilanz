@@ -6,5 +6,11 @@
         <file>Bilder/ZBank.png</file>
         <file>Bilder/Up.png</file>
         <file>Bilder/Down.png</file>
+        <file>Bilder/Reset.png</file>
+        <file>Bilder/Restart.png</file>
+        <file>Bilder/ArrowDown.png</file>
+        <file>Bilder/ArrowUp.png</file>
+        <file>Bilder/Achtung.png</file>
+        <file>Bilder/Ok.png</file>
     </qresource>
 </RCC>

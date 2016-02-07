@@ -49,8 +49,13 @@ SOURCES += main.cpp\
         fmylabel.cpp \
         Operatoren/faktionkundezahltsparbuchgeldein.cpp \
         Operatoren/faktionkundehebtsparbuchgeldab.cpp \
-    fmyclearingwidget.cpp \
-    Operatoren/faktionclearingverfahrenausfuehren.cpp
+        fmyclearingwidget.cpp \
+        fmultistatepushbutton.cpp \
+        Operatoren/faktionclearingverfahrenausfuehren.cpp \
+        Operatoren/faktionpresetabcdhabenkrediteaufgenommen.cpp \
+        fmypushbutton.cpp \
+    Operatoren/faktionbankzahltkreditananderebankzurueck.cpp \
+    dialoginfo.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -89,11 +94,17 @@ HEADERS  += mainwindow.h \
         Operatoren/faktionkundezahltsparbuchgeldein.h \
         Operatoren/faktionkundehebtsparbuchgeldab.h \
     fmyclearingwidget.h \
-    Operatoren/faktionclearingverfahrenausfuehren.h
+    fmultistatepushbutton.h \
+    Operatoren/faktionclearingverfahrenausfuehren.h \
+    Operatoren/faktionpresetabcdhabenkrediteaufgenommen.h \
+    fmypushbutton.h \
+    Operatoren/faktionbankzahltkreditananderebankzurueck.h \
+    dialoginfo.h
 
 
 FORMS    += mainwindow.ui \
-    fmyclearingwidget.ui
+    fmyclearingwidget.ui \
+    dialoginfo.ui
 
 RESOURCES += \
     myresources.qrc

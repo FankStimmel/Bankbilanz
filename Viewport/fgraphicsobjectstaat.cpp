@@ -40,7 +40,6 @@ void FGraphicsObjectStaat::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
     // Einstellungen
     FEinstellungen Einstel;
-    QColor sehrhellgrau    = Einstel.SehrHellgrau_Color();
     QColor hellgrau        = Einstel.Hellgrau_Color();
     QPen PenSchwarzerStift = Einstel.Pen_SchwarzerStift();
     QFont serifFont        = Einstel.Font_Gross();
@@ -48,8 +47,8 @@ void FGraphicsObjectStaat::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
 
     // Kasten um alles
-    painter->setPen(AktuellerStiftFuerDenRand);
-    painter->setBrush(sehrhellgrau);
+    painter->setPen(PenSchwarzerStift);
+    painter->setBrush(Einstel.SehrSehrHellgrau_Color());
     painter->drawRect(0,0,170,110);
 
     // Hintergrund der Person
@@ -58,7 +57,6 @@ void FGraphicsObjectStaat::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
     // Text für die Person
     painter->setFont(serifFont);
-    painter->setPen(PenSchwarzerStift);
     painter->drawText(60,23,AlleDaten.Staat.Name);
 
     // Schulden Anzeige
@@ -66,7 +64,8 @@ void FGraphicsObjectStaat::paint(QPainter *painter, const QStyleOptionGraphicsIt
     Zeichne_Kasten_in_der_Bilanz(painter, 90, 37, 10,
                                  "Schulden:",
                                  AlleDaten.Staat.SchuldenAnBanken[0] + AlleDaten.Staat.SchuldenAnBanken[1],
-                                 hellgrau);
+                                 hellgrau,
+                                 AlleDaten.Staat.DickerRahmenSchuldenAnBanken);
     }
 
 
@@ -77,7 +76,12 @@ void FGraphicsObjectStaat::Zeichne_Kasten_in_der_Bilanz(QPainter* p,
                                                         float xKasten, float yKasten, float xText,
                                                         QString Text,
                                                         double Zahlenwert,
-                                                        QColor Farbe){
+                                                        QColor Farbe,
+                                                        bool fetterRahmen){
+    // Stift
+    FEinstellungen Einstel;
+    if(fetterRahmen) p->setPen(Einstel.Pen_Dicker_SchwarzerStift());
+    else             p->setPen(Einstel.Pen_SchwarzerStift());
 
     // Beschriftung zeichnen
     p->drawText(xText, yKasten+18, Text);
@@ -91,11 +95,21 @@ void FGraphicsObjectStaat::Zeichne_Kasten_in_der_Bilanz(QPainter* p,
         }
 
     // Positive Werte mit der Farbe zeichnen.
-    if( Zahlenwert > Epsilon ){
+    else if( Zahlenwert > Epsilon ){
         p->setBrush(Farbe);
         p->drawRect(xKasten,   yKasten, 60, 25);
         p->drawText(xKasten+5, yKasten+18, QString::number(Zahlenwert));
         }
+
+    // Werte nahe 0 nur zeichnen, wenn der Rahmen fett ist.
+    else{
+        if(fetterRahmen){
+            p->setBrush(Einstel.Hellgrau_Color());
+            p->drawRect(xKasten,   yKasten, 60, 25);
+            p->drawText(xKasten+5, yKasten+18, "");
+            }
+        }
+
     }
 
 

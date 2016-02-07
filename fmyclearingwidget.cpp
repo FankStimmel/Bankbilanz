@@ -46,6 +46,7 @@ void FMyClearingWidget::paintEvent(QPaintEvent *event){
         Zeichne_eine_Ueberweisungsposition(&painter, 410, "", "", VonBankB - VonBankA, "nachLinks");
         }
 
+    event->accept();
     }
 
 
@@ -100,25 +101,25 @@ void FMyClearingWidget::Ueberweisungsbetraege_eintragen(FAlleDaten AlleDaten){
 
     // Nur wenn auf dem Konto mehr als 10 Euro sind, können ausgehende Überweiseungen getätigt werden.
     if(AlleDaten.Banken[0].GiroKonten[0] > 10 ){
-        int MaxZufallsBetrag = 0.4 * AlleDaten.Banken[0].GiroKonten[0];
+        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[0].GiroKonten[0];
         AToC = rand() % MaxZufallsBetrag;
         AToD = rand() % MaxZufallsBetrag;
         }
 
     if(AlleDaten.Banken[0].GiroKonten[1] > 10 ){
-        int MaxZufallsBetrag = 0.4 * AlleDaten.Banken[0].GiroKonten[1];
+        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[0].GiroKonten[1];
         BToC = rand() % MaxZufallsBetrag;
         BToD = rand() % MaxZufallsBetrag;
         }
 
     if(AlleDaten.Banken[1].GiroKonten[0] > 10 ){
-        int MaxZufallsBetrag = 0.4 * AlleDaten.Banken[1].GiroKonten[0];
+        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[1].GiroKonten[0];
         CToA = rand() % MaxZufallsBetrag;
         CToB = rand() % MaxZufallsBetrag;
         }
 
     if(AlleDaten.Banken[1].GiroKonten[1] > 10 ){
-        int MaxZufallsBetrag = 0.4 * AlleDaten.Banken[1].GiroKonten[1];
+        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[1].GiroKonten[1];
         DToA = rand() % MaxZufallsBetrag;
         DToB = rand() % MaxZufallsBetrag;
         }

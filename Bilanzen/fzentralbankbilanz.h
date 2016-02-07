@@ -38,6 +38,16 @@ public:
     double Eigenkapital;
 
 
+    // Rahmenstärke Aktivseite
+    QVector <bool> DickerRahmenForderungAnBanken;
+    QVector <bool> DickerRahmenStaatsanleihen;
+
+    // Rahmenstärke Passiv
+    QVector <bool> DickerRahmenZGeldGuthabenVonBanken;
+    bool DickerRahmenBargeldumlauf;
+    bool DickerRahmenEigenkapital;
+
+
 };
 
 #endif // FZENTRALBANKBILANZ_H

@@ -42,9 +42,7 @@ void FGrapicsObjectPerson::Neu_zeichnen(FAlleDaten AlleDATEN){
 
 void FGrapicsObjectPerson::setPos_My(float x, float y){
     setPos(x,y);
-    QPointF A(x,y);
-    Kastenposition = A;
-    //qDebug() << "Kastenposition" << Kastenposition;
+    Kastenposition = QPointF(x,y);
     }
 
 
@@ -57,7 +55,6 @@ void FGrapicsObjectPerson::paint(QPainter *painter, const QStyleOptionGraphicsIt
     FEinstellungen Einstel;
     QColor BargeldColor    = Einstel.Bargeld_Color();
     QColor HellgrauColor   = Einstel.Hellgrau_Color();
-    QColor sehrhellgrau    = Einstel.SehrHellgrau_Color();
     QPen PenSchwarzerStift = Einstel.Pen_SchwarzerStift();
     QFont serifFont        = Einstel.Font_Gross();
     QFont serifFont2       = Einstel.Font_Klein();
@@ -65,8 +62,8 @@ void FGrapicsObjectPerson::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
 
     // Kasten um alles
-    painter->setPen(AktuellerStiftFuerDenRand);
-    painter->setBrush(sehrhellgrau);
+    painter->setPen(PenSchwarzerStift);
+    painter->setBrush(Einstel.SehrSehrHellgrau_Color());
     painter->drawRect(0,0,145,110);
 
     // Hintergrund der Person
@@ -75,7 +72,6 @@ void FGrapicsObjectPerson::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
     // Text für die Person
     painter->setFont(serifFont);
-    painter->setPen(PenSchwarzerStift);
     painter->drawText(65,23,AlleDaten.Kunden[KundenNummer].PersonenBuchstabe);
 
     int xKasten = 70;
@@ -85,13 +81,17 @@ void FGrapicsObjectPerson::paint(QPainter *painter, const QStyleOptionGraphicsIt
     painter->setFont(serifFont2);
     Zeichne_Kasten_in_der_Bilanz(painter,
                                  xKasten, 1*y+10, 10,
-                                 "Kredit:", AlleDaten.Kunden[KundenNummer].Schulden, HellgrauColor);
+                                 "Kredit:", AlleDaten.Kunden[KundenNummer].Schulden,
+                                 HellgrauColor,
+                                 AlleDaten.Kunden[KundenNummer].DickerRahmenSchulden);
 
     // Bargeld Anzeige
     painter->setFont(serifFont2);
     Zeichne_Kasten_in_der_Bilanz(painter,
                                  xKasten, 2*y+10, 10,
-                                 "Bar:", AlleDaten.Kunden[KundenNummer].Bargeld, BargeldColor);
+                                 "Bar:", AlleDaten.Kunden[KundenNummer].Bargeld,
+                                 BargeldColor,
+                                 AlleDaten.Kunden[KundenNummer].DickerRahmenBarGeld);
     }
 
 
@@ -102,7 +102,12 @@ void FGrapicsObjectPerson::Zeichne_Kasten_in_der_Bilanz(QPainter* p,
                                                         float xKasten, float yKasten, float xText,
                                                         QString Text,
                                                         double Zahlenwert,
-                                                        QColor Farbe){
+                                                        QColor Farbe,
+                                                        bool fetterRahmen){
+    // Stift
+    FEinstellungen Einstel;
+    if(fetterRahmen) p->setPen(Einstel.Pen_Dicker_SchwarzerStift());
+    else             p->setPen(Einstel.Pen_SchwarzerStift());
 
     // Beschriftung zeichnen
     p->drawText(xText, yKasten+18, Text);
@@ -116,11 +121,21 @@ void FGrapicsObjectPerson::Zeichne_Kasten_in_der_Bilanz(QPainter* p,
         }
 
     // Positive Werte mit der Farbe zeichnen.
-    if( Zahlenwert > Epsilon ){
+    else if( Zahlenwert > Epsilon ){
         p->setBrush(Farbe);
         p->drawRect(xKasten,   yKasten, 60, 25);
         p->drawText(xKasten+5, yKasten+18, QString::number(Zahlenwert));
         }
+
+    // Werte nahe 0 nur zeichnen, wenn der Rahmen fett ist.
+    else{
+        if(fetterRahmen){
+            p->setBrush(Einstel.Hellgrau_Color());
+            p->drawRect(xKasten,   yKasten, 60, 25);
+            p->drawText(xKasten+5, yKasten+18, "");
+            }
+        }
+
     }
 
 
@@ -151,8 +166,6 @@ void FGrapicsObjectPerson::mousePressEvent(QGraphicsSceneMouseEvent *event){
     if (KundenNummer == 2 ) emit IdNummer_von_Person_wurde_gesendet(PERSON_C, true);
     if (KundenNummer == 3 ) emit IdNummer_von_Person_wurde_gesendet(PERSON_D, true);
     }
-
-
 
 
 

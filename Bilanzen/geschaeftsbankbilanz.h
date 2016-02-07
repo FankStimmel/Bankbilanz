@@ -30,6 +30,9 @@ public:
 
     // Setter
     void Reset_Geschaeftsbankbilanz_to_Null();
+    void Reset_alle_Rahmenstaerken_to_Duenn();
+
+
 
 
     // allgemeine Daten
@@ -40,17 +43,40 @@ public:
     // Aktiva
     double BarGeldDerBank;
     double ZentralbankGeldguthaben;
-    QVector <double> Hypotheken;
+    double KreditBeiAndererBank;
+    QVector <double> KrediteVonKunden;
     double Staatsanleihen;
     double Wertpapiere;
 
 
     // Passiva
     double VerbindGegenZentralbank;
+    double VerbindGegenAndereBank;
     QVector <double> SparbuchKonten;
     QVector <double> GiroKonten;
     double StaatsGiroKonto;
     double Eigenkapital;
+
+
+
+    // Aktiva  Rahmenstärke dick oder dünn
+    bool DickerRahmenBarGeldDerBank;
+    bool DickerRahmenZentralbankGeldguthaben;
+    bool DickerRahmenKreditBeiAndererBank;
+    QVector <bool> DickerRahmenHypotheken;
+    bool DickerRahmenStaatsanleihen;
+    bool DickerRahmenWertpapiere;
+
+
+    // Passiva  Rahmenstärke dick oder dünn
+    bool DickerRahmenVerbindGegenZentralbank;
+    bool DickerRahmenVerbindGegenAndereBank;
+    QVector <bool> DickerRahmenSparbuchKonten;
+    QVector <bool> DickerRahmenGiroKonten;
+    bool DickerRahmenStaatsGiroKonto;
+    bool DickerRahmenEigenkapital;
+
+
 
 };
 

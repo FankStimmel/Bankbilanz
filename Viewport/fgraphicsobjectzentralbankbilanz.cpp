@@ -8,7 +8,7 @@ FGraphicsObjectZentralBankBilanz::FGraphicsObjectZentralBankBilanz(QGraphicsItem
     AktuellerStiftFuerDenRand = Einstellungen.Pen_SchwarzerStift();
     AktuelleObjectFarbe       = Einstellungen.Object_Color();
 
-    IdNummer    = 6;
+    IdNummer = 6;
     }
 
 
@@ -17,7 +17,7 @@ FGraphicsObjectZentralBankBilanz::FGraphicsObjectZentralBankBilanz(QGraphicsItem
 
 
 QRectF FGraphicsObjectZentralBankBilanz::boundingRect() const{
-    return QRectF(0, -40, 2*280+55, 260);
+    return QRectF(0, 0, 2*330, 200);
     }
 
 
@@ -43,137 +43,211 @@ void FGraphicsObjectZentralBankBilanz::Neu_zeichnen(FAlleDaten AlleDATEN){
 
 void FGraphicsObjectZentralBankBilanz::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *){
 
-    // Farben
+    //
     FEinstellungen Einstellungen;
-    QColor Hellgrau       = Einstellungen.Hellgrau_Color();
-    QColor SehrHellgrau   = Einstellungen.SehrHellgrau_Color();
+    QColor Hellgrau         = Einstellungen.Hellgrau_Color();
+    QPen PenSchwarzerStift  = Einstellungen.Pen_SchwarzerStift();
+    QFont FontKlein         = Einstellungen.Font_Klein();
+    QFont FontGross         = Einstellungen.Font_Gross();
+    QColor SehrHellgrau     = Einstellungen.SehrHellgrau_Color();
+    QColor SehrSehrHellgrau = Einstellungen.SehrSehrHellgrau_Color();
 
-
-
-
-    // Stifte
-    QPen PenSchwarzerStift = Einstellungen.Pen_SchwarzerStift();
-
-
-    // Schriftarten
-    QFont FontKlein = Einstellungen.Font_Klein();
-    QFont FontGross = Einstellungen.Font_Gross();
-
-    int L = 280;
+    int Hoehe = 200;
+    int L = 330;
 
 
     // Rahmen um die Bilanz zeichnen
-    painter->setPen(AktuellerStiftFuerDenRand);
+    painter->setPen(PenSchwarzerStift);
+    painter->setBrush(Einstellungen.SehrSehrHellgrau_Color());
+    painter->drawRect(0, 0, 2*L, Hoehe);
+
+
+    // Hintergundschraffierung
+    double HH = 33;
+    double y0 = 60;
+    double y1 = y0+HH;
+    double y2 = y1+HH;
+    double y3 = y2+HH;
+    double y4 = y3+HH;
+
+    painter->setPen(Qt::NoPen);
     painter->setBrush(SehrHellgrau);
-    painter->drawRect(0, -40, 2*L+55, 260);
+    painter->drawRect(1, y0, 2*L, y1-y0);
+    painter->setBrush(SehrHellgrau);
+    painter->drawRect(2, y1, 2*L, y2-y1);
+    painter->setBrush(SehrSehrHellgrau);
+    painter->drawRect(2, y2, 2*L, y3-y2);
+    painter->setBrush(SehrSehrHellgrau);
+    painter->drawRect(2, y3, 2*L, y4-y3);
+    painter->setPen(PenSchwarzerStift);
 
 
 
     // Überschrift zeichnen
-    painter->setPen(AktuellerStiftFuerDenRand);
     painter->setBrush(AktuelleObjectFarbe);
-    painter->drawRect(0, -40, 2*L+55, 30);
-    painter->setPen(PenSchwarzerStift);
+    painter->drawRect(0, 0, 2*L, 30);
     painter->setFont(FontGross);
-    painter->drawText(245, -17, AlleDaten.Zentralbank.NameDerBank);
+    painter->drawText(245, 23, AlleDaten.Zentralbank.NameDerBank);
 
 
-    // Trennlinien
-    painter->drawLine(305,-10,305,220); // Senkrecht
-    painter->drawLine(0,20,615,20);     // Waagerecht
-
+    // Linien
+    painter->drawLine(L,  30,L,  Hoehe);     // Senkrecht
+    painter->drawLine(0,  60,2*L,60   );     // Waagerecht
+    painter->drawLine(2*L,0, 2*L,Hoehe);
 
     // Aktivseite.
     painter->setFont(FontGross);
-    painter->drawText(60, 14, "A k t i v");
+    painter->drawText(110, 54, "A k t i v");
     painter->setFont(FontKlein);
 
 
     // Positionen zeichnen
-    int y  = 30;
-    int x2 = 210;
-    float xText1 = 15;
+    int xx1 = 15;
+    int xx2 = 115;
+    int xx3 = 215;
 
-    Zeichne_Kasten_in_der_Bilanz(painter, x2, 1*y+4, xText1,
-                                 "Forderungen an Bank A", AlleDaten.Zentralbank.ForderungAnBanken[0],
-                                  Hellgrau);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, x2, 2*y+4, xText1,
-                                 "Forderungen an Bank B", AlleDaten.Zentralbank.ForderungAnBanken[1],
-                                 Hellgrau);
+    painter->drawText(15, y0+4+18, "Forderungen an Banken:");
 
-    Zeichne_Kasten_in_der_Bilanz(painter, x2, 3*y+4, xText1,
-                                 "Forderungen an Bank C", AlleDaten.Zentralbank.ForderungAnBanken[2],
-                                 Hellgrau);
+    Zeichne_Kasten_mit_Text(painter,
+                            xx1+20, y1, xx1,
+                            "X", AlleDaten.Zentralbank.ForderungAnBanken[0],
+                            Hellgrau,
+                            AlleDaten.Zentralbank.DickerRahmenForderungAnBanken[0]);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, x2, 4*y+4, xText1,
-                                 "Staatsanleihen von Bank A", AlleDaten.Zentralbank.Staatsanleihen[0],
-                                 Hellgrau);
+    Zeichne_Kasten_mit_Text(painter,
+                            xx2+20, y1, xx2,
+                            "Y", AlleDaten.Zentralbank.ForderungAnBanken[1],
+                            Hellgrau,
+                            AlleDaten.Zentralbank.DickerRahmenForderungAnBanken[1]);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, x2, 5*y+4, xText1,
-                                 "Staatsanleihen von Bank B", AlleDaten.Zentralbank.Staatsanleihen[1],
-                                 Hellgrau);
+    Zeichne_Kasten_mit_Text(painter,
+                            xx3+20, y1, xx3,
+                            "Z", AlleDaten.Zentralbank.ForderungAnBanken[2],
+                            Hellgrau,
+                            AlleDaten.Zentralbank.DickerRahmenForderungAnBanken[2]);
+
+    painter->drawText(15, y2+4+18, "Staatsanleihen:");
+
+    Zeichne_Kasten_mit_Text(painter,
+                            xx1+20, y3, xx1,
+                            "X", AlleDaten.Zentralbank.Staatsanleihen[0],
+                            Hellgrau,
+                            AlleDaten.Zentralbank.DickerRahmenStaatsanleihen[0]);
+
+    Zeichne_Kasten_mit_Text(painter,
+                            xx2+20, y3, xx2,
+                            "Y", AlleDaten.Zentralbank.Staatsanleihen[1],
+                            Hellgrau,
+                            AlleDaten.Zentralbank.DickerRahmenStaatsanleihen[1]);
 
 
     // Passivseite.
     painter->setFont(FontGross);
-    painter->drawText(L+70, 0*y+14, "P a s s i v");
+    painter->drawText(L+110, 54, "P a s s i v");
     painter->setFont(FontKlein);
 
 
     // Positionen zeichnen
     int x3 = 525;
-    float xText = 320;
-    Zeichne_Kasten_in_der_Bilanz(painter, x3, 1*y+4, xText,
-                                 "Z Geldguthaben von Bank A", AlleDaten.Zentralbank.ZGeldGuthabenVonBanken[0],
-                                 Hellgrau);
+    int xx4 = L+15;
+    int xx5 = L + 115;
+    int xx6 = L + 215;
 
-    Zeichne_Kasten_in_der_Bilanz(painter, x3, 2*y+4, xText,
-                                 "Z Geldguthaben von Bank B", AlleDaten.Zentralbank.ZGeldGuthabenVonBanken[1],
-                                 Hellgrau);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, x3, 3*y+4, xText,
-                                 "Z Geldguthaben von Bank C", AlleDaten.Zentralbank.ZGeldGuthabenVonBanken[2],
-                                 Hellgrau);
+    painter->drawText(xx4, y0+4+18, "Z-Geld Guthaben von Banken:");
 
-    Zeichne_Kasten_in_der_Bilanz(painter, x3, 4*y+4, xText,
-                                 "Bargeldumlauf",             AlleDaten.Zentralbank.Bargeldumlauf,
-                                 Hellgrau);
+    Zeichne_Kasten_mit_Text(painter,
+                            xx4+20, y1, xx4,
+                            "X", AlleDaten.Zentralbank.ZGeldGuthabenVonBanken[0],
+                            Hellgrau,
+                            AlleDaten.Zentralbank.DickerRahmenZGeldGuthabenVonBanken[0]);
 
-    Zeichne_Kasten_in_der_Bilanz(painter, x3, 5*y+4, xText,
-                                 "Eigenkapital",              AlleDaten.Zentralbank.Eigenkapital,
-                                 Hellgrau);
+    Zeichne_Kasten_mit_Text(painter,
+                            xx5+20, y1,xx5,
+                            "Y", AlleDaten.Zentralbank.ZGeldGuthabenVonBanken[1],
+                            Hellgrau,
+                            AlleDaten.Zentralbank.DickerRahmenZGeldGuthabenVonBanken[1]);
+
+    Zeichne_Kasten_mit_Text(painter,
+                            xx6+20, y1, xx6,
+                            "Z", AlleDaten.Zentralbank.ZGeldGuthabenVonBanken[2],
+                            Hellgrau,
+                            AlleDaten.Zentralbank.DickerRahmenZGeldGuthabenVonBanken[2]);
+
+    painter->drawText(L+15, y2+4+18, "Bargeldumlauf:");
+    Zeichne_Kasten(painter,
+                   x3, y2+4,
+                   AlleDaten.Zentralbank.Bargeldumlauf,
+                   Hellgrau,
+                   AlleDaten.Zentralbank.DickerRahmenBargeldumlauf);
+
+    painter->drawText(L+15, y3+4+18, "Eigenkapital:");
+    Zeichne_Kasten(painter,
+                   x3, y3+4,
+                   AlleDaten.Zentralbank.Eigenkapital,
+                   Hellgrau,
+                   AlleDaten.Zentralbank.DickerRahmenEigenkapital);
     }
 
 
 //####################################################################################################################################
 
 
-void FGraphicsObjectZentralBankBilanz::Zeichne_Kasten_in_der_Bilanz(QPainter* p,
-                                                                    float xKasten, float yKasten, float xText,
-                                                                    QString Text,
-                                                                    double Zahlenwert,
-                                                                    QColor Farbe){
+void FGraphicsObjectZentralBankBilanz::Zeichne_Kasten(QPainter* p,
+                                                      float x, float y,
+                                                      double Zahlenwert,
+                                                      QColor Farbe,
+                                                      bool fetterRahmen){
 
-    // Beschriftung zeichnen
-    p->drawText(xText, yKasten+18, Text);
+    // Stift
+    FEinstellungen Einstel;
+    if(fetterRahmen) p->setPen(Einstel.Pen_Dicker_SchwarzerStift());
+    else             p->setPen(Einstel.Pen_SchwarzerStift());
+
+
 
     // Negative Werte als Warnung mit rot zeichnen.
     double Epsilon = 0.00001;
     if( Zahlenwert < -Epsilon ){
         p->setBrush(Qt::red);
-        p->drawRect(xKasten,   yKasten, 70, 25);
-        p->drawText(xKasten+5, yKasten+18, QString::number(Zahlenwert));
+        p->drawRect(x,   y, 70, 25);
+        p->drawText(x+5, y+18, QString::number(Zahlenwert));
         }
 
     // Positive Werte mit der Farbe zeichnen.
-    if( Zahlenwert > Epsilon ){
+    else if( Zahlenwert > Epsilon ){
         p->setBrush(Farbe);
-        p->drawRect(xKasten,   yKasten, 70, 25);
-        p->drawText(xKasten+5, yKasten+18, QString::number(Zahlenwert));
+        p->drawRect(x,   y, 70, 25);
+        p->drawText(x+5, y+18, QString::number(Zahlenwert));
+        }
+
+    // Werte nahe 0 nur zeichnen, wenn der Rahmen fett ist.
+    else{
+        if(fetterRahmen){
+            p->setBrush(Einstel.Hellgrau_Color());
+            p->drawRect(x,   y, 70, 25);
+            p->drawText(x+5, y+18, "");
+            }
         }
     }
 
+
+//####################################################################################################################################
+
+
+void FGraphicsObjectZentralBankBilanz::Zeichne_Kasten_mit_Text(QPainter* p,
+                                                               float x, float y, float xText,
+                                                               QString Text,
+                                                               double Zahlenwert,
+                                                               QColor Farbe,
+                                                               bool fetterRahmen){
+    if(Zahlenwert > 0 || fetterRahmen == true){
+        p->drawText(xText, y+18, Text);
+        }
+
+    Zeichne_Kasten(p, x, y, Zahlenwert, Farbe, fetterRahmen);
+    }
 
 //####################################################################################################################################
 

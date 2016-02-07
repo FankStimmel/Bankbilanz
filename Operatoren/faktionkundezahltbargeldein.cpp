@@ -22,7 +22,7 @@ void FAktionKundeZahltBargeldEin::Execute_on(FAlleDaten *AlleDaten){
     if(PersonenNr == 3) BankKundenNummer = 1;
 
     // in den Geschäftsbankbilanzen
-    AlleDaten->Banken[BankNr].BarGeldDerBank               += Betrag;
+    AlleDaten->Banken[BankNr].BarGeldDerBank += Betrag;
     AlleDaten->Banken[BankNr].GiroKonten[BankKundenNummer] += Betrag;
 
     // bei den Kunden

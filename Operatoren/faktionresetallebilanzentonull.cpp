@@ -8,6 +8,7 @@ FAktionResetAlleBilanzenToNull::FAktionResetAlleBilanzenToNull(){
 
 
 void FAktionResetAlleBilanzenToNull::Execute_on(FAlleDaten *AlleDaten){
+
     AlleDaten->Reset_alle_Daten_to_Null();
 
     // Fehlermeldungen

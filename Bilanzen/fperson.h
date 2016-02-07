@@ -22,6 +22,10 @@ public:
     double Bargeld;
     double Schulden;
 
+    bool DickerRahmenBarGeld;
+    bool DickerRahmenSchulden;
+
+
     // Methoden
     void Reset_Personenbilanz_to_Null();
     QString Checken_ob_Bilanz_valide_ist_sonst_Fehlermeldung();

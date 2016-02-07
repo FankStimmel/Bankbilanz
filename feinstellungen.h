@@ -8,7 +8,7 @@
 
 
 // Type erstellen
-enum BilanzOBJEKTE{PERSON_A, PERSON_B, PERSON_C, PERSON_D, BANK_A, BANK_B, ZENTRALBANK, DER_STAAT};
+enum BilanzOBJEKTE{PERSON_A, PERSON_B, PERSON_C, PERSON_D, BANK_X, BANK_Y, ZENTRALBANK, DER_STAAT};
 typedef enum BilanzOBJEKTE BILANZOBJEKTE;
 
 
@@ -31,6 +31,7 @@ public:
     QColor Bargeld_Color();
     QColor Hellgrau_Color();
     QColor SehrHellgrau_Color();
+    QColor SehrSehrHellgrau_Color();
 
     // Schriftarten
     QFont Font_Klein();

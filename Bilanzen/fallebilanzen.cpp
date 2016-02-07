@@ -8,8 +8,8 @@ FAlleDaten::FAlleDaten(){
 
 
     // Geschäftsbanken initialisieren.
-    Banken.append(FGeschaeftsbankBilanz("A"));
-    Banken.append(FGeschaeftsbankBilanz("B"));
+    Banken.append(FGeschaeftsbankBilanz("X"));
+    Banken.append(FGeschaeftsbankBilanz("Y"));
 
 
     // Kunden initialisieren.
@@ -25,6 +25,14 @@ FAlleDaten::FAlleDaten(){
 
     // Zeit initialisieren.
     Jahr = 0;
+    }
+
+//###################################################################################################################
+
+
+void FAlleDaten::Reset_alle_Rahmenstaerke_auf_duenn(){
+    Banken[0].Reset_alle_Rahmenstaerken_to_Duenn();
+    Banken[1].Reset_alle_Rahmenstaerken_to_Duenn();
     }
 
 
@@ -46,6 +54,46 @@ void FAlleDaten::Reset_alle_Daten_to_Null(){
     Staat.Reset_Staatsbilanz_to_Null();
 
     Jahr = 0;
+    }
+
+//###################################################################################################################
+
+
+void FAlleDaten::Initialisiere_alle_Bilanzen(){
+
+    // Reset
+    Reset_alle_Daten_to_Null();
+
+    // Zentralbank
+    Zentralbank.ForderungAnBanken[2] = 1000;
+    Zentralbank.Bargeldumlauf        = 1000;
+
+
+    // Geschäftsbanken
+    for(int i=0; i<2; i++){
+        Banken[i].BarGeldDerBank = 500;
+        Banken[i].Eigenkapital   = 500;
+        }
+    }
+
+
+//###################################################################################################################
+
+
+void FAlleDaten::Set_alle_Daten_to_Preset_ABCD_haben_Kredite_aufgenommen(){
+    Initialisiere_alle_Bilanzen();
+
+    // Kundenkredite
+    for(int KundenNr=0;KundenNr<4;KundenNr++){
+        Kunden[KundenNr].Schulden += 3000;
+        }
+
+    for(int BankNr=0; BankNr<2; BankNr++){
+        for(int KundenNr=0; KundenNr<2; KundenNr++){
+            Banken[BankNr].GiroKonten[KundenNr]       += 3000;
+            Banken[BankNr].KrediteVonKunden[KundenNr] += 3000;
+            }
+        }
     }
 
 

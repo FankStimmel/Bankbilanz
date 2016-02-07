@@ -6,17 +6,17 @@ FAktionBankNimmtKreditBeiDerZBankAuf::FAktionBankNimmtKreditBeiDerZBankAuf(){
 
 
 FAktionBankNimmtKreditBeiDerZBankAuf::FAktionBankNimmtKreditBeiDerZBankAuf(float BETRAG, int BANKNR){
-    Betrag       = BETRAG;
-    BankNr       = BANKNR;
+    Betrag = BETRAG;
+    BankNr = BANKNR;
 
     }
 
 
 void FAktionBankNimmtKreditBeiDerZBankAuf::Execute_on(FAlleDaten *AlleDaten){
 
-    // // Operation auf Geschäftsbanken ausführen.
-    AlleDaten->Banken[BankNr].ZentralbankGeldguthaben     += Betrag;
-    AlleDaten->Banken[BankNr].VerbindGegenZentralbank     += Betrag;
+    // Operation auf Geschäftsbanken ausführen.
+    AlleDaten->Banken[BankNr].ZentralbankGeldguthaben += Betrag;
+    AlleDaten->Banken[BankNr].VerbindGegenZentralbank += Betrag;
 
     // // Operation auf Z-Banken ausführen.
     AlleDaten->Zentralbank.ForderungAnBanken[BankNr]      += Betrag;

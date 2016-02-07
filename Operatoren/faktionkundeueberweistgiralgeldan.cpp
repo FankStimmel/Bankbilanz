@@ -18,6 +18,13 @@ FAktionKundeUeberweistGiralgeldAn::FAktionKundeUeberweistGiralgeldAn(float BETRA
 
 void FAktionKundeUeberweistGiralgeldAn::Execute_on(FAlleDaten *AlleDaten){
 
+    // Überweisung an sich selbst ausschließen.
+    if((VonBankNr == NachBankNr)  &&  (VonBankKundenNr == NachBankKundenNr )){
+        Fehlerbeschreibung = "Eine Ueberweisung an sich selbst gibt es nicht.";
+        return;
+        }
+
+
     // Der Fall, dass Giralgeld innerhalb einer Bank überwiesen wird.
     if(VonBankNr == NachBankNr){
 
@@ -29,8 +36,8 @@ void FAktionKundeUeberweistGiralgeldAn::Execute_on(FAlleDaten *AlleDaten){
 
         // Wenn zum Staat überwiesen wird.
         if(NachBankKundenNr == 2){
-            AlleDaten->Banken[VonBankNr].GiroKonten[VonBankKundenNr]  -= Betrag;
-            AlleDaten->Banken[VonBankNr].StaatsGiroKonto              += Betrag;
+            AlleDaten->Banken[VonBankNr].GiroKonten[VonBankKundenNr] -= Betrag;
+            AlleDaten->Banken[VonBankNr].StaatsGiroKonto             += Betrag;
             }
         }
 
@@ -38,26 +45,36 @@ void FAktionKundeUeberweistGiralgeldAn::Execute_on(FAlleDaten *AlleDaten){
     // Der Fall, dass Giralgeld auf eine fremde Bank überwiesen wird.
     if(VonBankNr != NachBankNr){
 
-        // in Zentralbank.
-        AlleDaten->Zentralbank.ZGeldGuthabenVonBanken[VonBankNr]   -= Betrag;
-        AlleDaten->Zentralbank.ZGeldGuthabenVonBanken[NachBankNr]  += Betrag;
-
         // von Bank.
         AlleDaten->Banken[VonBankNr].GiroKonten[VonBankKundenNr] -= Betrag;
-        AlleDaten->Banken[VonBankNr].ZentralbankGeldguthaben     -= Betrag;
+        AlleDaten->Banken[VonBankNr].VerbindGegenAndereBank      += Betrag;
 
         // nach Bank.  Wenn zum Kunden überwiesen wird.
         if(NachBankKundenNr < 2){
             AlleDaten->Banken[NachBankNr].GiroKonten[NachBankKundenNr] += Betrag;
-            AlleDaten->Banken[NachBankNr].ZentralbankGeldguthaben      += Betrag;
+            AlleDaten->Banken[NachBankNr].KreditBeiAndererBank         += Betrag;
             }
 
         // nach Bank.  Wenn zum Staat überwiesen wird.
         if(NachBankKundenNr == 2){
-            AlleDaten->Banken[NachBankNr].StaatsGiroKonto          += Betrag;
-            AlleDaten->Banken[NachBankNr].ZentralbankGeldguthaben  += Betrag;
+            AlleDaten->Banken[NachBankNr].StaatsGiroKonto      += Betrag;
+            AlleDaten->Banken[NachBankNr].KreditBeiAndererBank += Betrag;
             }
 
+        }
+
+    // Eventuell in der Bankbilanz VerbindlichkeitGegenAndereBank gegen KreditBeiAndererBank kürzen.
+    for(int i=0; i<2; i++){
+
+        double Kre = AlleDaten->Banken[i].KreditBeiAndererBank;
+        double Ver = AlleDaten->Banken[i].VerbindGegenAndereBank;
+
+        // Minimum rauskürzen
+        double Minimum = std::min(Kre,Ver);
+        if(Minimum > 0){
+            AlleDaten->Banken[i].KreditBeiAndererBank   -= Minimum;
+            AlleDaten->Banken[i].VerbindGegenAndereBank -= Minimum;
+            }
         }
 
 
@@ -65,14 +82,39 @@ void FAktionKundeUeberweistGiralgeldAn::Execute_on(FAlleDaten *AlleDaten){
     Fehlerbeschreibung = AlleDaten->Checken_ob_alle_Bilanzen_valide_sind_sonst_Fehlermeldung();
 
 
-/*
-    int VonPersonenNr  = 2 * VonBankNr  + VonBankKundenNr;
-    int NachPersonenNr = 2 * NachBankNr + NachBankKundenNr;
-    if( VonPersonenNr == NachPersonenNr ){
-        Fehlerbeschreibung = "Eine Überweisung an sich selbst gibt es nicht.";
-        }
-*/
-
     // Beschreibung der Operation
     BeschreibungDerOperation = ") Kunde  hat  " + QString::number(Betrag) + "  Euro Giralgeld überwiesen.";
     }
+
+
+//####################################################################################################
+
+
+void FAktionKundeUeberweistGiralgeldAn::DickenRahmen_zeichnen(FAlleDaten *AlleDaten, bool wert){
+
+    // Wenn an den Staat überwiesen wird
+    if(NachBankKundenNr == 2){
+        AlleDaten->Banken[VonBankNr].DickerRahmenGiroKonten[VonBankKundenNr] = wert;
+        AlleDaten->Banken[NachBankNr].DickerRahmenStaatsGiroKonto            = wert;
+        }
+
+    // sonst
+    else{
+        AlleDaten->Banken[VonBankNr].DickerRahmenGiroKonten[VonBankKundenNr]   = wert;
+        AlleDaten->Banken[NachBankNr].DickerRahmenGiroKonten[NachBankKundenNr] = wert;
+        }
+
+    // bei Überweisungen auf fremde Banken
+    if(VonBankNr != NachBankNr){
+        AlleDaten->Banken[VonBankNr].DickerRahmenKreditBeiAndererBank    = wert;
+        AlleDaten->Banken[VonBankNr].DickerRahmenVerbindGegenAndereBank  = wert;
+        AlleDaten->Banken[NachBankNr].DickerRahmenKreditBeiAndererBank   = wert;
+        AlleDaten->Banken[NachBankNr].DickerRahmenVerbindGegenAndereBank = wert;
+        }
+
+
+    }
+
+
+
+
