@@ -5,7 +5,7 @@ FAktionBankZahltKreditBeiDerZBankZurueck::FAktionBankZahltKreditBeiDerZBankZurue
     }
 
 
-FAktionBankZahltKreditBeiDerZBankZurueck::FAktionBankZahltKreditBeiDerZBankZurueck(float BETRAG, int BANKNR){
+FAktionBankZahltKreditBeiDerZBankZurueck::FAktionBankZahltKreditBeiDerZBankZurueck(double BETRAG, int BANKNR){
     Betrag       = BETRAG;
     BankNr       = BANKNR;
     }

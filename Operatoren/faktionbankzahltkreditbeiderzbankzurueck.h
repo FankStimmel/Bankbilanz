@@ -14,7 +14,7 @@ class FAktionBankZahltKreditBeiDerZBankZurueck : public FFinanzTransaktion
 public:
 
     FAktionBankZahltKreditBeiDerZBankZurueck();
-    FAktionBankZahltKreditBeiDerZBankZurueck(float BETRAG, int BANKNR);
+    FAktionBankZahltKreditBeiDerZBankZurueck(double BETRAG, int BANKNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
 
@@ -23,7 +23,7 @@ public:
 private:
 
     // Daten
-    float Betrag;
+    double Betrag;
     int BankNr;
 
 };

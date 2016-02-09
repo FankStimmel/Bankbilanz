@@ -164,6 +164,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     PushButtonBankZahltKreditAnAndereBankZurueck = new FMyPushButton("mit ZGeld BankKredit bezahlen",ui->frameAktionDerBank);
     PushButtonBankZahltKreditAnAndereBankZurueck->setGeometry(10,480,280,30);
 
+    PushButtonBankZahltBoniAn = new FMyPushButton("Bank zahlt Boni an", ui->frameAktionDerBank);
+    PushButtonBankZahltBoniAn->setGeometry(10,520,220,30);
+
+
 
     // Push Button für das Clearingverfahren
     PushButtonBankFuehrtClearingverfahrenDurch = new FMyPushButton("Clearingverfahren durchführen",ui->frameClearingVerfahren);
@@ -265,6 +269,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(PushButtonBankVerkauftStaatsanleihenAnZBank, SIGNAL(DickenRahmenZeichnen(bool)),
             this, SLOT(Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_verkauft_Staatsanleihen_an_ZBank(bool)));
 
+
+    // Connect Bank zahlt Boni an
+    connect(PushButtonBankZahltBoniAn, SIGNAL(clicked(bool)),
+            this, SLOT(Slot_Bank_zahlt_Boni_an_Kunden()));
+
+    connect(PushButtonBankZahltBoniAn,SIGNAL(DickenRahmenZeichnen(bool)),
+            this, SLOT(Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_zahlt_Boni_an_Kunden(bool)));
 
 
     // Connect Kunde nimmt Kredit auf.
@@ -797,7 +808,7 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_Bar_inZ_Bankgeld_oder
 void MainWindow::Slot_Bank_legt_Eigenkapital_ein(){
 
     // Werte auslesen.
-    double Betrag         = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
+    double Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
 
 
     // Operationen ausführen.
@@ -830,7 +841,7 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_legt_Eigenkapital_ein
 void MainWindow::Slot_Bank_kauft_Wertpapiere_von(){
 
     // Werte auslesen.
-    float Betrag         = ui->lineEditGeldbetragStaat->text().toDouble();
+    double Betrag        = ui->lineEditGeldbetragStaat->text().toDouble();
     int BankKundenNummer = ui->comboBoxWertpapiereVon->currentIndex();
 
 
@@ -885,7 +896,7 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_kauft_Wertpapiere(boo
 void MainWindow::Slot_Bank_verkauft_Staatsanleihen_an_die_ZBank(){
 
     // Werte auslesen.
-    float Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
+    double Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
 
 
     // Kopie der Bilanz erstellen.
@@ -924,6 +935,54 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_verkauft_Staatsanleih
     AlleDaten.Banken[AktBankNummer].DickerRahmenZentralbankGeldguthaben = wert;
     AlleDaten.Zentralbank.DickerRahmenStaatsanleihen[AktBankNummer] = wert;
     AlleDaten.Zentralbank.DickerRahmenZGeldGuthabenVonBanken[AktBankNummer] = wert;
+    Viewport->Alles_neu_zeichnen(AlleDaten);
+    }
+
+//###################################################################################################################################
+
+
+void MainWindow::Slot_Bank_zahlt_Boni_an_Kunden(){
+
+    // Werte auslesen.
+    double Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
+    int KundenNr  = ui->comboBoxBoniAn->currentIndex();
+
+
+    // Kopie der Bilanz erstellen.
+    FAlleDaten AlleDatenCopie;
+    AlleDatenCopie = AlleDaten;
+
+
+    // Auf der Kopie überprüfen, ob die Operation zu einem Fehler führt.
+    FAktionBankZahltBoniAn *op = new FAktionBankZahltBoniAn(Betrag,AktBankNummer,KundenNr);
+    op->Execute_on(&AlleDatenCopie);
+
+    if( op->Fehlerbeschreibung != "" ){
+        QMessageBox msgBox;
+        msgBox.critical(0, "Bonizahlung nicht möglich.", op->Fehlerbeschreibung );
+        ui->statusBar->showMessage("Fehler: Die Bonizahlung wurde nicht ausgeführt");
+        return;
+        }
+
+
+    // Operationen ausführen.
+    op->Execute_on(&AlleDaten);
+    StackOfOperations << op;
+    AktOpGrenze = StackOfOperations.size();
+
+
+    // Gui
+    Refresch_Gui_und_eventuell_Screenshot_erstellen(op->BeschreibungDerOperation);
+    }
+
+
+//----------------------------------------------------------------------------------------------------------------------------
+
+
+void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_zahlt_Boni_an_Kunden(bool wert){
+    int KundenNr = ui->comboBoxBoniAn->currentIndex();
+    AlleDaten.Banken[AktBankNummer].DickerRahmenEigenkapital         = wert;
+    AlleDaten.Banken[AktBankNummer].DickerRahmenGiroKonten[KundenNr] = wert;
     Viewport->Alles_neu_zeichnen(AlleDaten);
     }
 
@@ -1423,8 +1482,8 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Giralgel
 void MainWindow::Slot_Staat_verkauft_Staatsanleihen_an_die_Bank(){
 
     // Werte auslesen.
-    float Betrag = ui->lineEditGeldbetragStaat->text().toDouble();
-    int AnBankNr = 0;
+    double Betrag = ui->lineEditGeldbetragStaat->text().toDouble();
+    int AnBankNr  = 0;
 
 
     // Kopie der Bilanz erstellen.
@@ -1461,8 +1520,8 @@ void MainWindow::Slot_Staat_verkauft_Staatsanleihen_an_die_Bank(){
 void MainWindow::Slot_Staat_kauft_Staatsanleihen_von_der_Bank(){
 
     // Werte auslesen.
-    float Betrag = ui->lineEditGeldbetragStaat->text().toDouble();
-    int AnBankNr = 0;
+    double Betrag = ui->lineEditGeldbetragStaat->text().toDouble();
+    int AnBankNr  = 0;
 
 
     // Kopie der Bilanz erstellen.
@@ -1818,6 +1877,9 @@ void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angekli
         ui->comboBoxWertpapiereVon->clear();
         ui->comboBoxWertpapiereVon->addItem("A");
         ui->comboBoxWertpapiereVon->addItem("B");
+        ui->comboBoxBoniAn->clear();
+        ui->comboBoxBoniAn->addItem("A");
+        ui->comboBoxBoniAn->addItem("B");
         break;
 
 
@@ -1839,6 +1901,9 @@ void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angekli
         ui->comboBoxWertpapiereVon->clear();
         ui->comboBoxWertpapiereVon->addItem("C");
         ui->comboBoxWertpapiereVon->addItem("D");
+        ui->comboBoxBoniAn->clear();
+        ui->comboBoxBoniAn->addItem("C");
+        ui->comboBoxBoniAn->addItem("D");
         break;
 
 

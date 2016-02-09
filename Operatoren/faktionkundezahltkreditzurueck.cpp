@@ -5,7 +5,7 @@ FAktionKundeZahltKreditZurueck::FAktionKundeZahltKreditZurueck(){
     }
 
 
-FAktionKundeZahltKreditZurueck::FAktionKundeZahltKreditZurueck(float BETRAG, int BANKNR, int BANKKUNDENNR){
+FAktionKundeZahltKreditZurueck::FAktionKundeZahltKreditZurueck(double BETRAG, int BANKNR, int BANKKUNDENNR){
     Betrag       = BETRAG;
     BankKundenNr = BANKKUNDENNR;
     BankNr       = BANKNR;

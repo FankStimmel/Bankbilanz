@@ -33,7 +33,7 @@ public:
     void Set_Object_visual_marked(bool wert);
     void Neu_zeichnen(FAlleDaten AlleDATEN);
     void Set_Staat_hat_Konto_to(bool wert);
-    QString Runden(double Wert);
+
 
     // Setter
     void Set_BankNr_To(int Nr);

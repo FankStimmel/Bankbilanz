@@ -14,9 +14,9 @@ class FAktionKundeUeberweistGiralgeldAn : public FFinanzTransaktion
 public:
 
     FAktionKundeUeberweistGiralgeldAn();
-    FAktionKundeUeberweistGiralgeldAn(float BETRAG,
-                                  int VONBANKNR, int NACHBANKNR,
-                                  int VONBANKKUNDENNR, int NACHBANKKUNDENNR);
+    FAktionKundeUeberweistGiralgeldAn(double BETRAG,
+                                      int VONBANKNR, int NACHBANKNR,
+                                      int VONBANKKUNDENNR, int NACHBANKKUNDENNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
     void DickenRahmen_zeichnen(FAlleDaten *AlleDaten, bool wert);
@@ -26,7 +26,7 @@ public:
 private:
 
     // Daten
-    float Betrag;
+    double Betrag;
     int VonBankNr;
     int NachBankNr;
     int VonBankKundenNr;

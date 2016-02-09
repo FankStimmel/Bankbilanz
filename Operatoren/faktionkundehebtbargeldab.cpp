@@ -6,7 +6,7 @@ FAktionKundeHebtBargeldAb::FAktionKundeHebtBargeldAb(){
 
 
 
-FAktionKundeHebtBargeldAb::FAktionKundeHebtBargeldAb(float BETRAG, int BANKNR, int PERSONENNR){
+FAktionKundeHebtBargeldAb::FAktionKundeHebtBargeldAb(double BETRAG, int BANKNR, int PERSONENNR){
     Betrag     = BETRAG;
     PersonenNr = PERSONENNR;
     BankNr     = BANKNR;

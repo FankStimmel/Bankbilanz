@@ -5,7 +5,7 @@ FAktionStaatUeberweistGiralgeldAn::FAktionStaatUeberweistGiralgeldAn(){
     }
 
 
-FAktionStaatUeberweistGiralgeldAn::FAktionStaatUeberweistGiralgeldAn(float BETRAG, int NACHBANKNR, int NACHBANKKUNDENNR){
+FAktionStaatUeberweistGiralgeldAn::FAktionStaatUeberweistGiralgeldAn(double BETRAG, int NACHBANKNR, int NACHBANKKUNDENNR){
     Betrag           = BETRAG;
     NachBankNr       = NACHBANKNR;
     NachBankKundenNr = NACHBANKKUNDENNR;

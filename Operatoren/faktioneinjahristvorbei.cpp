@@ -19,20 +19,20 @@ void FAktionEinJahrIstVorbei::Execute_on(FAlleDaten *AlleDaten){
 
     // Zinssätze
     FEinstellungen Einstellungen;
-    float GirokontenZinssatz = Einstellungen.GirokontoZinsen();
-    float Leitzinssatz       = Einstellungen.LeitZins();
-    float SparkontoZinssatz  = Einstellungen.SparkontoZinsen();
-    float KreditZinssatz     = Einstellungen.KreditZinsen();
-
+    double GirokontenZinssatz = Einstellungen.GirokontoZinsen();
+    double Leitzinssatz       = Einstellungen.LeitZins();
+    double SparkontoZinssatz  = Einstellungen.SparkontoZinsen();
+    double KreditZinssatz     = Einstellungen.KreditZinsen();
 
 
     // Zinsen auf Girokonten, Sparbücher und Kredite der Kunden berechnen und in der Geschäftsbankbilanz buchen.
     for (int BankNr = 0; BankNr < 2 ; BankNr++){
         for(int KundenNr = 0; KundenNr < 2; KundenNr++){
-            double GiroKontenZinsen = GirokontenZinssatz * AlleDaten->Banken[BankNr].GiroKonten[KundenNr];
-            double KreditZinsen     = KreditZinssatz     * AlleDaten->Banken[BankNr].KrediteVonKunden[KundenNr];
-            double Sparbuchzinsen   = SparkontoZinssatz  * AlleDaten->Banken[BankNr].SparbuchKonten[KundenNr];
 
+            // Zinsen berechnen
+            double GiroKontenZinsen = Runden_auf_Cent(GirokontenZinssatz * AlleDaten->Banken[BankNr].GiroKonten[KundenNr]);
+            double KreditZinsen     = Runden_auf_Cent(KreditZinssatz     * AlleDaten->Banken[BankNr].KrediteVonKunden[KundenNr]);
+            double Sparbuchzinsen   = Runden_auf_Cent(SparkontoZinssatz  * AlleDaten->Banken[BankNr].SparbuchKonten[KundenNr]);
 
             if(GiroKontenZinsen > 0){
                 // Zinsen
@@ -76,8 +76,8 @@ void FAktionEinJahrIstVorbei::Execute_on(FAlleDaten *AlleDaten){
 
     // Zinsen auf Staatsanleihen und Staatsgirokonto berechen und in der Geschäftsbankbilanz von Bank A buchen.
     // Bank B kann keine Staatsanleihen aufnehmen.
-    double ZinsenAufStaatsanleihen  = KreditZinssatz     * AlleDaten->Staat.SchuldenAnBanken[0];
-    double ZinsenAufStaatsgirokonto = GirokontenZinssatz * AlleDaten->Banken[0].StaatsGiroKonto;
+    double ZinsenAufStaatsanleihen  = Runden_auf_Cent(KreditZinssatz * AlleDaten->Staat.SchuldenAnBanken[0]);
+    double ZinsenAufStaatsgirokonto = Runden_auf_Cent(GirokontenZinssatz * AlleDaten->Banken[0].StaatsGiroKonto);
 
 
     if(ZinsenAufStaatsanleihen > 0){
@@ -105,7 +105,7 @@ void FAktionEinJahrIstVorbei::Execute_on(FAlleDaten *AlleDaten){
     // Zinsen auf Zentralbankkredite gegen Banken berechen
     // Bei Bank C werden keine Zinsen fällig!
     for (int BankNr = 0; BankNr<2; BankNr++){
-        double Zinsen = Leitzinssatz * AlleDaten->Zentralbank.ForderungAnBanken[BankNr];
+        double Zinsen = Runden_auf_Cent(Leitzinssatz * AlleDaten->Zentralbank.ForderungAnBanken[BankNr]);
 
         if(Zinsen > 0){
             // Zinsen in der Zentralbankbilanz buchen.
@@ -183,5 +183,12 @@ QString FAktionEinJahrIstVorbei::Runden(double wert){
     }
 
 
+//#######################################################################################################################
+
+
+double FAktionEinJahrIstVorbei::Runden_auf_Cent(double wert){
+    double gerundet = 0.01 * round(100.0 * wert);
+    return(gerundet);
+    }
 
 

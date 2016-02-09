@@ -35,7 +35,7 @@ private:
     Ui::FMyClearingWidget *ui;
 
     void Zeichne_eine_Ueberweisungsposition(QPainter *painter, int y, QString von, QString nach, double Betrag, QString Richtung);
-
+    double Runden_auf_Cent(double wert);
 
 
 };

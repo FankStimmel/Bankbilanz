@@ -5,7 +5,7 @@ FAktionBankNimmtKreditBeiDerZBankAuf::FAktionBankNimmtKreditBeiDerZBankAuf(){
     }
 
 
-FAktionBankNimmtKreditBeiDerZBankAuf::FAktionBankNimmtKreditBeiDerZBankAuf(float BETRAG, int BANKNR){
+FAktionBankNimmtKreditBeiDerZBankAuf::FAktionBankNimmtKreditBeiDerZBankAuf(double BETRAG, int BANKNR){
     Betrag = BETRAG;
     BankNr = BANKNR;
 

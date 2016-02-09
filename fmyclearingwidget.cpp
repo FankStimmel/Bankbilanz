@@ -102,27 +102,42 @@ void FMyClearingWidget::Ueberweisungsbetraege_eintragen(FAlleDaten AlleDaten){
     // Nur wenn auf dem Konto mehr als 10 Euro sind, können ausgehende Überweiseungen getätigt werden.
     if(AlleDaten.Banken[0].GiroKonten[0] > 10 ){
         int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[0].GiroKonten[0];
-        AToC = rand() % MaxZufallsBetrag;
-        AToD = rand() % MaxZufallsBetrag;
+        AToC = Runden_auf_Cent(rand() % MaxZufallsBetrag);
+        AToD = Runden_auf_Cent(rand() % MaxZufallsBetrag);
         }
 
     if(AlleDaten.Banken[0].GiroKonten[1] > 10 ){
         int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[0].GiroKonten[1];
-        BToC = rand() % MaxZufallsBetrag;
-        BToD = rand() % MaxZufallsBetrag;
+        BToC = Runden_auf_Cent(rand() % MaxZufallsBetrag);
+        BToD = Runden_auf_Cent(rand() % MaxZufallsBetrag);
         }
 
     if(AlleDaten.Banken[1].GiroKonten[0] > 10 ){
         int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[1].GiroKonten[0];
-        CToA = rand() % MaxZufallsBetrag;
-        CToB = rand() % MaxZufallsBetrag;
+        CToA = Runden_auf_Cent(rand() % MaxZufallsBetrag);
+        CToB = Runden_auf_Cent(rand() % MaxZufallsBetrag);
         }
 
     if(AlleDaten.Banken[1].GiroKonten[1] > 10 ){
         int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[1].GiroKonten[1];
-        DToA = rand() % MaxZufallsBetrag;
-        DToB = rand() % MaxZufallsBetrag;
+        DToA = Runden_auf_Cent(rand() % MaxZufallsBetrag);
+        DToB = Runden_auf_Cent(rand() % MaxZufallsBetrag);
         }
 
     update();
     }
+
+//###################################################################################################################################
+
+
+double FMyClearingWidget::Runden_auf_Cent(double wert){
+    return(0.01*round(100.0*wert));
+    }
+
+
+
+
+
+
+
+

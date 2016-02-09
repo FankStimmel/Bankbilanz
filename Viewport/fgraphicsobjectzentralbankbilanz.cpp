@@ -202,34 +202,50 @@ void FGraphicsObjectZentralBankBilanz::Zeichne_Kasten(QPainter* p,
 
     // Stift
     FEinstellungen Einstel;
-    if(fetterRahmen) p->setPen(Einstel.Pen_Dicker_SchwarzerStift());
-    else             p->setPen(Einstel.Pen_SchwarzerStift());
-
-
-
-    // Negative Werte als Warnung mit rot zeichnen.
     double Epsilon = 0.00001;
+
+
+    // Negative Werte als Warnung mit rotem Hintergrund zeichnen.
     if( Zahlenwert < -Epsilon ){
         p->setBrush(Qt::red);
-        p->drawRect(x,   y, 70, 25);
+        p->setPen(Einstel.Pen_SchwarzerStift());
+        p->drawRect(x,   y, 60, 25);
         p->drawText(x+5, y+18, QString::number(Zahlenwert));
         }
+
 
     // Positive Werte mit der Farbe zeichnen.
     else if( Zahlenwert > Epsilon ){
+
+        // Rahmen
+        if(fetterRahmen)  p->setPen(Einstel.Pen_Dicker_RoterStift());
+        else              p->setPen(Einstel.Pen_SchwarzerStift());
+
         p->setBrush(Farbe);
-        p->drawRect(x,   y, 70, 25);
+        p->drawRect(x, y, 60, 25);
+
+        // Zahlentext
+        p->setPen(Einstel.Pen_SchwarzerStift());
+        p->setBrush(Farbe);
         p->drawText(x+5, y+18, QString::number(Zahlenwert));
         }
+
 
     // Werte nahe 0 nur zeichnen, wenn der Rahmen fett ist.
     else{
         if(fetterRahmen){
+
+            // Rahmen
+            p->setPen(Einstel.Pen_Dicker_RoterStift());
             p->setBrush(Einstel.Hellgrau_Color());
-            p->drawRect(x,   y, 70, 25);
+            p->drawRect(x, y, 60, 25);
+
+            // Zahlentext
+            p->setPen(Einstel.Pen_SchwarzerStift());
             p->drawText(x+5, y+18, "");
             }
         }
+
     }
 
 
@@ -242,7 +258,8 @@ void FGraphicsObjectZentralBankBilanz::Zeichne_Kasten_mit_Text(QPainter* p,
                                                                double Zahlenwert,
                                                                QColor Farbe,
                                                                bool fetterRahmen){
-    if(Zahlenwert > 0 || fetterRahmen == true){
+    double Epsilon = 0.00001;
+    if(Zahlenwert > Epsilon || fetterRahmen == true){
         p->drawText(xText, y+18, Text);
         }
 

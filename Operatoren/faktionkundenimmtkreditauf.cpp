@@ -5,7 +5,7 @@ FAktionKundeNimmtKreditAuf::FAktionKundeNimmtKreditAuf(){
     }
 
 
-FAktionKundeNimmtKreditAuf::FAktionKundeNimmtKreditAuf(float BETRAG, int BANKNR, int BANKKUNDENNR){
+FAktionKundeNimmtKreditAuf::FAktionKundeNimmtKreditAuf(double BETRAG, int BANKNR, int BANKKUNDENNR){
     Betrag       = BETRAG;
     BankKundenNr = BANKKUNDENNR;
     BankNr       = BANKNR;

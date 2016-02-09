@@ -67,6 +67,11 @@ QPen FEinstellungen::Pen_Dicker_SchwarzerStift(){
     }
 
 
+QPen FEinstellungen::Pen_Dicker_RoterStift(){
+    return(QPen(Qt::red, 4, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    }
+
+
 // Pfade
 QString FEinstellungen::Pfad_zu_Screenshots(){
     return(QDir::homePath() + "/Bilder/");

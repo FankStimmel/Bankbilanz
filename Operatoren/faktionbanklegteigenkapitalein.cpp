@@ -5,7 +5,7 @@ FAktionBankLegtEigenkapitalEin::FAktionBankLegtEigenkapitalEin(){
     }
 
 
-FAktionBankLegtEigenkapitalEin::FAktionBankLegtEigenkapitalEin(float BETRAG, int BANKNR){
+FAktionBankLegtEigenkapitalEin::FAktionBankLegtEigenkapitalEin(double BETRAG, int BANKNR){
     Betrag       = BETRAG;
     BankNr       = BANKNR;
     }

@@ -12,7 +12,7 @@ class FAktionBankNimmtKreditBeiDerZBankAuf : public FFinanzTransaktion
 public:
 
     FAktionBankNimmtKreditBeiDerZBankAuf();
-    FAktionBankNimmtKreditBeiDerZBankAuf(float BETRAG, int BANKNR);
+    FAktionBankNimmtKreditBeiDerZBankAuf(double BETRAG, int BANKNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
 
@@ -21,7 +21,7 @@ public:
 private:
 
     // Daten
-    float Betrag;
+    double Betrag;
     int BankNr;
 
 };

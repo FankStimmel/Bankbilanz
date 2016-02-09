@@ -3,7 +3,7 @@
 
 DialogInfo::DialogInfo(QWidget *parent) : QDialog(parent), ui(new Ui::DialogInfo){
     ui->setupUi(this);
-    ui->textEdit->setHtml(
+    QString Text1 =
         "<b>Gebrüder Rothschild, London 1863:</b><br>"
         "Die Wenigen, die das System verstehen, werden dermaßen"
         " an seinen Profiten interessiert oder so abhängig von "
@@ -37,8 +37,18 @@ DialogInfo::DialogInfo(QWidget *parent) : QDialog(parent), ui(new Ui::DialogInfo
         " dominierten Regierung der Welt geworden. Nicht länger eine Regierung der"
         " freien Meinung, nicht länger eine Regierung der Überzeugung und Wahlen der"
         " Mehrheit, sondern eine Regierung der Meinung und Zwang einer kleinen"
-        " Gruppe dominierender Menschen."
-        );
+        " Gruppe dominierender Menschen.";
+
+
+    QString Text2 =
+        "Dieses Programm ist lizensiert unter der GPL V3.<br>"
+        "GNU GENERAL PUBLIC LICENSE<br>"
+        "Version 3, 29 June 2007<br><br>"
+        "Der Quellcode befindet sich auf GitHub an dieser Stelle:<br>"
+        "https://github.com/FrankStimmel";
+
+
+    ui->textEdit->setHtml(Text2);
     }
 
 

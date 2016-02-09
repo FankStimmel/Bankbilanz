@@ -40,6 +40,7 @@ public:
     // Stifte
     QPen Pen_SchwarzerStift();
     QPen Pen_Dicker_SchwarzerStift();
+    QPen Pen_Dicker_RoterStift();
 
     // Pfade
     QString Pfad_zu_Screenshots();

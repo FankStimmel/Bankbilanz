@@ -99,40 +99,59 @@ void FGrapicsObjectPerson::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
 
 void FGrapicsObjectPerson::Zeichne_Kasten_in_der_Bilanz(QPainter* p,
-                                                        float xKasten, float yKasten, float xText,
+                                                        float x, float y, float xText,
                                                         QString Text,
                                                         double Zahlenwert,
                                                         QColor Farbe,
                                                         bool fetterRahmen){
+
     // Stift
     FEinstellungen Einstel;
-    if(fetterRahmen) p->setPen(Einstel.Pen_Dicker_SchwarzerStift());
-    else             p->setPen(Einstel.Pen_SchwarzerStift());
+    double Epsilon = 0.00001;
 
     // Beschriftung zeichnen
-    p->drawText(xText, yKasten+18, Text);
+    p->setPen(Einstel.Pen_SchwarzerStift());
+    p->drawText(xText, y+18, Text);
 
-    // Negative Werte als Warnung mit rot zeichnen.
-    double Epsilon = 0.00001;
+
+    // Negative Werte als Warnung mit rotem Hintergrund zeichnen.
     if( Zahlenwert < -Epsilon ){
         p->setBrush(Qt::red);
-        p->drawRect(xKasten,   yKasten, 60, 25);
-        p->drawText(xKasten+5, yKasten+18, QString::number(Zahlenwert));
+        p->setPen(Einstel.Pen_SchwarzerStift());
+        p->drawRect(x,   y, 60, 25);
+        p->drawText(x+5, y+18, QString::number(Zahlenwert));
         }
+
 
     // Positive Werte mit der Farbe zeichnen.
     else if( Zahlenwert > Epsilon ){
+
+        // Rahmen
+        if(fetterRahmen)  p->setPen(Einstel.Pen_Dicker_RoterStift());
+        else              p->setPen(Einstel.Pen_SchwarzerStift());
+
         p->setBrush(Farbe);
-        p->drawRect(xKasten,   yKasten, 60, 25);
-        p->drawText(xKasten+5, yKasten+18, QString::number(Zahlenwert));
+        p->drawRect(x, y, 60, 25);
+
+        // Zahlentext
+        p->setPen(Einstel.Pen_SchwarzerStift());
+        p->setBrush(Farbe);
+        p->drawText(x+5, y+18, QString::number(Zahlenwert));
         }
+
 
     // Werte nahe 0 nur zeichnen, wenn der Rahmen fett ist.
     else{
         if(fetterRahmen){
+
+            // Rahmen
+            p->setPen(Einstel.Pen_Dicker_RoterStift());
             p->setBrush(Einstel.Hellgrau_Color());
-            p->drawRect(xKasten,   yKasten, 60, 25);
-            p->drawText(xKasten+5, yKasten+18, "");
+            p->drawRect(x, y, 60, 25);
+
+            // Zahlentext
+            p->setPen(Einstel.Pen_SchwarzerStift());
+            p->drawText(x+5, y+18, "");
             }
         }
 

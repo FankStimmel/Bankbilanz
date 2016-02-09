@@ -5,7 +5,7 @@ FAktionStaatKauftStaatsanleihen::FAktionStaatKauftStaatsanleihen(){
     }
 
 
-FAktionStaatKauftStaatsanleihen::FAktionStaatKauftStaatsanleihen(float BETRAG, int BANKNR){
+FAktionStaatKauftStaatsanleihen::FAktionStaatKauftStaatsanleihen(double BETRAG, int BANKNR){
     Betrag = BETRAG;
     BankNr = BANKNR;
     }

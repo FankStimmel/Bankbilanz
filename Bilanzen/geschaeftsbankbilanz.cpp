@@ -337,7 +337,7 @@ bool FGeschaeftsbankBilanz::Ist_die_Aktivsumme_gleich_der_Passivsumme(){
                             + StaatsGiroKonto
                             + Eigenkapital;
 
-    float Epsilon = 0.0001;
+    double Epsilon = 0.0001;
     if(abs(AktivsummeSumme - PassivSumme) < Epsilon){
         return(true);
         }

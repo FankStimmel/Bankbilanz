@@ -24,8 +24,11 @@ public:
     QString Fehlerbeschreibung;
 
 
+private:
+
     // Methoden
     QString Runden(double wert);
+    double Runden_auf_Cent(double wert);
 
 
 

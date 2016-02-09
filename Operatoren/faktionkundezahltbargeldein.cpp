@@ -5,7 +5,7 @@ FAktionKundeZahltBargeldEin::FAktionKundeZahltBargeldEin(){
     }
 
 
-FAktionKundeZahltBargeldEin::FAktionKundeZahltBargeldEin(float BETRAG, int BANKNR, int PERSONENNR){
+FAktionKundeZahltBargeldEin::FAktionKundeZahltBargeldEin(double BETRAG, int BANKNR, int PERSONENNR){
     Betrag     = BETRAG;
     PersonenNr = PERSONENNR;
     BankNr     = BANKNR;

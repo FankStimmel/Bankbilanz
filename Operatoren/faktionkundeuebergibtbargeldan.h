@@ -14,7 +14,7 @@ class FAktionKundeUebergibtBargeldAn : public FFinanzTransaktion
 public:
 
     FAktionKundeUebergibtBargeldAn();
-    FAktionKundeUebergibtBargeldAn(float BETRAG, int VonPersonenNR, int NachPersonenNR);
+    FAktionKundeUebergibtBargeldAn(double BETRAG, int VonPersonenNR, int NachPersonenNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
 
@@ -23,7 +23,7 @@ public:
 private:
 
     // Daten
-    float Betrag;
+    double Betrag;
     int VonPersonenNr;
     int NachPersonenNr;
 

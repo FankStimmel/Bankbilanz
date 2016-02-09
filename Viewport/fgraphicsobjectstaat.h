@@ -45,7 +45,7 @@ private:
 
     // Methoden
     void Zeichne_Kasten_in_der_Bilanz(QPainter* p,
-                                      float xKasten, float yKasten, float xText,
+                                      float x, float y, float xText,
                                       QString Text,
                                       double Zahlenwert,
                                       QColor Farbe,

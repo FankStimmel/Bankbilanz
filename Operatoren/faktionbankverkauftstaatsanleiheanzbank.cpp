@@ -6,7 +6,7 @@ FAktionBankVerkauftStaatsanleiheAnZBank::FAktionBankVerkauftStaatsanleiheAnZBank
 
 
 
-FAktionBankVerkauftStaatsanleiheAnZBank::FAktionBankVerkauftStaatsanleiheAnZBank(float BETRAG, int BANKNR){
+FAktionBankVerkauftStaatsanleiheAnZBank::FAktionBankVerkauftStaatsanleiheAnZBank(double BETRAG, int BANKNR){
     Betrag = BETRAG;
     BankNr = BANKNR;
 

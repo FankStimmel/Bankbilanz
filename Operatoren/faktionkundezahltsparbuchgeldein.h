@@ -14,7 +14,7 @@ class FAktionKundeZahltSparbuchgeldEin : public FFinanzTransaktion
 public:
 
     FAktionKundeZahltSparbuchgeldEin();
-    FAktionKundeZahltSparbuchgeldEin(float BETRAG, int BANKNR, int BANKKUNDENNR);
+    FAktionKundeZahltSparbuchgeldEin(double BETRAG, int BANKNR, int BANKKUNDENNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
 
@@ -23,7 +23,7 @@ public:
 private:
 
     // Daten
-    float Betrag;
+    double Betrag;
     int BankKundenNr;
     int BankNr;
 

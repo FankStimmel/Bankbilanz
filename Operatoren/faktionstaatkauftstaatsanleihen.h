@@ -14,7 +14,7 @@ class FAktionStaatKauftStaatsanleihen : public FFinanzTransaktion
 public:
 
     FAktionStaatKauftStaatsanleihen();
-    FAktionStaatKauftStaatsanleihen(float BETRAG, int BANKNR);
+    FAktionStaatKauftStaatsanleihen(double BETRAG, int BANKNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
 
@@ -23,7 +23,7 @@ public:
 private:
 
     // Daten
-    float Betrag;
+    double Betrag;
     int BankNr;
 
 

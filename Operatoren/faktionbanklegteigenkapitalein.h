@@ -14,7 +14,7 @@ class FAktionBankLegtEigenkapitalEin : public FFinanzTransaktion
 public:
 
     FAktionBankLegtEigenkapitalEin();
-    FAktionBankLegtEigenkapitalEin(float BETRAG, int BANKNR);
+    FAktionBankLegtEigenkapitalEin(double BETRAG, int BANKNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
 
@@ -23,7 +23,7 @@ public:
 private:
 
     // Daten
-    float Betrag;
+    double Betrag;
     int BankNr;
 
 

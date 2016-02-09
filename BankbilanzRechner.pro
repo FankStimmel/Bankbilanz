@@ -55,7 +55,8 @@ SOURCES += main.cpp\
         Operatoren/faktionpresetabcdhabenkrediteaufgenommen.cpp \
         fmypushbutton.cpp \
     Operatoren/faktionbankzahltkreditananderebankzurueck.cpp \
-    dialoginfo.cpp
+    dialoginfo.cpp \
+    Operatoren/faktionbankzahltbonian.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -99,7 +100,8 @@ HEADERS  += mainwindow.h \
     Operatoren/faktionpresetabcdhabenkrediteaufgenommen.h \
     fmypushbutton.h \
     Operatoren/faktionbankzahltkreditananderebankzurueck.h \
-    dialoginfo.h
+    dialoginfo.h \
+    Operatoren/faktionbankzahltbonian.h
 
 
 FORMS    += mainwindow.ui \

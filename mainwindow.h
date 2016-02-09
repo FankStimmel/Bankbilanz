@@ -34,6 +34,7 @@
 #include "Operatoren/faktionbankzahltkreditbeiderzbankzurueck.h"
 #include "Operatoren/faktionbankverkauftstaatsanleiheanzbank.h"
 #include "Operatoren/faktionbankkauftwertpapiere.h"
+#include "Operatoren/faktionbankzahltbonian.h"
 
 #include "Operatoren/faktionkundenimmtkreditauf.h"
 #include "Operatoren/faktionkundeuebergibtbargeldan.h"
@@ -130,6 +131,7 @@ private:
     FMyPushButton *PushButtonBankLegtEigenkapitalEin;
     FMyPushButton *PushButtonBankKaufWertpapiereAn;
     FMyPushButton *PushButtonBankZahltKreditAnAndereBankZurueck;
+    FMyPushButton *PushButtonBankZahltBoniAn;
 
     //
     FMyPushButton *PushButtonBankFuehrtClearingverfahrenDurch;
@@ -172,6 +174,9 @@ public slots:
 
     void Slot_Bank_legt_Eigenkapital_ein();
     void Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_legt_Eigenkapital_ein(bool wert);
+
+    void Slot_Bank_zahlt_Boni_an_Kunden();
+    void Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_zahlt_Boni_an_Kunden(bool wert);
 
     void Slot_Bank_fuehrt_Clearingverfahren_durch();
     void Slot_neue_Ueberweisungsbetraege_fuer_das_Clearingverfahren();

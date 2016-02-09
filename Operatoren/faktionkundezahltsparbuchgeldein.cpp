@@ -5,7 +5,7 @@ FAktionKundeZahltSparbuchgeldEin::FAktionKundeZahltSparbuchgeldEin(){
     }
 
 
-FAktionKundeZahltSparbuchgeldEin::FAktionKundeZahltSparbuchgeldEin(float BETRAG, int BANKNR, int BANKKUNDENNR){
+FAktionKundeZahltSparbuchgeldEin::FAktionKundeZahltSparbuchgeldEin(double BETRAG, int BANKNR, int BANKKUNDENNR){
     Betrag       = BETRAG;
     BankKundenNr = BANKKUNDENNR;
     BankNr       = BANKNR;
