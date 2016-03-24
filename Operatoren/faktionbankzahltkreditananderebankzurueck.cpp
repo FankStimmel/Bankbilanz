@@ -6,7 +6,7 @@ FAktionBankZahltKreditAnAndereBankZurueck::FAktionBankZahltKreditAnAndereBankZur
 
 FAktionBankZahltKreditAnAndereBankZurueck::FAktionBankZahltKreditAnAndereBankZurueck(int vonBankNR,
                                                                                      int nachBankNR,
-                                                                                     double BETRAG){
+                                                                                     FGeld BETRAG){
     vonBankNr  = vonBankNR;
     nachBankNr = nachBankNR;
     Betrag     = BETRAG;

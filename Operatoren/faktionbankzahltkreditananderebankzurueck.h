@@ -14,7 +14,7 @@ class FAktionBankZahltKreditAnAndereBankZurueck : public FFinanzTransaktion
 public:
 
     FAktionBankZahltKreditAnAndereBankZurueck();
-    FAktionBankZahltKreditAnAndereBankZurueck(int GlaubigerBankNR, int SchuldnerBankNR, double BETRAG);
+    FAktionBankZahltKreditAnAndereBankZurueck(int GlaubigerBankNR, int SchuldnerBankNR, FGeld BETRAG);
     ~FAktionBankZahltKreditAnAndereBankZurueck();
 
     void Execute_on(FAlleDaten *AlleDaten);
@@ -22,7 +22,7 @@ public:
 private:
     int vonBankNr;
     int nachBankNr;
-    double Betrag;
+    FGeld Betrag;
 
 };
 

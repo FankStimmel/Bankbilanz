@@ -5,7 +5,7 @@ FAktionBankTauschtZentralbankgeldInBargeld::FAktionBankTauschtZentralbankgeldInB
     }
 
 
-FAktionBankTauschtZentralbankgeldInBargeld::FAktionBankTauschtZentralbankgeldInBargeld(double BETRAG, int BANKNR){
+FAktionBankTauschtZentralbankgeldInBargeld::FAktionBankTauschtZentralbankgeldInBargeld(FGeld BETRAG, int BANKNR){
     Betrag = BETRAG;
     BankNr = BANKNR;
     }

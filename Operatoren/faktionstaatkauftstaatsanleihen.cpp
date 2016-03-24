@@ -5,7 +5,7 @@ FAktionStaatKauftStaatsanleihen::FAktionStaatKauftStaatsanleihen(){
     }
 
 
-FAktionStaatKauftStaatsanleihen::FAktionStaatKauftStaatsanleihen(double BETRAG, int BANKNR){
+FAktionStaatKauftStaatsanleihen::FAktionStaatKauftStaatsanleihen(FGeld BETRAG, int BANKNR){
     Betrag = BETRAG;
     BankNr = BANKNR;
     }
@@ -26,6 +26,6 @@ void FAktionStaatKauftStaatsanleihen::Execute_on(FAlleDaten *AlleDaten){
 
 
     // Beschreibung der Operation
-    BeschreibungDerOperation =   ") Der Staat hat  " + QString::number(Betrag)
+    BeschreibungDerOperation =   ") Der Staat hat  " + Betrag.Get_Euro_as_QString()
                                + "  Staatsanleihen gekauft.";
     }

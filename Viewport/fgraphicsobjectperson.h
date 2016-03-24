@@ -49,7 +49,7 @@ private:
     void Zeichne_Kasten_in_der_Bilanz(QPainter* p,
                                       float x, float y, float xText,
                                       QString Text,
-                                      double Zahlenwert,
+                                      FGeld Zahlenwert,
                                       QColor Farbe,
                                       bool fetterRahmen);
 

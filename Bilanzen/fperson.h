@@ -1,7 +1,7 @@
 #ifndef FPERSON_H
 #define FPERSON_H
 
-
+#include "fgeld.h"
 #include <QtGui>
 
 
@@ -19,15 +19,14 @@ public:
     // Daten
     QString PersonenName;
     QString PersonenBuchstabe;
-    double Bargeld;
-    double Schulden;
+    FGeld Bargeld;
 
     bool DickerRahmenBarGeld;
-    bool DickerRahmenSchulden;
 
 
     // Methoden
     void Reset_Personenbilanz_to_Null();
+    void Reset_alle_Rahmenstaerken_to_Duenn();
     QString Checken_ob_Bilanz_valide_ist_sonst_Fehlermeldung();
 
 

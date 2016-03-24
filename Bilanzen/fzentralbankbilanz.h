@@ -2,6 +2,7 @@
 #define FZENTRALBANKBILANZ_H
 
 
+#include "fgeld.h"
 #include <QtGui>
 
 
@@ -29,13 +30,13 @@ public:
 
 
     // Aktiva
-    QVector <double> ForderungAnBanken;
-    QVector <double> Staatsanleihen;
+    QVector <FGeld> ForderungAnBanken;
+    QVector <FGeld> Staatsanleihen;
 
     // Passiva
-    QVector <double> ZGeldGuthabenVonBanken;
-    double Bargeldumlauf;
-    double Eigenkapital;
+    QVector <FGeld> ZGeldGuthabenVonBanken;
+    FGeld Bargeldumlauf;
+    FGeld Eigenkapital;
 
 
     // Rahmenstärke Aktivseite

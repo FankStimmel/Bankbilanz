@@ -2,6 +2,7 @@
 #define GESCHAEFTSBANKBILANZ_H
 
 
+#include "fgeld.h"
 #include <QtGui>
 #include "feinstellungen.h"
 
@@ -24,7 +25,7 @@ public:
     QString Get_MindestReserveQuote_as_QString();
     QString Get_EigenKapitalQuote_as_String();
     double Get_EigenKapitalQuote();
-    double Get_Summe_der_vergebenen_Kredite();
+    FGeld Get_Summe_der_vergebenen_Kredite();
     bool Ist_die_Aktivsumme_gleich_der_Passivsumme();
 
 
@@ -41,21 +42,21 @@ public:
 
 
     // Aktiva
-    double BarGeldDerBank;
-    double ZentralbankGeldguthaben;
-    double KreditBeiAndererBank;
-    QVector <double> KrediteVonKunden;
-    double Staatsanleihen;
-    double Wertpapiere;
+    FGeld BarGeldDerBank;
+    FGeld ZentralbankGeldguthaben;
+    FGeld KreditBeiAndererBank;
+    QVector <FGeld> KrediteVonKunden;
+    FGeld Staatsanleihen;
+    FGeld Wertpapiere;
 
 
     // Passiva
-    double VerbindGegenZentralbank;
-    double VerbindGegenAndereBank;
-    QVector <double> SparbuchKonten;
-    QVector <double> GiroKonten;
-    double StaatsGiroKonto;
-    double Eigenkapital;
+    FGeld VerbindGegenZentralbank;
+    FGeld VerbindGegenAndereBank;
+    QVector <FGeld> SparbuchKonten;
+    QVector <FGeld> GiroKonten;
+    FGeld StaatsGiroKonto;
+    FGeld Eigenkapital;
 
 
 

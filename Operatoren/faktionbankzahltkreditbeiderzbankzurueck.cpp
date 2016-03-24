@@ -5,7 +5,7 @@ FAktionBankZahltKreditBeiDerZBankZurueck::FAktionBankZahltKreditBeiDerZBankZurue
     }
 
 
-FAktionBankZahltKreditBeiDerZBankZurueck::FAktionBankZahltKreditBeiDerZBankZurueck(double BETRAG, int BANKNR){
+FAktionBankZahltKreditBeiDerZBankZurueck::FAktionBankZahltKreditBeiDerZBankZurueck(FGeld BETRAG, int BANKNR){
     Betrag       = BETRAG;
     BankNr       = BANKNR;
     }
@@ -28,6 +28,6 @@ void FAktionBankZahltKreditBeiDerZBankZurueck::Execute_on(FAlleDaten *AlleDaten)
 
     // Beschreibung der Operation
     BeschreibungDerOperation =   ") Die " + AlleDaten->Banken[BankNr].NameDerBank + "  hat  "
-                               + QString::number(Betrag)
+                               + Betrag.Get_Euro_as_QString()
                                + "  Euro Kredit bei der Z-Bank zurückgezahlt.";
     }

@@ -13,7 +13,7 @@ class FAktionKundeZahltKreditZurueck : public FFinanzTransaktion
 public:
 
     FAktionKundeZahltKreditZurueck();
-    FAktionKundeZahltKreditZurueck(double BETRAG, int BANKNR, int BANKKUNDENNR);
+    FAktionKundeZahltKreditZurueck(FGeld BETRAG, int BANKNR, int BANKKUNDENNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
 
@@ -22,7 +22,7 @@ public:
 private:
 
     // Daten
-    double Betrag;
+    FGeld Betrag;
     int BankKundenNr;
     int BankNr;
 

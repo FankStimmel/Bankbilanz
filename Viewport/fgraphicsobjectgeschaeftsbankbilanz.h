@@ -56,13 +56,13 @@ private:
     // Methoden
     void Zeichne_Kasten(QPainter* p,
                         float x, float y,
-                        double Zahlenwert,
+                        FGeld Zahlenwert,
                         QColor Farbe,
                         bool fetterRahmen);
 
     void Zeichne_Beschriftung_mit_Kasten(QPainter* p,
                                          int x, int y,
-                                         double Zahlenwert,
+                                         FGeld Zahlenwert,
                                          QColor Farbe,
                                          bool fetterRahmen,
                                          double xText, double yText,

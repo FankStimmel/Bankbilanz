@@ -13,10 +13,10 @@ class FAktionClearingVerfahrenAusfuehren : public FFinanzTransaktion
 
 public:
     FAktionClearingVerfahrenAusfuehren();
-    FAktionClearingVerfahrenAusfuehren(double ATOC, double ATOD,
-                                       double BTOC, double BTOD,
-                                       double CTOA, double CTOB,
-                                       double DTOA, double DTOB);
+    FAktionClearingVerfahrenAusfuehren(FGeld ATOC, FGeld ATOD,
+                                       FGeld BTOC, FGeld BTOD,
+                                       FGeld CTOA, FGeld CTOB,
+                                       FGeld DTOA, FGeld DTOB);
 
     void Execute_on(FAlleDaten *AlleDaten);
     void Set_Dicke_Rahmen(FAlleDaten *AlleDaten, bool wert);
@@ -26,7 +26,7 @@ public:
 private:
 
     // Daten
-    double AToC,AToD,BToC,BToD,CToA,CToB,DToA,DToB;
+    FGeld AToC,AToD,BToC,BToD,CToA,CToB,DToA,DToB;
 
 
 };

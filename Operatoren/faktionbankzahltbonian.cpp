@@ -5,7 +5,7 @@ FAktionBankZahltBoniAn::FAktionBankZahltBoniAn(){
     }
 
 
-FAktionBankZahltBoniAn::FAktionBankZahltBoniAn(double BETRAG, int BANKNR, int KUNDENNR){
+FAktionBankZahltBoniAn::FAktionBankZahltBoniAn(FGeld BETRAG, int BANKNR, int KUNDENNR){
     Betrag   = BETRAG;
     BankNr   = BANKNR;
     KundenNr = KUNDENNR;

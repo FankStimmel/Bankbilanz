@@ -13,14 +13,14 @@ class FAktionBankZahltBoniAn : public FFinanzTransaktion
 public:
 
     FAktionBankZahltBoniAn();
-    FAktionBankZahltBoniAn(double BETRAG, int BANKNR, int KUNDENNR);
+    FAktionBankZahltBoniAn(FGeld BETRAG, int BANKNR, int KUNDENNR);
     ~FAktionBankZahltBoniAn();
 
     void Execute_on(FAlleDaten *AlleDaten);
 
 
 private:
-    double Betrag;
+    FGeld Betrag;
     int KundenNr;
     int BankNr;
 

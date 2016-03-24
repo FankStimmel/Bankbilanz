@@ -34,16 +34,16 @@ void FMyClearingWidget::paintEvent(QPaintEvent *event){
     Zeichne_eine_Ueberweisungsposition(&painter, 60 + 6*40, "B", "C", CToB, "nachLinks");
     Zeichne_eine_Ueberweisungsposition(&painter, 60 + 7*40, "B", "D", DToB, "nachLinks");
 
-    painter.drawText(10,390,"Summe:");
+    painter.drawText(10,390,"Differenzzahlung:");
 
     // Zahlungsdifferenz anzeigen
-    double VonBankA = AToC + AToD + BToC + BToD;
-    double VonBankB = CToA + CToB + DToA + DToB;
-    if(VonBankA >= VonBankB){
-        Zeichne_eine_Ueberweisungsposition(&painter, 410, "", "", VonBankA - VonBankB, "nachRechts");
+    FGeld VonBankA = AToC + AToD + BToC + BToD;
+    FGeld VonBankB = CToA + CToB + DToA + DToB;
+    if(VonBankA.Get_Euro() >= VonBankB.Get_Euro()){
+        Zeichne_eine_Ueberweisungsposition(&painter, 420, "X", "Y", VonBankA - VonBankB, "nachRechts");
         }
-    if(VonBankB > VonBankA){
-        Zeichne_eine_Ueberweisungsposition(&painter, 410, "", "", VonBankB - VonBankA, "nachLinks");
+    if(VonBankB.Get_Euro() > VonBankA.Get_Euro()){
+        Zeichne_eine_Ueberweisungsposition(&painter, 420, "X", "Y", VonBankB - VonBankA, "nachLinks");
         }
 
     event->accept();
@@ -53,12 +53,12 @@ void FMyClearingWidget::paintEvent(QPaintEvent *event){
 //###################################################################################################################################
 
 
-void FMyClearingWidget::Zeichne_eine_Ueberweisungsposition(QPainter *painter, int y, QString von, QString nach, double Betrag, QString Richtung){
+void FMyClearingWidget::Zeichne_eine_Ueberweisungsposition(QPainter *painter, int y, QString von, QString nach, FGeld Betrag, QString Richtung){
     int LinieXStart = 60;
     int LinieXEnd   = 200;
     painter->drawText(LinieXStart-35, y+5,von);
     painter->drawText(LinieXEnd+20,y+5,nach);
-    painter->drawText(120, y-5,QString::number(Betrag) + " €");
+    painter->drawText(120, y-5,Betrag.Get_Euro_as_QString() + " €");
     painter->drawLine(LinieXStart, y,LinieXEnd,y);
 
     // Pfeile zeichnen
@@ -90,50 +90,51 @@ void FMyClearingWidget::Zeichne_eine_Ueberweisungsposition(QPainter *painter, in
 void FMyClearingWidget::Ueberweisungsbetraege_eintragen(FAlleDaten AlleDaten){
 
     // Zufallszahlen initialisieren.
-    AToC = 0.0;
-    AToD = 0.0;
-    BToC = 0.0;
-    BToD = 0.0;
-    CToA = 0.0;
-    CToB = 0.0;
-    DToA = 0.0;
-    DToB = 0.0;
+    AToC = FGeld("",0.0);
+    AToD = FGeld("",0.0);
+    BToC = FGeld("",0.0);
+    BToD = FGeld("",0.0);
+    CToA = FGeld("",0.0);
+    CToB = FGeld("",0.0);
+    DToA = FGeld("",0.0);
+    DToB = FGeld("",0.0);
 
     // Nur wenn auf dem Konto mehr als 10 Euro sind, können ausgehende Überweiseungen getätigt werden.
-    if(AlleDaten.Banken[0].GiroKonten[0] > 10 ){
-        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[0].GiroKonten[0];
-        AToC = Runden_auf_Cent(rand() % MaxZufallsBetrag);
-        AToD = Runden_auf_Cent(rand() % MaxZufallsBetrag);
+    if(AlleDaten.Banken[0].GiroKonten[0].Get_Euro() > 10 ){
+        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[0].GiroKonten[0].Get_Euro();
+        AToC = Zufallszahl_bis(MaxZufallsBetrag);
+        AToD = Zufallszahl_bis(MaxZufallsBetrag);
         }
 
-    if(AlleDaten.Banken[0].GiroKonten[1] > 10 ){
-        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[0].GiroKonten[1];
-        BToC = Runden_auf_Cent(rand() % MaxZufallsBetrag);
-        BToD = Runden_auf_Cent(rand() % MaxZufallsBetrag);
+    if(AlleDaten.Banken[0].GiroKonten[1].Get_Euro() > 10 ){
+        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[0].GiroKonten[1].Get_Euro();
+        BToC = Zufallszahl_bis(MaxZufallsBetrag);
+        BToD = Zufallszahl_bis(MaxZufallsBetrag);
         }
 
-    if(AlleDaten.Banken[1].GiroKonten[0] > 10 ){
-        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[1].GiroKonten[0];
-        CToA = Runden_auf_Cent(rand() % MaxZufallsBetrag);
-        CToB = Runden_auf_Cent(rand() % MaxZufallsBetrag);
+    if(AlleDaten.Banken[1].GiroKonten[0].Get_Euro() > 10 ){
+        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[1].GiroKonten[0].Get_Euro();
+        CToA = Zufallszahl_bis(MaxZufallsBetrag);
+        CToB = Zufallszahl_bis(MaxZufallsBetrag);
         }
 
-    if(AlleDaten.Banken[1].GiroKonten[1] > 10 ){
-        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[1].GiroKonten[1];
-        DToA = Runden_auf_Cent(rand() % MaxZufallsBetrag);
-        DToB = Runden_auf_Cent(rand() % MaxZufallsBetrag);
+    if(AlleDaten.Banken[1].GiroKonten[1].Get_Euro() > 10 ){
+        int MaxZufallsBetrag = 0.2 * AlleDaten.Banken[1].GiroKonten[1].Get_Euro();
+        DToA = Zufallszahl_bis(MaxZufallsBetrag);
+        DToB = Zufallszahl_bis(MaxZufallsBetrag);
         }
 
     update();
     }
 
-//###################################################################################################################################
+
+//############################################################################################################
 
 
-double FMyClearingWidget::Runden_auf_Cent(double wert){
-    return(0.01*round(100.0*wert));
+FGeld FMyClearingWidget::Zufallszahl_bis(int MaxZufallsBetrag){
+    FGeld Betrag("",rand() %MaxZufallsBetrag);
+    return(Betrag);
     }
-
 
 
 

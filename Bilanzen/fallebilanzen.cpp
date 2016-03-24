@@ -33,6 +33,8 @@ FAlleDaten::FAlleDaten(){
 void FAlleDaten::Reset_alle_Rahmenstaerke_auf_duenn(){
     Banken[0].Reset_alle_Rahmenstaerken_to_Duenn();
     Banken[1].Reset_alle_Rahmenstaerken_to_Duenn();
+    for(int i=0; i<4; i++)
+        Kunden[i].Reset_alle_Rahmenstaerken_to_Duenn();
     }
 
 
@@ -64,15 +66,16 @@ void FAlleDaten::Initialisiere_alle_Bilanzen(){
     // Reset
     Reset_alle_Daten_to_Null();
 
+
     // Zentralbank
-    Zentralbank.ForderungAnBanken[2] = 1000;
-    Zentralbank.Bargeldumlauf        = 1000;
+    Zentralbank.ForderungAnBanken[2] = FGeld("",1000);
+    Zentralbank.Bargeldumlauf        = FGeld("",1000);
 
 
     // Geschäftsbanken
     for(int i=0; i<2; i++){
-        Banken[i].BarGeldDerBank = 500;
-        Banken[i].Eigenkapital   = 500;
+        Banken[i].BarGeldDerBank = FGeld("",500);
+        Banken[i].Eigenkapital   = FGeld("",500);
         }
     }
 
@@ -84,14 +87,10 @@ void FAlleDaten::Set_alle_Daten_to_Preset_ABCD_haben_Kredite_aufgenommen(){
     Initialisiere_alle_Bilanzen();
 
     // Kundenkredite
-    for(int KundenNr=0;KundenNr<4;KundenNr++){
-        Kunden[KundenNr].Schulden += 3000;
-        }
-
     for(int BankNr=0; BankNr<2; BankNr++){
         for(int KundenNr=0; KundenNr<2; KundenNr++){
-            Banken[BankNr].GiroKonten[KundenNr]       += 3000;
-            Banken[BankNr].KrediteVonKunden[KundenNr] += 3000;
+            Banken[BankNr].GiroKonten[KundenNr]       += FGeld("",3000.0);
+            Banken[BankNr].KrediteVonKunden[KundenNr] += FGeld("",3000.0);
             }
         }
     }
@@ -144,7 +143,7 @@ QString FAlleDaten::Checken_ob_alle_Bilanzen_valide_sind_sonst_Fehlermeldung(){
 QString FAlleDaten::Get_Eigenkapitalrendite_Bank(int i){
     if(Jahr == 0) return("0 %");
 
-    double wert = (pow(Banken[i].Eigenkapital / 500.0, 1.0/Jahr) - 1.0) * 100;
+    double wert = (pow(Banken[i].Eigenkapital.Get_Euro() / 500.0, 1.0/Jahr) - 1.0) * 100;
     return(QString::number(wert,'f',2) + " %");
     }
 

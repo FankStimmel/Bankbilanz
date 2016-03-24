@@ -54,9 +54,10 @@ SOURCES += main.cpp\
         Operatoren/faktionclearingverfahrenausfuehren.cpp \
         Operatoren/faktionpresetabcdhabenkrediteaufgenommen.cpp \
         fmypushbutton.cpp \
-    Operatoren/faktionbankzahltkreditananderebankzurueck.cpp \
-    dialoginfo.cpp \
-    Operatoren/faktionbankzahltbonian.cpp
+        Operatoren/faktionbankzahltkreditananderebankzurueck.cpp \
+        dialoginfo.cpp \
+        fgeld.cpp \
+        Operatoren/faktionbankzahltbonian.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -94,19 +95,20 @@ HEADERS  += mainwindow.h \
         fmylabel.h \
         Operatoren/faktionkundezahltsparbuchgeldein.h \
         Operatoren/faktionkundehebtsparbuchgeldab.h \
-    fmyclearingwidget.h \
-    fmultistatepushbutton.h \
-    Operatoren/faktionclearingverfahrenausfuehren.h \
-    Operatoren/faktionpresetabcdhabenkrediteaufgenommen.h \
-    fmypushbutton.h \
-    Operatoren/faktionbankzahltkreditananderebankzurueck.h \
-    dialoginfo.h \
-    Operatoren/faktionbankzahltbonian.h
+        fmyclearingwidget.h \
+        fmultistatepushbutton.h \
+        Operatoren/faktionclearingverfahrenausfuehren.h \
+        Operatoren/faktionpresetabcdhabenkrediteaufgenommen.h \
+        fmypushbutton.h \
+        Operatoren/faktionbankzahltkreditananderebankzurueck.h \
+        dialoginfo.h \
+        fgeld.h \
+        Operatoren/faktionbankzahltbonian.h
 
 
 FORMS    += mainwindow.ui \
-    fmyclearingwidget.ui \
-    dialoginfo.ui
+        fmyclearingwidget.ui \
+        dialoginfo.ui
 
 RESOURCES += \
-    myresources.qrc
+        myresources.qrc

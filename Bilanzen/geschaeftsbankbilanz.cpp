@@ -12,21 +12,23 @@ FGeschaeftsbankBilanz::FGeschaeftsbankBilanz(){
     NameDerBank           = "Leer";
 
 
+    FGeld Nichts("",0.0);
+
     // Aktiva
-    BarGeldDerBank = 0;
-    ZentralbankGeldguthaben = 0;
-    KreditBeiAndererBank = 0;
-    KrediteVonKunden << 0 << 0;
-    Staatsanleihen = 0;
-    Wertpapiere    = 0;
+    BarGeldDerBank = Nichts;
+    ZentralbankGeldguthaben = Nichts;
+    KreditBeiAndererBank = Nichts;
+    KrediteVonKunden << Nichts << Nichts;
+    Staatsanleihen = Nichts;
+    Wertpapiere    = Nichts;
 
     // Passiva
-    VerbindGegenZentralbank = 0;
-    VerbindGegenAndereBank = 0;
-    SparbuchKonten << 0 << 0;
-    GiroKonten     << 0 << 0;
-    StaatsGiroKonto = 0;
-    Eigenkapital    = 0;
+    VerbindGegenZentralbank = Nichts;
+    VerbindGegenAndereBank = Nichts;
+    SparbuchKonten << Nichts << Nichts;
+    GiroKonten     << Nichts << Nichts;
+    StaatsGiroKonto = Nichts;
+    Eigenkapital    = Nichts;
 
 
     // Rahmenstärke Aktivseite
@@ -55,20 +57,20 @@ FGeschaeftsbankBilanz::FGeschaeftsbankBilanz(QString BUCHSTABE){
 
 
     // Aktiva
-    BarGeldDerBank = 0;
-    ZentralbankGeldguthaben = 0;
-    KreditBeiAndererBank = 0;
-    KrediteVonKunden << 0 << 0;
-    Staatsanleihen = 0;
-    Wertpapiere    = 0;
+    BarGeldDerBank          = FGeld("",0.0);
+    ZentralbankGeldguthaben = FGeld("",0.0);
+    KreditBeiAndererBank    = FGeld("",0.0);
+    KrediteVonKunden << FGeld("",0.0) << FGeld("",0.0);
+    Staatsanleihen = FGeld("",0.0);
+    Wertpapiere    = FGeld("",0.0);
 
     // Passiva
-    VerbindGegenZentralbank = 0;
-    VerbindGegenAndereBank = 0;
-    SparbuchKonten << 0 << 0;
-    GiroKonten     << 0 << 0;
-    StaatsGiroKonto = 0;
-    Eigenkapital    = 0;
+    VerbindGegenZentralbank = FGeld("",0.0);
+    VerbindGegenAndereBank  = FGeld("",0.0);
+    SparbuchKonten << FGeld("",0.0) << FGeld("",0.0);
+    GiroKonten     << FGeld("",0.0) << FGeld("",0.0);
+    StaatsGiroKonto = FGeld("",0.0);
+    Eigenkapital    = FGeld("",0.0);
 
     // Rahmenstärke Aktivseite
     DickerRahmenBarGeldDerBank          = false;
@@ -98,6 +100,7 @@ void FGeschaeftsbankBilanz::Reset_alle_Rahmenstaerken_to_Duenn(){
     // Aktivseite
     DickerRahmenBarGeldDerBank          = false;
     DickerRahmenZentralbankGeldguthaben = false;
+    DickerRahmenKreditBeiAndererBank    = false;
     DickerRahmenHypotheken[0]           = false;
     DickerRahmenHypotheken[1]           = false;
     DickerRahmenStaatsanleihen          = false;
@@ -105,6 +108,7 @@ void FGeschaeftsbankBilanz::Reset_alle_Rahmenstaerken_to_Duenn(){
 
     // Rahmenstärke Passiv
     DickerRahmenVerbindGegenZentralbank = false;
+    DickerRahmenVerbindGegenAndereBank  = false;
     DickerRahmenSparbuchKonten[0]       = false;
     DickerRahmenSparbuchKonten[1]       = false;
     DickerRahmenGiroKonten[0]           = false;
@@ -120,23 +124,23 @@ void FGeschaeftsbankBilanz::Reset_alle_Rahmenstaerken_to_Duenn(){
 void FGeschaeftsbankBilanz::Reset_Geschaeftsbankbilanz_to_Null(){
 
     // Aktiva
-    BarGeldDerBank          = 0;
-    ZentralbankGeldguthaben = 0;
-    KreditBeiAndererBank    = 0;
-    KrediteVonKunden[0]     = 0;
-    KrediteVonKunden[1]     = 0;
-    Staatsanleihen          = 0;
-    Wertpapiere             = 0;
+    BarGeldDerBank          = FGeld("",0.0);
+    ZentralbankGeldguthaben = FGeld("",0.0);
+    KreditBeiAndererBank    = FGeld("",0.0);
+    KrediteVonKunden[0]     = FGeld("",0.0);
+    KrediteVonKunden[1]     = FGeld("",0.0);
+    Staatsanleihen          = FGeld("",0.0);
+    Wertpapiere             = FGeld("",0.0);
 
     // Passiva
-    VerbindGegenZentralbank = 0;
-    VerbindGegenAndereBank  = 0;
-    SparbuchKonten[0]       = 0;
-    SparbuchKonten[1]       = 0;
-    GiroKonten[0]           = 0;
-    GiroKonten[1]           = 0;
-    StaatsGiroKonto         = 0;
-    Eigenkapital            = 0;
+    VerbindGegenZentralbank = FGeld("",0.0);
+    VerbindGegenAndereBank  = FGeld("",0.0);
+    SparbuchKonten[0]       = FGeld("",0.0);
+    SparbuchKonten[1]       = FGeld("",0.0);
+    GiroKonten[0]           = FGeld("",0.0);
+    GiroKonten[1]           = FGeld("",0.0);
+    StaatsGiroKonto         = FGeld("",0.0);
+    Eigenkapital            = FGeld("",0.0);
     }
 
 
@@ -146,80 +150,80 @@ void FGeschaeftsbankBilanz::Reset_Geschaeftsbankbilanz_to_Null(){
 QString FGeschaeftsbankBilanz::Checken_ob_Bilanz_valide_ist_sonst_Fehlermeldung(){
 
     // Aktiva
-    if(BarGeldDerBank < 0 ){
+    if(BarGeldDerBank.Get_Cents() < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Die " + NameDerBank + " hat zu wenig Bargeld.");
         }
 
-    if(ZentralbankGeldguthaben < 0){
+    if(ZentralbankGeldguthaben.Get_Cents() < 0){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Die " + NameDerBank + " hat zu wenig Zentralbankgeldguthaben.");
         }
 
-    if(KreditBeiAndererBank < 0 ){
+    if(KreditBeiAndererBank.Get_Cents() < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Die Position Bankkredite darf nicht negativ sein.");
         }
 
-    if(KrediteVonKunden[0] < 0 ){
+    if(KrediteVonKunden[0].Get_Cents() < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Der Kunde 0 hat bei der " + NameDerBank + " nicht so viele Kredite.");
         }
 
-    if(KrediteVonKunden[1] < 0 ){
+    if(KrediteVonKunden[1].Get_Cents() < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Der Kunde 1 hat bei der " + NameDerBank + " nicht so viele Kredite.");
         }
 
-    if(Staatsanleihen < 0 ){
+    if(Staatsanleihen.Get_Cents() < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Die " + NameDerBank + " hat nicht so viele Staatsanleihen.");
         }
 
-    if(Wertpapiere < 0){
+    if(Wertpapiere.Get_Cents() < 0){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Die " + NameDerBank + " hat nicht so viele Wertpapiere.");
         }
 
 
     // Passiva
-    if(VerbindGegenZentralbank < 0){
+    if(VerbindGegenZentralbank.Get_Cents() < 0){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Die Verbindlichkeiten gegen die Zentralbank von der " + NameDerBank + " dürfen nicht kleiner Null sein.");
         }
 
 
-    if(VerbindGegenAndereBank < 0 ){
+    if(VerbindGegenAndereBank.Get_Cents() < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Die Position BankVerbind. darf nicht negativ sein.");
         }
 
-    if(SparbuchKonten[0] < 0){
+    if(SparbuchKonten[0].Get_Cents() < 0){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Der Kunde 0 hat nicht genug Geld auf dem Sparbuch.");
         }
 
-    if(SparbuchKonten[1] < 0){
+    if(SparbuchKonten[1].Get_Cents() < 0){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Der Kunde 0 hat nicht genug Geld auf dem Sparbuch.");
         }
 
-    if(GiroKonten[0] < 0){
+    if(GiroKonten[0].Get_Cents() < 0){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Der Kunde 0 hat nicht genug Geld auf dem Girokonto.");
         }
 
-    if(GiroKonten[1] < 0){
+    if(GiroKonten[1].Get_Cents() < 0){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Der Kunde 1 hat nicht genug Geld auf dem Girokonto.");
         }
 
-    if(StaatsGiroKonto < 0 ){
+    if(StaatsGiroKonto.Get_Cents() < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Der Staat hat nicht genug Geld auf dem Girokonto.");
         }
 
-    if(Eigenkapital < 0 ){
+    if(Eigenkapital.Get_Cents() < 0 ){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
                "Das Eigenkapital der " + NameDerBank + " darf nicht kleiner Null sein.");
         }
@@ -228,8 +232,8 @@ QString FGeschaeftsbankBilanz::Checken_ob_Bilanz_valide_ist_sonst_Fehlermeldung(
     // Eigenkapitalquote checken
     if(Get_EigenKapitalQuote() < 0.08){
         return("In der Bilanz von " + NameDerBank + ": \n\n"
-               "Die " + NameDerBank + " hat nicht genug Eigenkapital, um weitere Aktiva anzukaufen.\n"
-               "Basel II verlangt mindestens  8 %.");
+               "Die " + NameDerBank + " hat nicht genug Eigenkapital.\n"
+               "Basel III verlangt mindestens  8 %.");
         }
 
 
@@ -246,10 +250,18 @@ QString FGeschaeftsbankBilanz::Checken_ob_Bilanz_valide_ist_sonst_Fehlermeldung(
 
 
 QString FGeschaeftsbankBilanz::Get_EigenKapitalQuote_as_String(){
-    if( KrediteVonKunden[0] == 0  &&  KrediteVonKunden[1] == 0 &&  Staatsanleihen == 0 && Wertpapiere == 0 ){
-        return("unendlich");
-        }
-    double Quote = 100.0 * Eigenkapital / (KrediteVonKunden[0] + KrediteVonKunden[1] + Staatsanleihen + Wertpapiere );
+    if( KrediteVonKunden[0].Get_Cents() == 0  &&
+        KrediteVonKunden[1].Get_Cents() == 0  &&
+        Staatsanleihen.Get_Cents() == 0       &&
+        Wertpapiere.Get_Cents() == 0 ){
+            return("unendlich");
+            }
+    double Quote = 100.0 *
+                   Eigenkapital.Get_Euro() /
+                   (KrediteVonKunden[0].Get_Euro()
+                    + KrediteVonKunden[1].Get_Euro()
+                    + Staatsanleihen.Get_Euro()
+                    + Wertpapiere.Get_Euro() );
     return(QString::number(Quote,'f',2) + " %");
     }
 
@@ -258,10 +270,17 @@ QString FGeschaeftsbankBilanz::Get_EigenKapitalQuote_as_String(){
 
 
 double FGeschaeftsbankBilanz::Get_EigenKapitalQuote(){
-    if( KrediteVonKunden[0] == 0  &&  KrediteVonKunden[1] == 0 &&  Staatsanleihen == 0  && Wertpapiere == 0){
+    if(     KrediteVonKunden[0].Get_Cents() == 0
+        &&  KrediteVonKunden[1].Get_Cents() == 0
+        &&  Staatsanleihen.Get_Cents() == 0
+        &&  Wertpapiere.Get_Cents() == 0){
         return(1.0);
         }
-    double Quote = 1.0 * Eigenkapital / (KrediteVonKunden[0] + KrediteVonKunden[1] + Staatsanleihen + Wertpapiere);
+    double Quote = 1.0 * Eigenkapital.Get_Euro() /
+            (KrediteVonKunden[0].Get_Euro()
+            + KrediteVonKunden[1].Get_Euro()
+            + Staatsanleihen.Get_Euro()
+            + Wertpapiere.Get_Euro());
     return(Quote);
     }
 
@@ -270,14 +289,18 @@ double FGeschaeftsbankBilanz::Get_EigenKapitalQuote(){
 
 
 QString FGeschaeftsbankBilanz::Get_MindestReserveQuote_as_QString(){
-    if(    GiroKonten[0] == 0      &&  GiroKonten[1] == 0
-        && SparbuchKonten[1] == 0  &&  SparbuchKonten[1] == 0
-        && StaatsGiroKonto == 0   ){
-            return("unendlich");
-            }
+    FGeld SummeGiralgeld =   GiroKonten[0]
+                           + GiroKonten[1]
+                           + SparbuchKonten[0]
+                           + SparbuchKonten[1]
+                           + StaatsGiroKonto;
 
-    double Quote = 100.00 * (BarGeldDerBank + ZentralbankGeldguthaben )
-                          / (SparbuchKonten[0] + SparbuchKonten[1] + GiroKonten[0] + GiroKonten[1] + StaatsGiroKonto);
+    if( SummeGiralgeld.Get_Cents() == 0 )
+        return("unendlich");
+
+
+    double Quote = 100.00 * (BarGeldDerBank.Get_Euro() + ZentralbankGeldguthaben.Get_Euro() )
+                          / SummeGiralgeld.Get_Euro();
     return(QString::number(Quote,'f',2) + " %");
     }
 
@@ -285,9 +308,10 @@ QString FGeschaeftsbankBilanz::Get_MindestReserveQuote_as_QString(){
 //####################################################################################################################################
 
 
-double FGeschaeftsbankBilanz::Get_Summe_der_vergebenen_Kredite(){
-    double Summe;
-    Summe = KrediteVonKunden[0] + KrediteVonKunden[1] + Staatsanleihen;
+FGeld FGeschaeftsbankBilanz::Get_Summe_der_vergebenen_Kredite(){
+    FGeld Summe =  KrediteVonKunden[0]
+                 + KrediteVonKunden[1]
+                 + Staatsanleihen;
     return(Summe);
     }
 
@@ -297,24 +321,26 @@ double FGeschaeftsbankBilanz::Get_Summe_der_vergebenen_Kredite(){
 
 QString FGeschaeftsbankBilanz::Get_Bilanzsumme_as_String(){
 
-    double AktivsummeSumme =   BarGeldDerBank
+    FGeld AktivsummeSumme =    BarGeldDerBank
                              + ZentralbankGeldguthaben
                              + KreditBeiAndererBank
                              + KrediteVonKunden[0] + KrediteVonKunden[1]
                              + Staatsanleihen
                              + Wertpapiere;
 
-    double PassivSumme     =   VerbindGegenZentralbank
+    FGeld PassivSumme     =    VerbindGegenZentralbank
                              + VerbindGegenAndereBank
                              + SparbuchKonten[0] + SparbuchKonten[1]
                              + GiroKonten[0] + GiroKonten[1]
                              + StaatsGiroKonto
                              + Eigenkapital;
 
-    if(abs(AktivsummeSumme - PassivSumme) > 0.001)
-        qDebug() << "Fehler: Aktiv != Passiv in Geschäftsbank" << AktivsummeSumme << PassivSumme;
+    if( AktivsummeSumme.Get_Cents() != PassivSumme.Get_Cents() )
+        qDebug() << "Fehler: Aktiv != Passiv in Geschäftsbank"
+                 << AktivsummeSumme.Get_Euro_as_QString()
+                 << PassivSumme.Get_Euro_as_QString();
 
-    return(QString::number(AktivsummeSumme,'f',2));
+    return(AktivsummeSumme.Get_Euro_as_QString());
     }
 
 
@@ -323,22 +349,21 @@ QString FGeschaeftsbankBilanz::Get_Bilanzsumme_as_String(){
 
 bool FGeschaeftsbankBilanz::Ist_die_Aktivsumme_gleich_der_Passivsumme(){
 
-    double AktivsummeSumme =  BarGeldDerBank
+    FGeld AktivsummeSumme =   BarGeldDerBank
                             + ZentralbankGeldguthaben
                             + KreditBeiAndererBank
                             + KrediteVonKunden[0] + KrediteVonKunden[1]
                             + Staatsanleihen
                             + Wertpapiere;
 
-    double PassivSumme     =  VerbindGegenZentralbank
+    FGeld PassivSumme     =   VerbindGegenZentralbank
                             + VerbindGegenAndereBank
                             + SparbuchKonten[0] + SparbuchKonten[1]
                             + GiroKonten[0] + GiroKonten[1]
                             + StaatsGiroKonto
                             + Eigenkapital;
 
-    double Epsilon = 0.0001;
-    if(abs(AktivsummeSumme - PassivSumme) < Epsilon){
+    if(AktivsummeSumme.Get_Cents() == PassivSumme.Get_Cents() ){
         return(true);
         }
 

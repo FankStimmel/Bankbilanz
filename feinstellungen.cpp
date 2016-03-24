@@ -72,10 +72,18 @@ QPen FEinstellungen::Pen_Dicker_RoterStift(){
     }
 
 
+
 // Pfade
 QString FEinstellungen::Pfad_zu_Screenshots(){
-    return(QDir::homePath() + "/Bilder/");
+
+    // Ordner eventuel neu erzeugen, wenn er noch nicht existieren sollte.
+    QDir dir(QDir::homePath() + "/ScreenShots");
+    if (!dir.exists())  dir.mkpath(".");
+
+    // Pfad
+    return(QDir::homePath() + "/ScreenShots/");
     }
+
 
 
 // Zinsen

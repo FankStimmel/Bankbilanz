@@ -6,7 +6,7 @@ FAktionBankKauftWertpapiere::FAktionBankKauftWertpapiere(){
 
 
 
-FAktionBankKauftWertpapiere::FAktionBankKauftWertpapiere(double BETRAG, int BANKNR, int BANKKUNDENNR){
+FAktionBankKauftWertpapiere::FAktionBankKauftWertpapiere(FGeld BETRAG, int BANKNR, int BANKKUNDENNR){
     Betrag       = BETRAG;
     BankNr       = BANKNR;
     BankKundenNr = BANKKUNDENNR;

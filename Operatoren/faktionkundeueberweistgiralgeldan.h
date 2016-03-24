@@ -14,7 +14,7 @@ class FAktionKundeUeberweistGiralgeldAn : public FFinanzTransaktion
 public:
 
     FAktionKundeUeberweistGiralgeldAn();
-    FAktionKundeUeberweistGiralgeldAn(double BETRAG,
+    FAktionKundeUeberweistGiralgeldAn(FGeld BETRAG,
                                       int VONBANKNR, int NACHBANKNR,
                                       int VONBANKKUNDENNR, int NACHBANKKUNDENNR);
 
@@ -26,7 +26,7 @@ public:
 private:
 
     // Daten
-    double Betrag;
+    FGeld Betrag;
     int VonBankNr;
     int NachBankNr;
     int VonBankKundenNr;

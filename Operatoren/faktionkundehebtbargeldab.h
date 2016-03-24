@@ -14,7 +14,7 @@ class FAktionKundeHebtBargeldAb : public FFinanzTransaktion
 public:
 
     FAktionKundeHebtBargeldAb();
-    FAktionKundeHebtBargeldAb(double BETRAG, int BANKNR, int PERSONENNR);
+    FAktionKundeHebtBargeldAb(FGeld BETRAG, int BANKNR, int PERSONENNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
 
@@ -23,7 +23,7 @@ public:
 private:
 
     // Daten
-    double Betrag;
+    FGeld Betrag;
     int PersonenNr;
     int BankNr;
 

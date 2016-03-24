@@ -5,7 +5,7 @@ FAktionBankNimmtKreditBeiDerZBankAuf::FAktionBankNimmtKreditBeiDerZBankAuf(){
     }
 
 
-FAktionBankNimmtKreditBeiDerZBankAuf::FAktionBankNimmtKreditBeiDerZBankAuf(double BETRAG, int BANKNR){
+FAktionBankNimmtKreditBeiDerZBankAuf::FAktionBankNimmtKreditBeiDerZBankAuf(FGeld BETRAG, int BANKNR){
     Betrag = BETRAG;
     BankNr = BANKNR;
 
@@ -29,6 +29,6 @@ void FAktionBankNimmtKreditBeiDerZBankAuf::Execute_on(FAlleDaten *AlleDaten){
 
     // Beschreibung der Operation
     BeschreibungDerOperation =   ") Die "  + AlleDaten->Banken[BankNr].NameDerBank
-                               + "  hat  " + QString::number(Betrag)
+                               + "  hat  " + Betrag.Get_Euro_as_QString()
                                + "  Euro Kredit bei der Z-Bank aufgenommen.";
     }

@@ -14,7 +14,7 @@ class FAktionStaatUeberweistGiralgeldAn : public FFinanzTransaktion
 public:
 
     FAktionStaatUeberweistGiralgeldAn();
-    FAktionStaatUeberweistGiralgeldAn(double BETRAG, int NACHBANKNR, int NACHBANKKUNDENNR);
+    FAktionStaatUeberweistGiralgeldAn(FGeld BETRAG, int NACHBANKNR, int NACHBANKKUNDENNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
     void Dicke_Rahmen_zeichnen(FAlleDaten *AlleDaten, bool wert);
@@ -24,7 +24,7 @@ public:
 private:
 
     // Daten
-    double Betrag;
+    FGeld Betrag;
     int NachBankNr;
     int NachBankKundenNr;
 

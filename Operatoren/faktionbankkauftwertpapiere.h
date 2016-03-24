@@ -14,7 +14,7 @@ class FAktionBankKauftWertpapiere : public FFinanzTransaktion
 public:
 
     FAktionBankKauftWertpapiere();
-    FAktionBankKauftWertpapiere(double BETRAG, int BANKNR, int BANKKUNDENNR);
+    FAktionBankKauftWertpapiere(FGeld BETRAG, int BANKNR, int BANKKUNDENNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
 
@@ -23,7 +23,7 @@ public:
 private:
 
     // Daten
-    double Betrag;
+    FGeld Betrag;
     int BankNr;
     int BankKundenNr;
 

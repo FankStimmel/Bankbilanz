@@ -118,7 +118,7 @@ void FViewport::Set_Zentralbankbilanz_sichtbar(bool sichtbar){
 
     // Sichtbar
     if( sichtbar ){
-        for(int i=0; i<2; i++)  AlleBanken[i]->setPos(i*450, -75);
+        for(int i=0; i<2; i++)  AlleBanken[i]->setPos(i*450, -105);
         Zentralbankbilanz->setVisible(true);
         }
     }

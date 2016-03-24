@@ -5,7 +5,7 @@ FAktionKundeUeberweistGiralgeldAn::FAktionKundeUeberweistGiralgeldAn(){
     }
 
 
-FAktionKundeUeberweistGiralgeldAn::FAktionKundeUeberweistGiralgeldAn(double BETRAG,
+FAktionKundeUeberweistGiralgeldAn::FAktionKundeUeberweistGiralgeldAn(FGeld BETRAG,
                                                              int VONBANKNR, int NACHBANKNR,
                                                              int VONBANKKUNDENNR, int NACHBANKKUNDENNR){
     Betrag           = BETRAG;
@@ -66,12 +66,12 @@ void FAktionKundeUeberweistGiralgeldAn::Execute_on(FAlleDaten *AlleDaten){
     // Eventuell in der Bankbilanz VerbindlichkeitGegenAndereBank gegen KreditBeiAndererBank kürzen.
     for(int i=0; i<2; i++){
 
-        double Kre = AlleDaten->Banken[i].KreditBeiAndererBank;
-        double Ver = AlleDaten->Banken[i].VerbindGegenAndereBank;
+        FGeld Kre = AlleDaten->Banken[i].KreditBeiAndererBank;
+        FGeld Ver = AlleDaten->Banken[i].VerbindGegenAndereBank;
 
         // Minimum rauskürzen
-        double Minimum = std::min(Kre,Ver);
-        if(Minimum > 0){
+        FGeld Minimum("",std::min(Kre.Get_Euro(),Ver.Get_Euro()));
+        if(Minimum.Get_Cents() > 0){
             AlleDaten->Banken[i].KreditBeiAndererBank   -= Minimum;
             AlleDaten->Banken[i].VerbindGegenAndereBank -= Minimum;
             }
@@ -83,7 +83,7 @@ void FAktionKundeUeberweistGiralgeldAn::Execute_on(FAlleDaten *AlleDaten){
 
 
     // Beschreibung der Operation
-    BeschreibungDerOperation = ") Kunde  hat  " + QString::number(Betrag) + "  Euro Giralgeld überwiesen.";
+    BeschreibungDerOperation = ") Kunde  hat  " + Betrag.Get_Euro_as_QString() + "  Euro Giralgeld überwiesen.";
     }
 
 

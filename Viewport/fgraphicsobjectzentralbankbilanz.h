@@ -51,14 +51,14 @@ public:
     //Methoden
     void Zeichne_Kasten(QPainter* p,
                         float x, float y,
-                        double Zahlenwert,
+                        FGeld Zahlenwert,
                         QColor Farbe,
                         bool fetterRahmen);
 
     void Zeichne_Kasten_mit_Text(QPainter* p,
                                  float x, float y, float xText,
                                  QString Text,
-                                 double Zahlenwert,
+                                 FGeld Zahlenwert,
                                  QColor Farbe,
                                  bool fetterRahmen);
 

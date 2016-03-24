@@ -13,7 +13,7 @@ class FAktionKundeZahltBargeldEin : public FFinanzTransaktion
 public:
 
     FAktionKundeZahltBargeldEin();
-    FAktionKundeZahltBargeldEin(double BETRAG, int BANKNR, int PERSONENNR);
+    FAktionKundeZahltBargeldEin(FGeld BETRAG, int BANKNR, int PERSONENNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
 
@@ -22,7 +22,7 @@ public:
 private:
 
     // Daten
-    double Betrag;
+    FGeld Betrag;
     int PersonenNr;
     int BankNr;
 

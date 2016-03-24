@@ -2,6 +2,8 @@
 #define DIALOGINFO_H
 
 #include <QDialog>
+#include <QDebug>
+#include <QMouseEvent>
 
 namespace Ui {
 class DialogInfo;
@@ -17,6 +19,15 @@ public:
 
 private:
     Ui::DialogInfo *ui;
+    QString Text_aus_Zitaten,Text_Lizenzrechte;
+    QString aktPassword;
+
+
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
+
+
 };
 
 #endif // DIALOGINFO_H

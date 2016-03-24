@@ -129,12 +129,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     PushButtonSparbuchgeldAuszahlen = new FMyPushButton("auszahlen",ui->frameAktionDesKunden);
     PushButtonSparbuchgeldAuszahlen->setGeometry(130,280,110,30);
 
-    PushButtonKundeUeberweistGiralgeld = new FMyPushButton("Giralgeld",ui->frameAktionDesKunden);
+    PushButtonKundeUeberweistGiralgeld = new FMyPushButton("Giralgeld an",ui->frameAktionDesKunden);
     PushButtonKundeUeberweistGiralgeld->setGeometry(10,380,110,30);
 
-    PushButtonKundeUeberweistBargeld = new FMyPushButton("Bargeld",ui->frameAktionDesKunden);
+    PushButtonKundeUeberweistBargeld = new FMyPushButton("Bargeld an",ui->frameAktionDesKunden);
     PushButtonKundeUeberweistBargeld->setGeometry(130,380,110,30);
 
+
+    // PullDownMenü für Kundenaktionen erstellen.
+    MenuGiralgeldUeberweisen = new QMenu("Giralgeld überweisen an");
+    MenuGiralgeldUeberweisen->addAction("A");
+    MenuGiralgeldUeberweisen->addAction("B");
+    MenuGiralgeldUeberweisen->addAction("C");
+    MenuGiralgeldUeberweisen->addAction("D");
+    MenuGiralgeldUeberweisen->addAction("Staat");
+
+
+    MenuBargeldUeberweisen = new QMenu("Bargeld überweisen an");
+    MenuBargeldUeberweisen->addAction("A");
+    MenuBargeldUeberweisen->addAction("B");
+    MenuBargeldUeberweisen->addAction("C");
+    MenuBargeldUeberweisen->addAction("D");
 
 
      // Push Buttons für Bankaktionen erstellen
@@ -145,33 +160,36 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     PushButtonBankZahltZKreditZurueck->setGeometry(130,90,110,30);
 
     PushButtonBankTauschtBargeldInZGeld = new FMyPushButton("",ui->frameAktionDerBank);
-    PushButtonBankTauschtBargeldInZGeld->setGeometry(140,180,30,60);
+    PushButtonBankTauschtBargeldInZGeld->setGeometry(160,180,30,60);
     PushButtonBankTauschtBargeldInZGeld->setIcon(QIcon(":/Bilder/ArrowDown.png"));
 
     PushButtonBankTauschtZGeldInBargeld = new FMyPushButton("",ui->frameAktionDerBank);
-    PushButtonBankTauschtZGeldInBargeld->setGeometry(180,180,30,60);
+    PushButtonBankTauschtZGeldInBargeld->setGeometry(200,180,30,60);
     PushButtonBankTauschtZGeldInBargeld->setIcon(QIcon(":/Bilder/ArrowUp.png"));
 
-    PushButtonBankVerkauftStaatsanleihenAnZBank = new FMyPushButton("an ZBank verkaufen",ui->frameAktionDerBank);
+    PushButtonBankVerkauftStaatsanleihenAnZBank = new FMyPushButton("Anleihen an ZBank verkaufen",ui->frameAktionDerBank);
     PushButtonBankVerkauftStaatsanleihenAnZBank->setGeometry(10,310,280,30);
 
     PushButtonBankLegtEigenkapitalEin = new FMyPushButton("Eigenkapital einlegen",ui->frameAktionDerBank);
-    PushButtonBankLegtEigenkapitalEin->setGeometry(10,400,280,30);
+    PushButtonBankLegtEigenkapitalEin->setGeometry(10,350,280,30);
 
     PushButtonBankKaufWertpapiereAn = new FMyPushButton("Wertpapiere kaufen von",ui->frameAktionDerBank);
-    PushButtonBankKaufWertpapiereAn->setGeometry(10,440,220,30);
+    PushButtonBankKaufWertpapiereAn->setGeometry(10,390,220,30);
 
     PushButtonBankZahltKreditAnAndereBankZurueck = new FMyPushButton("mit ZGeld BankKredit bezahlen",ui->frameAktionDerBank);
-    PushButtonBankZahltKreditAnAndereBankZurueck->setGeometry(10,480,280,30);
+    PushButtonBankZahltKreditAnAndereBankZurueck->setGeometry(10,430,280,30);
 
     PushButtonBankZahltBoniAn = new FMyPushButton("Bank zahlt Boni an", ui->frameAktionDerBank);
-    PushButtonBankZahltBoniAn->setGeometry(10,520,220,30);
+    PushButtonBankZahltBoniAn->setGeometry(10,470,220,30);
 
 
 
     // Push Button für das Clearingverfahren
     PushButtonBankFuehrtClearingverfahrenDurch = new FMyPushButton("Clearingverfahren durchführen",ui->frameClearingVerfahren);
     PushButtonBankFuehrtClearingverfahrenDurch->setGeometry(10,450,270,30);
+
+    PushButtonZufallsBetraege = new FMyPushButton("neue Zufallsbeträge",ui->frameClearingVerfahren);
+    PushButtonZufallsBetraege->setGeometry(10,490,270,30);
 
 
 
@@ -187,8 +205,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
     Slot_Initialisiere_alle_Bilanzen();
-    ui->radioButtonAnA->setDisabled(true);
-    ui->radioButtonAnB->setChecked(true);
 
 
     // Connects für die Gui
@@ -330,16 +346,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(PushButtonKundeUeberweistGiralgeld, SIGNAL(clicked(bool)),
             this, SLOT(Slot_Kunde_ueberweist_Giralgeld_an_eine_andere_Bank()));
 
-    connect(PushButtonKundeUeberweistGiralgeld, SIGNAL(DickenRahmenZeichnen(bool)),
-            this, SLOT(Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Giralgeld(bool)));
+    connect(MenuGiralgeldUeberweisen, SIGNAL(hovered(QAction*)),
+            this, SLOT(Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Giralgeld(QAction*)));
+
 
 
     // Connect Kunde überweist Bargeld
     connect(PushButtonKundeUeberweistBargeld, SIGNAL(clicked(bool)),
             this, SLOT(Slot_Kunde_gibt_anderer_Person_Bargeld()));
 
-    connect(PushButtonKundeUeberweistBargeld, SIGNAL(DickenRahmenZeichnen(bool)),
-            this, SLOT(Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Bargeld(bool)));
+    connect(MenuBargeldUeberweisen, SIGNAL(hovered(QAction*)),
+            this, SLOT(Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Bargeld(QAction*)));
 
 
 
@@ -392,14 +409,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(PushButtonBankFuehrtClearingverfahrenDurch, SIGNAL(DickenRahmenZeichnen(bool)),
             this, SLOT(Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_fuehrt_Clearingverfahren_durch(bool)));
 
-    connect(PushButtonBankFuehrtClearingverfahrenDurch, SIGNAL(EnterButton()),
+    connect(PushButtonZufallsBetraege, SIGNAL(clicked()),
             this, SLOT(Slot_neue_Ueberweisungsbetraege_fuer_das_Clearingverfahren()));
 
 
-    resize(QSize(1024,768));
-
-
-
+    resize(QSize(1024,740));
 
     }
 
@@ -422,7 +436,7 @@ void MainWindow::resizeEvent(QResizeEvent *event){
 
     // Viewport skalieren
     qreal ww = (1.0*w) / (980.0);
-    qreal hh = (1.0*h) / (780.0);
+    qreal hh = (1.0*h) / (740.0);
     QTransform Mat(ww, 0,  0,
                    0,  hh, 0,
                    0,  0,  1);
@@ -492,8 +506,9 @@ void MainWindow::Slot_Einleitung(int Stufe){
         ui->stackedWidget->setCurrentIndex(6);
 
         // A und B nehmen 3000 Euro Kredit auf
-        FAktionKundeNimmtKreditAuf *op1 = new FAktionKundeNimmtKreditAuf(3000,0,0);
-        FAktionKundeNimmtKreditAuf *op2 = new FAktionKundeNimmtKreditAuf(3000,0,1);
+        FGeld Betrag1("",3000);
+        FAktionKundeNimmtKreditAuf *op1 = new FAktionKundeNimmtKreditAuf(Betrag1,0,0);
+        FAktionKundeNimmtKreditAuf *op2 = new FAktionKundeNimmtKreditAuf(Betrag1,0,1);
         op1->Execute_on(&AlleDaten);
         op2->Execute_on(&AlleDaten);
         StackOfOperations << op1 << op2;
@@ -581,7 +596,7 @@ void MainWindow::Slot_Einleitung(int Stufe){
 void MainWindow::Slot_Bank_nimmt_Kredit_bei_der_Zentralbank_auf(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragGeschaeftsbank->text().toDouble());
 
 
     // Kopie der Bilanz erstellen.
@@ -618,7 +633,7 @@ void MainWindow::Slot_Bank_nimmt_Kredit_bei_der_Zentralbank_auf(){
 void MainWindow::Slot_Bank_zahlt_Kredit_an_die_Zentralbank_zurueck(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragGeschaeftsbank->text().toDouble());
 
 
     // Kopie der Bilanz erstellen.
@@ -670,7 +685,8 @@ void MainWindow::Slot_Bank_bezahlt_mit_ZGeld_Kredit_an_andere_Bank_zurueck(){
     int nachBankNr;
     if(AktBankNummer == 0 ) nachBankNr = 1;
     if(AktBankNummer == 1 ) nachBankNr = 0;
-    double Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragGeschaeftsbank->text().toDouble());
+
 
     // Kopie der Bilanz erstellen.
     FAlleDaten AlleDatenCopie;
@@ -726,7 +742,8 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_bezahlt_mit_ZGeld_Kre
 void MainWindow::Slot_Bank_tauscht_Bargeld_in_Zentralbankgeldguthaben(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragGeschaeftsbank->text().toDouble());
+
 
     // Kopie der Bilanz erstellen.
     FAlleDaten AlleDatenCopie;
@@ -762,7 +779,8 @@ void MainWindow::Slot_Bank_tauscht_Bargeld_in_Zentralbankgeldguthaben(){
 void MainWindow::Slot_Bank_tauscht_Zentralbankgeldguthaben_in_Bargeld(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragGeschaeftsbank->text().toDouble());
+
 
     // Kopie der Bilanz erstellen.
     FAlleDaten AlleDatenCopie;
@@ -808,7 +826,7 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_Bar_inZ_Bankgeld_oder
 void MainWindow::Slot_Bank_legt_Eigenkapital_ein(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragGeschaeftsbank->text().toDouble());
 
 
     // Operationen ausführen.
@@ -841,7 +859,7 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_legt_Eigenkapital_ein
 void MainWindow::Slot_Bank_kauft_Wertpapiere_von(){
 
     // Werte auslesen.
-    double Betrag        = ui->lineEditGeldbetragStaat->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldbetragStaat->text().toDouble());
     int BankKundenNummer = ui->comboBoxWertpapiereVon->currentIndex();
 
 
@@ -896,7 +914,7 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_kauft_Wertpapiere(boo
 void MainWindow::Slot_Bank_verkauft_Staatsanleihen_an_die_ZBank(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragGeschaeftsbank->text().toDouble());
 
 
     // Kopie der Bilanz erstellen.
@@ -944,7 +962,7 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Bank_verkauft_Staatsanleih
 void MainWindow::Slot_Bank_zahlt_Boni_an_Kunden(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragGeschaeftsbank->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragGeschaeftsbank->text().toDouble());
     int KundenNr  = ui->comboBoxBoniAn->currentIndex();
 
 
@@ -1057,7 +1075,7 @@ void MainWindow::Slot_Widget_Clearingverfahren_anzeigen(){
 void MainWindow::Slot_Kunde_zahlt_Kredit_an_die_Bank_zurueck(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragPersonen->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragPersonen->text().toDouble());
 
 
     // Kopie der Bilanz erstellen.
@@ -1094,7 +1112,7 @@ void MainWindow::Slot_Kunde_zahlt_Kredit_an_die_Bank_zurueck(){
 void MainWindow::Slot_Kunde_nimmt_Kredit_bei_der_Bank_auf(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragPersonen->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragPersonen->text().toDouble());
 
 
     // Kopie der Bilanz erstellen.
@@ -1130,7 +1148,6 @@ void MainWindow::Slot_Kunde_nimmt_Kredit_bei_der_Bank_auf(){
 void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_nimmt_Kredit_auf_oder_zahlt_zurueck(bool wert){
     AlleDaten.Banken[AktBankNummer].DickerRahmenGiroKonten[AktBankKundenNummer] = wert;
     AlleDaten.Banken[AktBankNummer].DickerRahmenHypotheken[AktBankKundenNummer] = wert;
-    AlleDaten.Kunden[AktPersonenNr].DickerRahmenSchulden = wert;
     Viewport->Alles_neu_zeichnen(AlleDaten);
     }
 
@@ -1141,7 +1158,8 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_nimmt_Kredit_auf_ode
 void MainWindow::Slot_Kunde_hebt_Bargeld_bei_einer_Bank_ab(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragPersonen->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragPersonen->text().toDouble());
+
 
     // Kopie der Bilanz erstellen.
     FAlleDaten AlleDatenCopie;
@@ -1176,7 +1194,7 @@ void MainWindow::Slot_Kunde_hebt_Bargeld_bei_einer_Bank_ab(){
 void MainWindow::Slot_Kunde_zahlt_Bargeld_bei_einer_Bank_ein(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragPersonen->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragPersonen->text().toDouble());
 
 
     // Kopie der Bilanz erstellen.
@@ -1224,7 +1242,7 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_zahlt_Bargeld_ein_od
 void MainWindow::Slot_Kunde_zahlt_Giralgeld_auf_sein_Sparkonto_ein(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragPersonen->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragPersonen->text().toDouble());
 
 
     // Kopie der Bilanz erstellen.
@@ -1261,7 +1279,7 @@ void MainWindow::Slot_Kunde_zahlt_Giralgeld_auf_sein_Sparkonto_ein(){
 void MainWindow::Slot_Kunde_hebt_Geld_von_seinem_Sparkonto_ab(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldBetragPersonen->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragPersonen->text().toDouble());
 
 
     // Kopie der Bilanz erstellen.
@@ -1308,21 +1326,70 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_zahlt_Sparbuchgeld_e
 void MainWindow::Slot_Kunde_gibt_anderer_Person_Bargeld(){
 
     // Werte auslesen
-    double Betrag = ui->lineEditGeldBetragPersonen->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragPersonen->text().toDouble());
 
-    int AnPerson = 0;
-    if(ui->radioButtonAnA->isChecked())      AnPerson = 0;
-    else if(ui->radioButtonAnB->isChecked()) AnPerson = 1;
-    else if(ui->radioButtonAnC->isChecked()) AnPerson = 2;
-    else if(ui->radioButtonAnD->isChecked()) AnPerson = 3;
-    else if(ui->radioButtonAnStaat->isChecked()){
+
+    // Überprüfen, ob genug Geld da ist.
+    if( Betrag.Get_Euro() > AlleDaten.Kunden[AktPersonenNr].Bargeld.Get_Euro() ){
         QMessageBox msgBox;
-        msgBox.critical(0, "Bargeldübergabe an den Staat ist nicht möglich.",
-                            "Es ist prinzipiell nicht möglich, dass Kunden Bargeld an den Staat geben können." );
-        ui->statusBar->showMessage("Fehler: Bargeldübergabe an den Staat ist prinzipiell nicht möglich.");
+        msgBox.critical(0, "Bargeldüberweisung nicht möglich.",
+                           "Die " +
+                            AlleDaten.Kunden[AktPersonenNr].PersonenName +
+                            " hat nicht genug Bargeld." );
+        ui->statusBar->showMessage("Fehler: Bargeldüberweisung nicht ausgeführt.");
         return;
         }
 
+
+    // Menü Bargeld überweisen positionieren.
+    QPoint globalPos = this->mapToGlobal( QPoint(PushButtonKundeUeberweistBargeld->width(),
+                                                 ui->mainToolBar->height()+ui->menuBar->height())
+                                         + ui->stackedWidget->pos()
+                                         + ui->frameAktionDesKunden->pos()
+                                         + PushButtonKundeUeberweistBargeld->pos());
+
+
+    // Eine Überweisung an sich selbst im Menu nicht ermöglichen.
+    for(int i=0;i<4;i++){
+        MenuBargeldUeberweisen->actions().at(i)->setEnabled(true);
+        if(AktPersonenNr == i)
+           MenuBargeldUeberweisen->actions().at(i)->setDisabled(true);
+        }
+
+
+    // Menü anzeigen
+    QAction* selectedItem = MenuBargeldUeberweisen->exec(globalPos);
+
+    if (selectedItem){
+
+            // A
+            if(selectedItem->text() == "A"){
+                Operation_Kunde_gibt_anderer_Person_Bargeld(Betrag, 0);
+                }
+
+            // B
+            if(selectedItem->text() == "B"){
+                Operation_Kunde_gibt_anderer_Person_Bargeld(Betrag, 1);
+                }
+
+            // C
+            if(selectedItem->text() == "C"){
+                Operation_Kunde_gibt_anderer_Person_Bargeld(Betrag, 2);
+                }
+
+            // D
+            if(selectedItem->text() == "D"){
+                Operation_Kunde_gibt_anderer_Person_Bargeld(Betrag, 3);
+                }
+
+        }
+    }
+
+
+//-------------------------------------------------------------------------------------------------------------
+
+
+void MainWindow::Operation_Kunde_gibt_anderer_Person_Bargeld(FGeld Betrag, int AnPerson){
 
     // Kopie der Bilanz erstellen.
     FAlleDaten AlleDatenCopie;
@@ -1348,6 +1415,7 @@ void MainWindow::Slot_Kunde_gibt_anderer_Person_Bargeld(){
 
 
     // Gui
+    AlleDaten.Reset_alle_Rahmenstaerke_auf_duenn();
     Refresch_Gui_und_eventuell_Screenshot_erstellen(op->BeschreibungDerOperation);
     }
 
@@ -1355,16 +1423,21 @@ void MainWindow::Slot_Kunde_gibt_anderer_Person_Bargeld(){
 //-------------------------------------------------------------------------------------------------------------------------------
 
 
-void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Bargeld(bool wert){
-    if(ui->radioButtonAnA->isChecked())
-        AlleDaten.Kunden[0].DickerRahmenBarGeld = wert;
-    if(ui->radioButtonAnB->isChecked())
-        AlleDaten.Kunden[1].DickerRahmenBarGeld = wert;
-    if(ui->radioButtonAnC->isChecked())
-        AlleDaten.Kunden[2].DickerRahmenBarGeld = wert;
-    if(ui->radioButtonAnD->isChecked())
-        AlleDaten.Kunden[3].DickerRahmenBarGeld = wert;
-    AlleDaten.Kunden[AktPersonenNr].DickerRahmenBarGeld = wert;
+void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Bargeld(QAction* Aktion){
+
+    int VonPersonenNR = AktPersonenNr;
+    int NachPersonenNR;
+
+    if(Aktion->text() == "A") NachPersonenNR = 0;
+    if(Aktion->text() == "B") NachPersonenNR = 1;
+    if(Aktion->text() == "C") NachPersonenNR = 2;
+    if(Aktion->text() == "D") NachPersonenNR = 3;
+
+
+    // Rahmen dick zeichnen
+    AlleDaten.Reset_alle_Rahmenstaerke_auf_duenn();
+    AlleDaten.Kunden[VonPersonenNR].DickerRahmenBarGeld  = true;
+    AlleDaten.Kunden[NachPersonenNR].DickerRahmenBarGeld = true;
     Viewport->Alles_neu_zeichnen(AlleDaten);
     }
 
@@ -1375,34 +1448,83 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Bargeld(
 void MainWindow::Slot_Kunde_ueberweist_Giralgeld_an_eine_andere_Bank(){
 
     // Werte auslesen
-    double Betrag = ui->lineEditGeldBetragPersonen->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragPersonen->text().toDouble());
 
-    int AnBankKundenNr, AnBankNr;
+    // Menü Bargeld überweisen positionieren.
+    QPoint globalPos = this->mapToGlobal( QPoint(PushButtonKundeUeberweistGiralgeld->width(),
+                                                 ui->mainToolBar->height()+ui->menuBar->height())
+                                         + ui->stackedWidget->pos()
+                                         + ui->frameAktionDesKunden->pos()
+                                         + PushButtonKundeUeberweistGiralgeld->pos());
 
-    // An A
-    if(ui->radioButtonAnA->isChecked()){
-        AnBankNr = 0;  AnBankKundenNr = 0;
+
+    // Überprüfen, ob genug Geld da ist.
+    if( Betrag.Get_Euro() > AlleDaten.Banken[AktBankNummer].GiroKonten[AktBankKundenNummer].Get_Euro() ){
+        QMessageBox msgBox;
+        msgBox.critical(0, "Giralgeldüberweisung nicht möglich.",
+                           "Die " +
+                            AlleDaten.Kunden[AktPersonenNr].PersonenName +
+                            " hat nicht genug Giralgeld." );
+        ui->statusBar->showMessage("Fehler: Giralgeldüberweisung nicht ausgeführt.");
+        return;
         }
 
-    // An B
-    else if(ui->radioButtonAnB->isChecked()){
-        AnBankNr = 0;  AnBankKundenNr = 1;
+
+    // Eine Überweisung an sich selbst im Menu nicht ermöglichen.
+    for(int i=0;i<4;i++){
+        MenuGiralgeldUeberweisen->actions().at(i)->setEnabled(true);
+        if(AktPersonenNr == i)
+           MenuGiralgeldUeberweisen->actions().at(i)->setDisabled(true);
         }
 
-    // An Staat
-    else if(ui->radioButtonAnStaat->isChecked()){
-        AnBankNr = 0;  AnBankKundenNr = 2;
-        }
 
-    // An C
-    else if(ui->radioButtonAnC->isChecked()){
-        AnBankNr = 1;  AnBankKundenNr = 0;
-        }
 
-    // An D
-    else if(ui->radioButtonAnD->isChecked()){
-        AnBankNr = 1;  AnBankKundenNr = 1;
-        }
+    // Menü anzeigen
+    QAction* selectedItem = MenuGiralgeldUeberweisen->exec(globalPos);
+
+    if (selectedItem){
+
+            // A
+            if(selectedItem->text() == "A"){
+                Operator_Kunde_ueberweist_Giralgeld_an_eine_andere_Bank(0,0,Betrag);
+                }
+
+            // B
+            if(selectedItem->text() == "B"){
+                Operator_Kunde_ueberweist_Giralgeld_an_eine_andere_Bank(0,1,Betrag);
+                }
+
+            // Staat
+            if(selectedItem->text() == "Staat"){
+                Operator_Kunde_ueberweist_Giralgeld_an_eine_andere_Bank(0,2,Betrag);
+                }
+
+            // C
+            if(selectedItem->text() == "C"){
+                Operator_Kunde_ueberweist_Giralgeld_an_eine_andere_Bank(1,0,Betrag);
+                }
+
+            // D
+            if(selectedItem->text() == "D"){
+                Operator_Kunde_ueberweist_Giralgeld_an_eine_andere_Bank(1,1,Betrag);
+                }
+            }
+
+        else {
+            ;
+            }
+
+    AlleDaten.Reset_alle_Rahmenstaerke_auf_duenn();
+    Viewport->Alles_neu_zeichnen(AlleDaten);
+    }
+
+
+//----------------------------------------------------------------------------------------------------------------
+
+
+void MainWindow::Operator_Kunde_ueberweist_Giralgeld_an_eine_andere_Bank( int AnBankNr,
+                                                                          int AnBankKundenNr,
+                                                                          FGeld Betrag){
 
 
     // Kopie der Bilanz erstellen.
@@ -1431,47 +1553,52 @@ void MainWindow::Slot_Kunde_ueberweist_Giralgeld_an_eine_andere_Bank(){
 
     // Gui
     Refresch_Gui_und_eventuell_Screenshot_erstellen(op->BeschreibungDerOperation);
+
     }
 
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
 
-void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Giralgeld(bool wert){
+void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Giralgeld(QAction *Aktion){
+
     int AnBankKundenNr, AnBankNr;
 
     // An A
-    if(ui->radioButtonAnA->isChecked()){
+    if(Aktion->text() == "A" ){
         AnBankNr = 0;  AnBankKundenNr = 0;
         }
 
     // An B
-    else if(ui->radioButtonAnB->isChecked()){
+    else if(Aktion->text() == "B"){
         AnBankNr = 0;  AnBankKundenNr = 1;
         }
 
     // An Staat
-    else if(ui->radioButtonAnStaat->isChecked()){
+    else if(Aktion->text() == "Staat"){
         AnBankNr = 0;  AnBankKundenNr = 2;
         }
 
     // An C
-    else if(ui->radioButtonAnC->isChecked()){
+    else if(Aktion->text() == "C"){
         AnBankNr = 1;  AnBankKundenNr = 0;
         }
 
     // An D
-    else if(ui->radioButtonAnD->isChecked()){
+    else if(Aktion->text() == "D"){
         AnBankNr = 1;  AnBankKundenNr = 1;
         }
 
     // Op erstellen
-    int Betrag = 9999; // irgendetwas
+    FGeld Betrag("",9999); // irgendetwas
     FAktionKundeUeberweistGiralgeldAn op(Betrag,AktBankNummer, AnBankNr,
-                                               AktBankKundenNummer, AnBankKundenNr);
-    op.DickenRahmen_zeichnen(&AlleDaten,wert);
+                                                AktBankKundenNummer, AnBankKundenNr);
+
+    AlleDaten.Reset_alle_Rahmenstaerke_auf_duenn();
+    op.DickenRahmen_zeichnen(&AlleDaten,true);
     Viewport->Alles_neu_zeichnen(AlleDaten);
     }
+
 
 
 //###################################################################################################################################
@@ -1482,7 +1609,7 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Giralgel
 void MainWindow::Slot_Staat_verkauft_Staatsanleihen_an_die_Bank(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldbetragStaat->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldbetragStaat->text().toDouble());
     int AnBankNr  = 0;
 
 
@@ -1520,7 +1647,7 @@ void MainWindow::Slot_Staat_verkauft_Staatsanleihen_an_die_Bank(){
 void MainWindow::Slot_Staat_kauft_Staatsanleihen_von_der_Bank(){
 
     // Werte auslesen.
-    double Betrag = ui->lineEditGeldbetragStaat->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldbetragStaat->text().toDouble());
     int AnBankNr  = 0;
 
 
@@ -1556,9 +1683,9 @@ void MainWindow::Slot_Staat_kauft_Staatsanleihen_von_der_Bank(){
 
 
 void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Staat_kauft_oder_verkauft_Staatsanleihen(bool wert){
-    AlleDaten.Banken[0].DickerRahmenStaatsanleihen = wert;
+    AlleDaten.Banken[0].DickerRahmenStaatsanleihen  = wert;
     AlleDaten.Banken[0].DickerRahmenStaatsGiroKonto = wert;
-    AlleDaten.Staat.DickerRahmenSchuldenAnBanken = wert;
+    AlleDaten.Staat.DickerRahmenSchuldenAnBanken    = wert;
     Viewport->Alles_neu_zeichnen(AlleDaten);
     }
 
@@ -1567,7 +1694,7 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Staat_kauft_oder_verkauft_
 
 void MainWindow::Slot_Staat_ueberweist_Giralgeld(){
     // Werte auslesen
-    double Betrag = ui->lineEditGeldBetragPersonen->text().toDouble();
+    FGeld Betrag("",ui->lineEditGeldBetragPersonen->text().toDouble());
 
     int NachBankKundenNr, NachBankNr;
 
@@ -1645,7 +1772,7 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_Staat_ueberweist_Giralgeld
         NachBankNr = 1;  NachBankKundenNr = 1;
         }
 
-    int Betrag = 9999; // egal
+    FGeld Betrag("",9999); // egal
     FAktionStaatUeberweistGiralgeldAn op(Betrag, NachBankNr, NachBankKundenNr);
     op.Dicke_Rahmen_zeichnen(&AlleDaten, wert);
     Viewport->Alles_neu_zeichnen(AlleDaten);
@@ -1729,7 +1856,7 @@ void MainWindow::Slot_Preset_Der_Staat_verschuldet_sich_und_bezahlt_Buerger(){
 
 
     // Der Staat verkauft 6000 Staatsanleihen an Bank 0.
-    FAktionStaatVerkauftStaatsanleihen *op1 = new FAktionStaatVerkauftStaatsanleihen(6000,0);
+    FAktionStaatVerkauftStaatsanleihen *op1 = new FAktionStaatVerkauftStaatsanleihen(FGeld("",6000.0),0);
     op1->Execute_on(&AlleDaten);
     StackOfOperations << op1;
 
@@ -1738,7 +1865,7 @@ void MainWindow::Slot_Preset_Der_Staat_verschuldet_sich_und_bezahlt_Buerger(){
     for (int NachBankNr=0; NachBankNr<2; NachBankNr++){
         for(int NachBankKundenNr=0; NachBankKundenNr<2; NachBankKundenNr++){
             FAktionStaatUeberweistGiralgeldAn *op2;
-            op2 = new FAktionStaatUeberweistGiralgeldAn(1000, NachBankNr, NachBankKundenNr);
+            op2 = new FAktionStaatUeberweistGiralgeldAn(FGeld("",1000.0), NachBankNr, NachBankKundenNr);
             op2->Execute_on(&AlleDaten);
             StackOfOperations << op2;
             }
@@ -1797,8 +1924,6 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_ein_Jahr_ist_vorbei(bool w
 
 
 
-
-
 //###################################################################################################################################
 //#
 //###################################################################################################################################
@@ -1807,10 +1932,6 @@ void MainWindow::Slot_Rahmen_zeichnen_fuer_die_Aktion_ein_Jahr_ist_vorbei(bool w
 void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angeklicktesObjekt, bool LinksKlick){
     FEinstellungen Einstellungen;
 
-    ui->radioButtonAnA->setEnabled(true);
-    ui->radioButtonAnB->setEnabled(true);
-    ui->radioButtonAnC->setEnabled(true);
-    ui->radioButtonAnD->setEnabled(true);
 
     // GUI verändern
     switch(angeklicktesObjekt){
@@ -1820,8 +1941,6 @@ void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angekli
         AktBankKundenNummer = 0;
         AktPersonenNr       = 0;
         LabelPersonen->setDaten(PERSON_A);
-        ui->radioButtonAnA->setDisabled(true);
-        ui->radioButtonAnB->setChecked(true);
         ui->stackedWidget->setCurrentIndex(0);
         break;
 
@@ -1831,8 +1950,6 @@ void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angekli
         AktBankKundenNummer = 1;
         AktPersonenNr       = 1;
         LabelPersonen->setDaten(PERSON_B);
-        ui->radioButtonAnB->setDisabled(true);
-        ui->radioButtonAnA->setChecked(true);
         ui->stackedWidget->setCurrentIndex(0);
         break;
 
@@ -1842,8 +1959,6 @@ void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angekli
         AktBankKundenNummer = 0;
         AktPersonenNr       = 2;
         LabelPersonen->setDaten(PERSON_C);
-        ui->radioButtonAnC->setDisabled(true);
-        ui->radioButtonAnD->setChecked(true);
         ui->stackedWidget->setCurrentIndex(0);
         break;
 
@@ -1853,8 +1968,6 @@ void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angekli
         AktBankKundenNummer = 1;
         AktPersonenNr       = 3;
         LabelPersonen->setDaten(PERSON_D);
-        ui->radioButtonAnD->setDisabled(true);
-        ui->radioButtonAnC->setChecked(true);
         ui->stackedWidget->setCurrentIndex(0);
         break;
 
@@ -1868,6 +1981,7 @@ void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angekli
         // Gui
         ui->labelGeschaeftsbankBilanzsumme->setText(AlleDaten.Banken[0].Get_Bilanzsumme_as_String());
         ui->labelEigenkapitalquoteGeschaeftsbank->setText(AlleDaten.Banken[0].Get_EigenKapitalQuote_as_String());
+        ui->labelMindesreserveQuote->setText(AlleDaten.Banken[0].Get_MindestReserveQuote_as_QString());
         ui->labelSparkontoZinsen->setText(QString::number(100.0*Einstellungen.SparkontoZinsen()) + " %");
         ui->labelGirokontoZinsen->setText(QString::number(100.0*Einstellungen.GirokontoZinsen()) + " %");
         ui->labelKreditZinsen->setText(QString::number(100.0*Einstellungen.KreditZinsen()) + " %");
@@ -1892,6 +2006,7 @@ void MainWindow::Slot_Objekt_mit_Id_Nummer_wurde_geklicked(BILANZOBJEKTE angekli
         // Gui
         ui->labelGeschaeftsbankBilanzsumme->setText(AlleDaten.Banken[1].Get_Bilanzsumme_as_String());
         ui->labelEigenkapitalquoteGeschaeftsbank->setText(AlleDaten.Banken[1].Get_EigenKapitalQuote_as_String());
+        ui->labelMindesreserveQuote->setText(AlleDaten.Banken[1].Get_MindestReserveQuote_as_QString());
         ui->labelSparkontoZinsen->setText(QString::number(100.0*Einstellungen.SparkontoZinsen()) + " %");
         ui->labelGirokontoZinsen->setText(QString::number(100.0*Einstellungen.GirokontoZinsen()) + " %");
         ui->labelKreditZinsen->setText(QString::number(100.0*Einstellungen.KreditZinsen()) + " %");
@@ -2090,10 +2205,10 @@ void MainWindow::Eventuell_ScreenShot_erstellen(){
 
         // Screenshot abspeichern
         FEinstellungen Einstellungen;
-        QString BildPfad = Einstellungen.Pfad_zu_Screenshots() + "Bild" + ZifferMitVornullen + ".JPG";
+        QString BildPfad = Einstellungen.Pfad_zu_Screenshots() + "Bild" + ZifferMitVornullen + ".PNG";
         QFile file(BildPfad);
         file.open(QIODevice::WriteOnly);
-            AbspeicherBild.save(&file, "JPG");
+            AbspeicherBild.save(&file, "PNG");
         file.close();
         }
     }

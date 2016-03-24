@@ -21,7 +21,7 @@ FGraphicsObjectStaat::FGraphicsObjectStaat(int IdNUMMER, QGraphicsItem *parent) 
 
 
 QRectF FGraphicsObjectStaat::boundingRect() const{        // Dieser Bereich ist anklickbar!
-    return QRectF(0, 0, 170, 110);
+    return QRectF(0, 0, 170, 80);
     }
 
 //###################################################################################################################################
@@ -49,7 +49,7 @@ void FGraphicsObjectStaat::paint(QPainter *painter, const QStyleOptionGraphicsIt
     // Kasten um alles
     painter->setPen(PenSchwarzerStift);
     painter->setBrush(Einstel.SehrSehrHellgrau_Color());
-    painter->drawRect(0,0,170,110);
+    painter->drawRect(0,0,170,80);
 
     // Hintergrund der Person
     painter->setBrush(AktuelleObjectFarbe);
@@ -75,13 +75,13 @@ void FGraphicsObjectStaat::paint(QPainter *painter, const QStyleOptionGraphicsIt
 void FGraphicsObjectStaat::Zeichne_Kasten_in_der_Bilanz(QPainter* p,
                                                         float x, float y, float xText,
                                                         QString Text,
-                                                        double Zahlenwert,
+                                                        FGeld Zahlenwert,
                                                         QColor Farbe,
                                                         bool fetterRahmen){
 
     // Stift
     FEinstellungen Einstel;
-    double Epsilon = 0.00001;
+
 
     // Beschriftung zeichnen
     p->setPen(Einstel.Pen_SchwarzerStift());
@@ -89,16 +89,16 @@ void FGraphicsObjectStaat::Zeichne_Kasten_in_der_Bilanz(QPainter* p,
 
 
     // Negative Werte als Warnung mit rotem Hintergrund zeichnen.
-    if( Zahlenwert < -Epsilon ){
+    if( Zahlenwert.Get_Cents() < 0 ){
         p->setBrush(Qt::red);
         p->setPen(Einstel.Pen_SchwarzerStift());
         p->drawRect(x,   y, 60, 25);
-        p->drawText(x+5, y+18, QString::number(Zahlenwert));
+        p->drawText(x+5, y+18, Zahlenwert.Get_Euro_as_QString());
         }
 
 
     // Positive Werte mit der Farbe zeichnen.
-    else if( Zahlenwert > Epsilon ){
+    else if( Zahlenwert.Get_Cents() > 0 ){
 
         // Rahmen
         if(fetterRahmen)  p->setPen(Einstel.Pen_Dicker_RoterStift());
@@ -110,7 +110,7 @@ void FGraphicsObjectStaat::Zeichne_Kasten_in_der_Bilanz(QPainter* p,
         // Zahlentext
         p->setPen(Einstel.Pen_SchwarzerStift());
         p->setBrush(Farbe);
-        p->drawText(x+5, y+18, QString::number(Zahlenwert));
+        p->drawText(x+5, y+18, Zahlenwert.Get_Euro_as_QString());
         }
 
 

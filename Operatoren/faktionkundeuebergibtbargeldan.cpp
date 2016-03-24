@@ -5,7 +5,7 @@ FAktionKundeUebergibtBargeldAn::FAktionKundeUebergibtBargeldAn(){
     }
 
 
-FAktionKundeUebergibtBargeldAn::FAktionKundeUebergibtBargeldAn(double BETRAG, int VonPersonenNR, int NachPersonenNR){
+FAktionKundeUebergibtBargeldAn::FAktionKundeUebergibtBargeldAn(FGeld BETRAG, int VonPersonenNR, int NachPersonenNR){
     Betrag         = BETRAG;
     VonPersonenNr  = VonPersonenNR;
     NachPersonenNr = NachPersonenNR;

@@ -5,7 +5,7 @@ FAktionKundeHebtSparbuchgeldAb::FAktionKundeHebtSparbuchgeldAb(){
     }
 
 
-FAktionKundeHebtSparbuchgeldAb::FAktionKundeHebtSparbuchgeldAb(double BETRAG, int BANKNR, int BANKKUNDENNR){
+FAktionKundeHebtSparbuchgeldAb::FAktionKundeHebtSparbuchgeldAb(FGeld BETRAG, int BANKNR, int BANKKUNDENNR){
     Betrag       = BETRAG;
     BankKundenNr = BANKKUNDENNR;
     BankNr       = BANKNR;
@@ -25,6 +25,6 @@ void FAktionKundeHebtSparbuchgeldAb::Execute_on(FAlleDaten *AlleDaten){
     // Beschreibung
     QString KundenName  = AlleDaten->Kunden[2*BankNr+BankKundenNr].PersonenName;
     BeschreibungDerOperation = ") Die " + KundenName  + " hat  "
-                               + QString::number(Betrag) + "  Euro von seinem Sparbuch abgehoben.";
+                               + Betrag.Get_Euro_as_QString() + "  Euro von seinem Sparbuch abgehoben.";
 
     }

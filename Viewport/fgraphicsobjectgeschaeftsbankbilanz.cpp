@@ -295,25 +295,24 @@ void FGraphicsObjectGeschaeftsBankbilanz::paint(QPainter *painter, const QStyleO
 
 void FGraphicsObjectGeschaeftsBankbilanz::Zeichne_Kasten(QPainter* p,
                                                          float x, float y,
-                                                         double Zahlenwert,
+                                                         FGeld Zahlenwert,
                                                          QColor Farbe,
                                                          bool fetterRahmen){
     // Stift
     FEinstellungen Einstel;
-    double Epsilon = 0.00001;
 
 
     // Negative Werte als Warnung mit rotem Hintergrund zeichnen.
-    if( Zahlenwert < -Epsilon ){
+    if( Zahlenwert.Get_Cents() < 0 ){
         p->setBrush(Qt::red);
         p->setPen(Einstel.Pen_SchwarzerStift());
         p->drawRect(x,   y, 60, 25);
-        p->drawText(x+5, y+18, QString::number(Zahlenwert));
+        p->drawText(x+5, y+18, Zahlenwert.Get_Euro_as_QString());
         }
 
 
     // Positive Werte mit der Farbe zeichnen.
-    else if( Zahlenwert > Epsilon ){
+    else if( Zahlenwert.Get_Cents() > 0 ){
 
         // Rahmen
         if(fetterRahmen)  p->setPen(Einstel.Pen_Dicker_RoterStift());
@@ -325,7 +324,7 @@ void FGraphicsObjectGeschaeftsBankbilanz::Zeichne_Kasten(QPainter* p,
         // Zahlentext
         p->setPen(Einstel.Pen_SchwarzerStift());
         p->setBrush(Farbe);
-        p->drawText(x+5, y+18, QString::number(Zahlenwert));
+        p->drawText(x+5, y+18, Zahlenwert.Get_Euro_as_QString());
         }
 
 
@@ -351,7 +350,7 @@ void FGraphicsObjectGeschaeftsBankbilanz::Zeichne_Kasten(QPainter* p,
 
 void FGraphicsObjectGeschaeftsBankbilanz::Zeichne_Beschriftung_mit_Kasten(QPainter* p,
                                                                           int x, int y,
-                                                                          double Zahlenwert,
+                                                                          FGeld Zahlenwert,
                                                                           QColor Farbe,
                                                                           bool fetterRahmen,
                                                                           double xText, double yText,
@@ -361,8 +360,7 @@ void FGraphicsObjectGeschaeftsBankbilanz::Zeichne_Beschriftung_mit_Kasten(QPaint
 
     Zeichne_Kasten(p, x, y, Zahlenwert, Farbe, fetterRahmen);
 
-    double Epsilon = 0.00001;
-    if(Zahlenwert > Epsilon || fetterRahmen == true){
+    if(Zahlenwert.Get_Cents() > 0 || fetterRahmen == true){
         p->setPen(Einstel.Pen_SchwarzerStift());
         p->drawText(xText, yText+18, Text);
         }

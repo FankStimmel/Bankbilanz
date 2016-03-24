@@ -5,10 +5,10 @@ FAktionClearingVerfahrenAusfuehren::FAktionClearingVerfahrenAusfuehren(){
     }
 
 
-FAktionClearingVerfahrenAusfuehren::FAktionClearingVerfahrenAusfuehren(double ATOC, double ATOD,
-                                                                       double BTOC, double BTOD,
-                                                                       double CTOA, double CTOB,
-                                                                       double DTOA, double DTOB){
+FAktionClearingVerfahrenAusfuehren::FAktionClearingVerfahrenAusfuehren(FGeld ATOC, FGeld ATOD,
+                                                                       FGeld BTOC, FGeld BTOD,
+                                                                       FGeld CTOA, FGeld CTOB,
+                                                                       FGeld DTOA, FGeld DTOB){
     AToC = ATOC;
     AToD = ATOD;
     BToC = BTOC;
@@ -58,31 +58,35 @@ void FAktionClearingVerfahrenAusfuehren::Execute_on(FAlleDaten *AlleDaten){
     AlleDaten->Banken[1].GiroKonten[1] -= DToB;
 
     // Differenzzahlung
-    double Delta = (AToC + AToD + BToC + BToD) - (CToA + CToB + DToA + DToB);
+    FGeld NachBankY = AToC + AToD + BToC + BToD;
+    FGeld NachBankX = CToA + CToB + DToA + DToB;
 
 
-    // Wenn mehr von BankA nach Bank B überwiesen wird
-    if(Delta > 0){
-        AlleDaten->Banken[1].KreditBeiAndererBank   += fabs(Delta);
-        AlleDaten->Banken[0].VerbindGegenAndereBank += fabs(Delta);
+    // Wenn mehr von Bank X nach Bank Y überwiesen wird
+    if(NachBankY > NachBankX){
+        FGeld Delta = NachBankY - NachBankX;
+        AlleDaten->Banken[1].KreditBeiAndererBank   += Delta;
+        AlleDaten->Banken[0].VerbindGegenAndereBank += Delta;
         }
 
-    // Wenn mehr von BankB nach Bank A überwiesen wird
-    if(Delta < 0){
-        AlleDaten->Banken[0].KreditBeiAndererBank   += fabs(Delta);
-        AlleDaten->Banken[1].VerbindGegenAndereBank += fabs(Delta);
+    // Wenn mehr von Bank Y nach Bank X überwiesen wird
+    else{
+        FGeld Delta = NachBankX - NachBankY;
+        AlleDaten->Banken[0].KreditBeiAndererBank   += Delta;
+        AlleDaten->Banken[1].VerbindGegenAndereBank += Delta;
         }
+
 
 
     // Eventuell in der Bankbilanz VerbindlichkeitGegenAndereBank gegen KreditBeiAndererBank kürzen.
     for(int i=0; i<2; i++){
 
-        double Kre = AlleDaten->Banken[i].KreditBeiAndererBank;
-        double Ver = AlleDaten->Banken[i].VerbindGegenAndereBank;
+        FGeld Kre = AlleDaten->Banken[i].KreditBeiAndererBank;
+        FGeld Ver = AlleDaten->Banken[i].VerbindGegenAndereBank;
 
         // Minimum rauskürzen
-        double Minimum = std::min(Kre,Ver);
-        if(Minimum > 0){
+        FGeld Minimum("",std::min(Kre.Get_Euro(),Ver.Get_Euro()));
+        if(Minimum.Get_Cents() > 0){
             AlleDaten->Banken[i].KreditBeiAndererBank   -= Minimum;
             AlleDaten->Banken[i].VerbindGegenAndereBank -= Minimum;
             }
@@ -94,7 +98,7 @@ void FAktionClearingVerfahrenAusfuehren::Execute_on(FAlleDaten *AlleDaten){
 
 
     // Beschreibung der Operation
-    BeschreibungDerOperation =   ") Das Clearingverfahren wurde durchgeführt.";
+    BeschreibungDerOperation = ") Das Clearingverfahren wurde durchgeführt.";
     }
 
 

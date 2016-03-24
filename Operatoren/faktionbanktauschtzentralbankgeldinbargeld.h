@@ -14,7 +14,7 @@ class FAktionBankTauschtZentralbankgeldInBargeld : public FFinanzTransaktion
 public:
 
     FAktionBankTauschtZentralbankgeldInBargeld();
-    FAktionBankTauschtZentralbankgeldInBargeld(double BETRAG, int BANKNR);
+    FAktionBankTauschtZentralbankgeldInBargeld(FGeld BETRAG, int BANKNR);
 
     void Execute_on(FAlleDaten *AlleDaten);
 
@@ -23,7 +23,7 @@ public:
 private:
 
     // Daten
-    double Betrag;
+    FGeld Betrag;
     int BankNr;
 
 

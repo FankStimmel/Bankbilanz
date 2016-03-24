@@ -122,6 +122,10 @@ private:
     FMyPushButton *PushButtonKundeUeberweistGiralgeld;
     FMyPushButton *PushButtonKundeUeberweistBargeld;
 
+    // Pulldownmenü für Kundenaktionen
+    QMenu *MenuGiralgeldUeberweisen;
+    QMenu *MenuBargeldUeberweisen;
+
     // Pushbuttons für Bankaktionen
     FMyPushButton *PushButtonBankNimmtZKreditAuf;
     FMyPushButton *PushButtonBankZahltZKreditZurueck;
@@ -133,8 +137,9 @@ private:
     FMyPushButton *PushButtonBankZahltKreditAnAndereBankZurueck;
     FMyPushButton *PushButtonBankZahltBoniAn;
 
-    //
+    // Pushbuttons für das Clearingverfahren
     FMyPushButton *PushButtonBankFuehrtClearingverfahrenDurch;
+    FMyPushButton *PushButtonZufallsBetraege;
 
     // Pushbuttons für Staatsaktionen
     FMyPushButton *PushButtonStaatVerkauftStaatsanleihenAnDieBank;
@@ -190,10 +195,12 @@ public slots:
     void Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_nimmt_Kredit_auf_oder_zahlt_zurueck(bool wert);
 
     void Slot_Kunde_ueberweist_Giralgeld_an_eine_andere_Bank();
-    void Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Giralgeld(bool wert);
+    void Operator_Kunde_ueberweist_Giralgeld_an_eine_andere_Bank(int AnBankNr, int AnBankKundenNr, FGeld Betrag);
+    void Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Giralgeld(QAction *Aktion);
 
     void Slot_Kunde_gibt_anderer_Person_Bargeld();
-    void Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Bargeld(bool wert);
+    void Operation_Kunde_gibt_anderer_Person_Bargeld(FGeld Betrag, int AnPerson);
+    void Slot_Rahmen_zeichnen_fuer_die_Aktion_Kunde_ueberweiset_Bargeld(QAction *Aktion);
 
     void Slot_Kunde_hebt_Bargeld_bei_einer_Bank_ab();
     void Slot_Kunde_zahlt_Bargeld_bei_einer_Bank_ein();

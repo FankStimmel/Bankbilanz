@@ -5,7 +5,7 @@ FAktionBankLegtEigenkapitalEin::FAktionBankLegtEigenkapitalEin(){
     }
 
 
-FAktionBankLegtEigenkapitalEin::FAktionBankLegtEigenkapitalEin(double BETRAG, int BANKNR){
+FAktionBankLegtEigenkapitalEin::FAktionBankLegtEigenkapitalEin(FGeld BETRAG, int BANKNR){
     Betrag       = BETRAG;
     BankNr       = BANKNR;
     }
@@ -28,6 +28,6 @@ void FAktionBankLegtEigenkapitalEin::Execute_on(FAlleDaten *AlleDaten){
 
     // Beschreibung
     BeschreibungDerOperation =   ") Die "  + AlleDaten->Banken[BankNr].NameDerBank
-                               + "  hat  " + QString::number(Betrag)
+                               + "  hat  " + Betrag.Get_Euro_as_QString()
                                + "  Euro Eigenkapital eingelegt.";
     }

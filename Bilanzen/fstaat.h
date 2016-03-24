@@ -1,6 +1,7 @@
 #ifndef FSTAAT_H
 #define FSTAAT_H
 
+#include "fgeld.h"
 #include <QtGui>
 
 
@@ -17,7 +18,7 @@ public:
 
     // Daten
     QString Name;
-    QVector <double> SchuldenAnBanken;
+    QVector <FGeld> SchuldenAnBanken;
 
     bool DickerRahmenSchuldenAnBanken;
 
